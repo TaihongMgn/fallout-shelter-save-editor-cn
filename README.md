@@ -3,7 +3,7 @@
 [![CI](https://github.com/dneverson/fallout-shelter-save-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/dneverson/fallout-shelter-save-editor/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Live app: <https://dneverson.github.io/fallout-shelter-save-editor/>**
+**Live app: <https://taihongmgn.github.io/fallout-shelter-save-editor/>**
 
 A client-only web app to view and edit **Fallout Shelter** save files. Load a `Vault<N>.sav`,
 inspect and edit your vault, dwellers, rooms, and inventory, then export a working save back to
@@ -99,7 +99,7 @@ The Family Tree, with vault-wide genetics stats derived from each dweller's line
 
 ## Using the editor
 
-1. Open the **[live app](https://dneverson.github.io/fallout-shelter-save-editor/)**.
+1. Open the **[live app](https://taihongmgn.github.io/fallout-shelter-save-editor/)**.
 2. Accept the one-time disclaimer.
 3. Load your `Vault<N>.sav` (drag-and-drop or file picker), edit, and export.
 
