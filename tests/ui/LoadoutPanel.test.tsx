@@ -99,34 +99,34 @@ function renderPanel(overrides: Partial<Parameters<typeof LoadoutPanel>[0]> = {}
 describe('LoadoutPanel - searchable pickers', () => {
   it('shows the suggested outfit/weapon names on the row buttons', () => {
     renderPanel();
-    expect(screen.getByRole('button', { name: 'Power Generator outfit' })).toHaveTextContent(
+    expect(screen.getByRole('button', { name: 'Power Generator 服装' })).toHaveTextContent(
       'Heavy Wasteland Gear',
     );
-    expect(screen.getByRole('button', { name: 'Power Generator weapon' })).toHaveTextContent(
+    expect(screen.getByRole('button', { name: 'Power Generator 武器' })).toHaveTextContent(
       'Laser Pistol',
     );
-    expect(screen.getByRole('button', { name: 'Power Generator pet' })).toHaveTextContent(
-      '(no pet)',
+    expect(screen.getByRole('button', { name: 'Power Generator 宠物' })).toHaveTextContent(
+      '（无宠物）',
     );
   });
 
   it('pre-selects the suggested pet when the row has one', () => {
     renderPanel({ rows: [{ ...ROW, suggestedPetId: 'Rex' }] });
-    expect(screen.getByRole('button', { name: 'Power Generator pet' })).toHaveTextContent('Rex');
+    expect(screen.getByRole('button', { name: 'Power Generator 宠物' })).toHaveTextContent('Rex');
   });
 
   it('opens the outfit picker with the Σ SPECIAL stat column and selects a different outfit', async () => {
     const user = userEvent.setup();
     renderPanel();
 
-    await user.click(screen.getByRole('button', { name: 'Power Generator outfit' }));
+    await user.click(screen.getByRole('button', { name: 'Power Generator 服装' }));
     // The picker is the stat table, not a name-only list: the Σ header proves it.
     expect(screen.getByText('Σ')).toBeInTheDocument();
     expect(screen.getByText('Lab Coat')).toBeInTheDocument();
 
     await user.click(screen.getByText('Lab Coat'));
     // The row button now reflects the chosen outfit.
-    expect(screen.getByRole('button', { name: 'Power Generator outfit' })).toHaveTextContent(
+    expect(screen.getByRole('button', { name: 'Power Generator 服装' })).toHaveTextContent(
       'Lab Coat',
     );
   });
@@ -135,11 +135,11 @@ describe('LoadoutPanel - searchable pickers', () => {
     const user = userEvent.setup();
     const { onApply } = renderPanel();
 
-    await user.click(screen.getByRole('button', { name: 'Power Generator pet' }));
-    expect(screen.getByText('Ability')).toBeInTheDocument(); // ability column present
+    await user.click(screen.getByRole('button', { name: 'Power Generator 宠物' }));
+    expect(screen.getByText('加成效果')).toBeInTheDocument(); // ability column present
     await user.click(screen.getByText('Dogmeat'));
 
-    await user.click(screen.getByRole('button', { name: /Apply · 2/ }));
+    await user.click(screen.getByRole('button', { name: /应用 · 2/ }));
     expect(onApply).toHaveBeenCalledWith([11, 12], {
       outfitId: 'Heavy',
       weaponId: 'Laser',
@@ -151,10 +151,10 @@ describe('LoadoutPanel - searchable pickers', () => {
     const user = userEvent.setup();
     renderPanel();
 
-    await user.click(screen.getByRole('button', { name: 'Power Generator weapon' }));
-    await user.click(screen.getByRole('button', { name: 'Clear weapon' }));
-    expect(screen.getByRole('button', { name: 'Power Generator weapon' })).toHaveTextContent(
-      '(no weapon)',
+    await user.click(screen.getByRole('button', { name: 'Power Generator 武器' }));
+    await user.click(screen.getByRole('button', { name: '清空武器' }));
+    expect(screen.getByRole('button', { name: 'Power Generator 武器' })).toHaveTextContent(
+      '（无武器）',
     );
   });
 });

@@ -1,7 +1,7 @@
 {
   "rooms": {
     "Armory": {
-      "name": "ARMORY",
+      "name": "军械库",
       "class": "Training",
       "primaryStat": "Perception",
       "width": 3,
@@ -18,7 +18,7 @@
       "buildLocId": "Room_Armory_Build"
     },
     "Bar": {
-      "name": "LOUNGE",
+      "name": "休息室",
       "class": "Training",
       "primaryStat": "Charisma",
       "width": 3,
@@ -35,7 +35,7 @@
       "buildLocId": "Room_Bar_Build"
     },
     "BarberShop": {
-      "name": "BARBERSHOP",
+      "name": "理发店",
       "class": "Training",
       "primaryStat": "Charisma",
       "width": 6,
@@ -52,7 +52,7 @@
       "buildLocId": "Room_BarberShop_Build"
     },
     "Cafeteria": {
-      "name": "DINER",
+      "name": "餐厅",
       "class": "Production",
       "primaryStat": "Agility",
       "width": 3,
@@ -69,7 +69,7 @@
       "buildLocId": "Room_Cafeteria_Build"
     },
     "Casino": {
-      "name": "GAME ROOM",
+      "name": "游戏室",
       "class": "Training",
       "primaryStat": "Luck",
       "width": 3,
@@ -86,7 +86,7 @@
       "buildLocId": "Room_Casino_Build"
     },
     "Classroom": {
-      "name": "Classroom",
+      "name": "教室",
       "class": "Training",
       "primaryStat": "Intelligence",
       "width": 3,
@@ -103,7 +103,7 @@
       "buildLocId": "Room_ClassRoom_Build"
     },
     "DecorationFactory": {
-      "name": "DECORATION WORKSHOP",
+      "name": "装饰工坊",
       "class": "Crafting",
       "primaryStat": "Charisma",
       "width": 9,
@@ -120,7 +120,7 @@
       "buildLocId": "Room_DecorationFactory_Build"
     },
     "DesignFactory": {
-      "name": "THEME WORKSHOP",
+      "name": "主题工坊",
       "class": "Crafting",
       "primaryStat": "Agility",
       "width": 9,
@@ -135,7 +135,7 @@
       "buildLocId": "Room_DesignFactory_Build"
     },
     "Dojo": {
-      "name": "ATHLETICS ROOM",
+      "name": "运动室",
       "class": "Training",
       "primaryStat": "Agility",
       "width": 3,
@@ -152,7 +152,7 @@
       "buildLocId": "Room_Dojo_Build"
     },
     "Elevator": {
-      "name": "ELEVATOR",
+      "name": "电梯",
       "class": "Utility",
       "primaryStat": "None",
       "width": 1,
@@ -167,7 +167,7 @@
       "buildLocId": "Room_Elevator_Build"
     },
     "Energy2": {
-      "name": "NUCLEAR REACTOR",
+      "name": "核反应堆",
       "class": "Production",
       "primaryStat": "Strength",
       "width": 3,
@@ -184,7 +184,7 @@
       "buildLocId": "Room_Energy2_Build"
     },
     "Entrance": {
-      "name": "ENTRANCE",
+      "name": "入口",
       "class": "Facility",
       "primaryStat": "None",
       "width": 3,
@@ -199,7 +199,7 @@
       "buildLocId": ""
     },
     "Geothermal": {
-      "name": "POWER GENERATOR",
+      "name": "发电机组",
       "class": "Production",
       "primaryStat": "Strength",
       "width": 3,
@@ -216,7 +216,7 @@
       "buildLocId": "Room_Geothermal_Build"
     },
     "Gym": {
-      "name": "WEIGHT ROOM",
+      "name": "举重室",
       "class": "Training",
       "primaryStat": "Strength",
       "width": 3,
@@ -233,7 +233,7 @@
       "buildLocId": "Room_Gym_Build"
     },
     "Hydroponic": {
-      "name": "Hydroponic",
+      "name": "水培园",
       "class": "Production",
       "primaryStat": "Agility",
       "width": 3,
@@ -250,7 +250,7 @@
       "buildLocId": "Room_HydroponicFarm_Build"
     },
     "LivingQuarters": {
-      "name": "Living Quarters",
+      "name": "居住舱",
       "class": "Facility",
       "primaryStat": "Charisma",
       "width": 3,
@@ -267,7 +267,7 @@
       "buildLocId": "Room_LivingQuarter_Build"
     },
     "MedBay": {
-      "name": "MEDBAY",
+      "name": "医务室",
       "class": "Consumable",
       "primaryStat": "Intelligence",
       "width": 3,
@@ -284,7 +284,7 @@
       "buildLocId": "Room_MedBay_Build"
     },
     "NukaCola": {
-      "name": "Nuka Cola",
+      "name": "核子可乐装瓶厂",
       "class": "Production",
       "primaryStat": "Endurance",
       "width": 3,
@@ -301,7 +301,7 @@
       "buildLocId": "Room_NukaColaPlant_Build"
     },
     "OutfitFactory": {
-      "name": "OUTFIT WORKSHOP",
+      "name": "服装工坊",
       "class": "Crafting",
       "primaryStat": "Agility",
       "width": 9,
@@ -318,7 +318,7 @@
       "buildLocId": "Room_OutfitFactory_Build"
     },
     "Overseer": {
-      "name": "OVERSEER'S OFFICE",
+      "name": "监管人办公室",
       "class": "Quest",
       "primaryStat": "None",
       "width": 6,
@@ -333,7 +333,7 @@
       "buildLocId": "Room_Overseer_Build"
     },
     "QuestBOSPowerArmor": {
-      "name": "Quest BOSPower Armor",
+      "name": "任务场景：钢铁兄弟会动力装甲",
       "class": "None",
       "primaryStat": "None",
       "width": 9,
@@ -346,7 +346,7 @@
       "buildLocId": ""
     },
     "QuestCave": {
-      "name": "Quest Cave",
+      "name": "任务场景：洞穴",
       "class": "None",
       "primaryStat": "None",
       "width": 3,
@@ -359,7 +359,7 @@
       "buildLocId": ""
     },
     "QuestEnclave": {
-      "name": "Quest Enclave",
+      "name": "任务场景：英克雷",
       "class": "None",
       "primaryStat": "None",
       "width": 3,
@@ -372,7 +372,7 @@
       "buildLocId": ""
     },
     "QuestEnclaveBoss": {
-      "name": "Quest Enclave Boss",
+      "name": "任务场景：英克雷头目",
       "class": "None",
       "primaryStat": "None",
       "width": 9,
@@ -385,7 +385,7 @@
       "buildLocId": ""
     },
     "QuestFilly": {
-      "name": "Quest Filly",
+      "name": "任务场景：菲利镇",
       "class": "None",
       "primaryStat": "None",
       "width": 3,
@@ -398,7 +398,7 @@
       "buildLocId": ""
     },
     "QuestIndustrial": {
-      "name": "Quest Industrial",
+      "name": "任务场景：工业废墟",
       "class": "Quest",
       "primaryStat": "None",
       "width": 3,
@@ -411,7 +411,7 @@
       "buildLocId": ""
     },
     "QuestMausoleum": {
-      "name": "Quest Mausoleum",
+      "name": "任务场景：陵墓",
       "class": "None",
       "primaryStat": "None",
       "width": 3,
@@ -424,7 +424,7 @@
       "buildLocId": ""
     },
     "QuestObservatory": {
-      "name": "Quest Observatory",
+      "name": "任务场景：天文台",
       "class": "None",
       "primaryStat": "None",
       "width": 3,
@@ -437,7 +437,7 @@
       "buildLocId": ""
     },
     "QuestObservatoryMain": {
-      "name": "Quest Observatory Main",
+      "name": "任务场景：天文台主厅",
       "class": "None",
       "primaryStat": "None",
       "width": 9,
@@ -450,7 +450,7 @@
       "buildLocId": ""
     },
     "QuestRedRocket": {
-      "name": "Quest Red Rocket",
+      "name": "任务场景：红火箭",
       "class": "None",
       "primaryStat": "None",
       "width": 9,
@@ -463,7 +463,7 @@
       "buildLocId": ""
     },
     "QuestRobCo": {
-      "name": "Quest Rob Co",
+      "name": "任务场景：RobCo",
       "class": "None",
       "primaryStat": "None",
       "width": 3,
@@ -476,7 +476,7 @@
       "buildLocId": ""
     },
     "QuestStandard": {
-      "name": "Quest Standard",
+      "name": "任务场景：标准废墟",
       "class": "Quest",
       "primaryStat": "None",
       "width": 3,
@@ -489,7 +489,7 @@
       "buildLocId": ""
     },
     "QuestUFO": {
-      "name": "Quest UFO",
+      "name": "任务场景：UFO",
       "class": "None",
       "primaryStat": "None",
       "width": 6,
@@ -502,7 +502,7 @@
       "buildLocId": ""
     },
     "QuestVault": {
-      "name": "Quest Vault",
+      "name": "任务场景：避难所",
       "class": "None",
       "primaryStat": "None",
       "width": 3,
@@ -515,7 +515,7 @@
       "buildLocId": ""
     },
     "Radio": {
-      "name": "RADIO STUDIO",
+      "name": "广播室",
       "class": "Facility",
       "primaryStat": "Charisma",
       "width": 3,
@@ -532,7 +532,7 @@
       "buildLocId": "Room_Radio_Build"
     },
     "ScienceLab": {
-      "name": "SCIENCE LAB",
+      "name": "科学实验室",
       "class": "Consumable",
       "primaryStat": "Intelligence",
       "width": 3,
@@ -549,7 +549,7 @@
       "buildLocId": "Room_ScienceLab_Build"
     },
     "Storage": {
-      "name": "Storage",
+      "name": "仓库",
       "class": "Facility",
       "primaryStat": "Endurance",
       "width": 3,
@@ -566,7 +566,7 @@
       "buildLocId": "Room_StorageArea_Build"
     },
     "SuperRoom2": {
-      "name": "FITNESS ROOM",
+      "name": "健身房",
       "class": "Training",
       "primaryStat": "Endurance",
       "width": 3,
@@ -583,7 +583,7 @@
       "buildLocId": "Room_SuperRoom2_Build"
     },
     "UltraciteMining": {
-      "name": "ULTRACITE MINE",
+      "name": "超镭矿场",
       "class": "Production",
       "primaryStat": "Endurance",
       "width": 9,
@@ -600,7 +600,7 @@
       "buildLocId": "Room_UltraciteMining_Build"
     },
     "UltraciteWeaponFactory": {
-      "name": "ULTRACITE WEAPON WORKSHOP",
+      "name": "超镭武器工坊",
       "class": "Crafting",
       "primaryStat": "Intelligence",
       "width": 9,
@@ -617,7 +617,7 @@
       "buildLocId": "Room_UltraciteWeaponFactory_Build"
     },
     "Water2": {
-      "name": "WATER PURIFICATION",
+      "name": "净水厂",
       "class": "Production",
       "primaryStat": "Perception",
       "width": 3,
@@ -634,7 +634,7 @@
       "buildLocId": "Room_Water2_Build"
     },
     "WaterPlant": {
-      "name": "Water Plant",
+      "name": "净水站",
       "class": "Production",
       "primaryStat": "Perception",
       "width": 3,
@@ -651,7 +651,7 @@
       "buildLocId": "Room_WaterProcessingPlant_Build"
     },
     "WeaponFactory": {
-      "name": "WEAPON WORKSHOP",
+      "name": "武器工坊",
       "class": "Crafting",
       "primaryStat": "Intelligence",
       "width": 9,

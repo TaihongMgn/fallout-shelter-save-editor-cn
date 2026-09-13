@@ -8,11 +8,11 @@ import { test, expect, type Page } from '@playwright/test';
 
 // A few recipe ids spread across the alphabetical sort, so each jump needs a real scroll.
 const JUMPS: ReadonlyArray<{ id: string; name: string }> = [
-  { id: 'PowerArmor_MkVI', name: 'X-01 Mk VI Power Armor' }, // bottom
-  { id: '032Pistol', name: '.32 Pistol' }, // top
-  { id: 'LabCoat', name: 'Lab Coat' }, // middle
-  { id: 'PulseRifle_Enhanced', name: 'Enhanced Pulse Rifle' }, // upper quarter
-  { id: 'Rifle_Rusty', name: 'Rusty Lever-Action Rifle' }, // lower quarter
+  { id: 'PowerArmor_MkVI', name: 'X-01 Mk VI动力装甲' }, // bottom
+  { id: '032Pistol', name: '0.32口径手枪' }, // top
+  { id: 'LabCoat', name: '实验服' }, // middle
+  { id: 'PulseRifle_Enhanced', name: '强化型脉冲步枪' }, // upper quarter
+  { id: 'Rifle_Rusty', name: '锈蚀型杠杆式步枪' }, // lower quarter
 ];
 
 // The table body is the second rowgroup (after the header rowgroup); scope to it so we match
@@ -25,10 +25,10 @@ async function expectRowInView(page: Page, name: string): Promise<void> {
 
 test('every recipe jump scrolls its row into view (same-tab, repeated)', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: 'I understand and accept the risks' }).click();
+  await page.getByRole('button', { name: '我已了解并接受风险' }).click();
   // Section views only mount once a save is loaded; the sandbox is the quickest way in.
-  await page.getByRole('button', { name: 'Start fresh / sandbox' }).click();
-  await page.getByRole('heading', { name: 'Dwellers' }).waitFor({ timeout: 15000 });
+  await page.getByRole('button', { name: '从零开始 / 沙盒' }).click();
+  await page.getByRole('heading', { name: '居民' }).waitFor({ timeout: 15000 });
 
   for (const { id, name } of JUMPS) {
     await page.evaluate((recipeId) => {
@@ -42,10 +42,10 @@ test('recipe jump scrolls into view after leaving and re-entering the tab (remou
   page,
 }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: 'I understand and accept the risks' }).click();
+  await page.getByRole('button', { name: '我已了解并接受风险' }).click();
   // Section views only mount once a save is loaded; the sandbox is the quickest way in.
-  await page.getByRole('button', { name: 'Start fresh / sandbox' }).click();
-  await page.getByRole('heading', { name: 'Dwellers' }).waitFor({ timeout: 15000 });
+  await page.getByRole('button', { name: '从零开始 / 沙盒' }).click();
+  await page.getByRole('heading', { name: '居民' }).waitFor({ timeout: 15000 });
 
   for (const { id, name } of JUMPS) {
     // Leave the Recipes tab entirely, then jump back in - forces a fresh RecipesView mount,

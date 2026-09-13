@@ -147,7 +147,7 @@ function build(
       children.push(build(text, value, k, null, depth + 1, joinPath(path, k, null)));
     }
     const n = children.length;
-    return { ...base, preview: `{${n} ${n === 1 ? 'key' : 'keys'}}`, children };
+    return { ...base, preview: `{${n} 个键}`, children };
   }
 
   if (type === 'array') {
@@ -156,7 +156,7 @@ function build(
       build(text, el, null, i, depth + 1, joinPath(path, null, i)),
     );
     const n = children.length;
-    return { ...base, preview: `[${n} ${n === 1 ? 'item' : 'items'}]`, children };
+    return { ...base, preview: `[${n} 个项]`, children };
   }
 
   return { ...base, preview: leafPreview(text, node), children: [] };

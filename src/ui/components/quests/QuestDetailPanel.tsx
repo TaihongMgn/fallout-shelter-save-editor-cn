@@ -79,21 +79,21 @@ function Badge({
 const LOG_STATUS_BADGES: { value: QuestStatus; label: string; tone: string; hint: string }[] = [
   {
     value: 'inLog',
-    label: 'In quest log',
+    label: '在任务日志中',
     tone: 'bg-sky-900/40 text-sky-200',
-    hint: 'Offered right now: the rotation + unlocked story steps',
+    hint: '当前可接取：轮换任务 + 已解锁的剧情步骤',
   },
   {
     value: 'deployed',
-    label: 'Team deployed',
+    label: '小队已派出',
     tone: 'bg-blue-900/50 text-blue-200',
-    hint: 'A team is out on it right now',
+    hint: '当前有小队正在执行此任务',
   },
   {
     value: 'skipped',
-    label: 'Skipped',
+    label: '已跳过',
     tone: 'bg-neutral-800 text-neutral-400',
-    hint: 'Skipped out of a rotation',
+    hint: '在轮换中被跳过',
   },
 ];
 
@@ -169,7 +169,7 @@ export function QuestDetailPanel({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close quest panel"
+          aria-label="关闭任务面板"
           className="shrink-0 rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
         >
           ✕
@@ -181,33 +181,30 @@ export function QuestDetailPanel({
         {scheme && (
           <Badge
             tone="bg-purple-900/40 text-purple-200"
-            title={seasonName ? `Season Pass content: the ${seasonName} season` : undefined}
+            title={seasonName ? `赛季通行证内容：${seasonName} 赛季` : undefined}
           >
-            {seasonName ? `${scheme}: ${seasonName}` : scheme}
+            {seasonName ? `${scheme}：${seasonName}` : scheme}
           </Badge>
         )}
         {season.kind === 'seasonal' && (
           <Badge
             tone={season.open ? 'bg-red-900/40 text-red-200' : 'bg-neutral-800 text-neutral-400'}
-            title={`Runs ${season.recurring} every year. ${
-              season.open ? 'Open today.' : 'Closed today.'
+            title={`每年开放时间：${season.recurring}。${
+              season.open ? '今日在季。' : '今日不在季。'
             }`}
           >
-            {season.open ? 'Limited time · in season' : 'Limited time · out of season'}
+            {season.open ? '限时 · 今日在季' : '限时 · 今日不在季'}
           </Badge>
         )}
         {quest.m_isVisible === 0 && (
-          <Badge
-            tone="bg-neutral-800 text-neutral-400"
-            title="Never shown in-game (m_isVisible = 0)"
-          >
-            Hidden
+          <Badge tone="bg-neutral-800 text-neutral-400" title="游戏中从不显示（m_isVisible = 0）">
+            已隐藏
           </Badge>
         )}
         <Badge
           tone={completed ? 'bg-emerald-900/50 text-emerald-300' : 'bg-amber-900/40 text-amber-200'}
         >
-          {completed ? 'Completed' : 'Not completed'}
+          {completed ? '已完成' : '未完成'}
         </Badge>
         {logBadges.map((b) => (
           <Badge key={b.value} tone={b.tone} title={b.hint}>
@@ -225,42 +222,41 @@ export function QuestDetailPanel({
             onClick={onUncomplete}
             title={
               !canEdit
-                ? 'Load a save to edit quests'
+                ? '请先载入存档才能编辑任务'
                 : isTip
                   ? undefined
-                  : `Un-complete its later quests first: ${blockedBy.join(', ')}`
+                  : `请先取消完成其后续任务：${blockedBy.join('、')}`
             }
             className="w-full rounded border border-red-800 px-3 py-1.5 text-sm text-red-300 hover:bg-red-900/40 disabled:opacity-40 disabled:hover:bg-transparent"
           >
-            Mark incomplete
+            标记为未完成
           </button>
         ) : (
           <button
             type="button"
             disabled={!canEdit}
             onClick={onComplete}
-            title={canEdit ? undefined : 'Load a save to edit quests'}
+            title={canEdit ? undefined : '请先载入存档才能编辑任务'}
             className="w-full rounded border border-emerald-700 px-3 py-1.5 text-sm text-emerald-300 hover:bg-emerald-900/40 disabled:opacity-40 disabled:hover:bg-transparent"
           >
-            Mark complete + grant rewards
+            标记为完成并发放奖励
           </button>
         )}
         {!completed && deps.length > 0 && (
           <p className="mt-1 text-[11px] text-neutral-500">
-            Also completes any unmet prerequisites and grants their rewards.
+            同时会完成所有未满足的前置任务并发放其奖励。
           </p>
         )}
         {!completed && isReactivatingEventQuest(quest) && (
           <p className="mt-1 text-[11px] text-neutral-500">
-            Event quest: the completion time is pinned so the game keeps it done, in or out of
-            season. (The game normally clears event completions ~180 days after playing them so the
-            event can be replayed; un-complete it here if you ever want to replay it.)
+            活动任务：完成时间会被固定，因此无论是否在活动期内，游戏都会将其保持为已完成。（游戏通常会在活动结束约
+            180 天后清除该完成记录以便重玩；如需重玩，可在此处取消完成。）
           </p>
         )}
       </div>
 
       {(quest.shortDescription || quest.longDescription) && (
-        <Section title="Story">
+        <Section title="剧情">
           <div className={`${BOX} space-y-2 text-sm text-neutral-300`}>
             {quest.shortDescription && (
               <p className="italic text-neutral-400">{quest.shortDescription}</p>
@@ -270,12 +266,12 @@ export function QuestDetailPanel({
         </Section>
       )}
 
-      <Section title="Rewards">
+      <Section title="奖励">
         <RewardChips chips={rewardChips} />
       </Section>
 
       {requirements.length > 0 && (
-        <Section title="Requirements">
+        <Section title="要求">
           <ul className={`${BOX} space-y-1 text-sm text-neutral-200`}>
             {requirements.map((r, i) => (
               <li key={i}>{formatRequirement(r)}</li>
@@ -284,59 +280,53 @@ export function QuestDetailPanel({
         </Section>
       )}
 
-      <Section title="Details">
+      <Section title="详情">
         <div className={BOX}>
           {(diffMin !== undefined || diffMax !== undefined) && (
             <StatRow
-              label="Difficulty"
+              label="难度"
               value={
                 diffMin === diffMax ? `${diffMin ?? '?'}` : `${diffMin ?? '?'}–${diffMax ?? '?'}`
               }
             />
           )}
-          <StatRow label="Type" value={questTypeLabel(quest.m_questType)} />
-          {region && <StatRow label="Region" value={questRegionLabel(region)} />}
-          <StatRow label="Scheme" value={questSchemeName(quest.m_questScheme)} />
+          <StatRow label="类型" value={questTypeLabel(quest.m_questType)} />
+          {region && <StatRow label="地区" value={questRegionLabel(region)} />}
+          <StatRow label="方案" value={questSchemeName(quest.m_questScheme)} />
           {seasonName && (
-            <StatRow
-              label="Season"
-              value={seasonName}
-              title={`Season Pass season id: ${seasonId}`}
-            />
+            <StatRow label="赛季" value={seasonName} title={`赛季通行证赛季 ID：${seasonId}`} />
           )}
           {environment !== undefined && (
-            <StatRow label="Environment" value={questEnvironmentLabel(environment)} />
+            <StatRow label="环境" value={questEnvironmentLabel(environment)} />
           )}
-          <StatRow label="Repeatable" value={quest.m_isRepeatable === 1 ? 'Yes' : 'No'} />
+          <StatRow label="可重复" value={quest.m_isRepeatable === 1 ? '是' : '否'} />
           {/* Answers the Flags facet's "Time limited" outright, so there is no Yes/No row for it:
               a window IS the flag, spelled out. */}
           {season.kind === 'always' ? (
             <StatRow
-              label="Window"
-              value="Always available"
-              title="No seasonal window: the catalog's 1970/01/01–2100/01/01 sentinel means the quest is never gated by date."
+              label="开放窗口"
+              value="始终开放"
+              title="无季节窗口：目录中的 1970/01/01–2100/01/01 哨兵值表示该任务从不受日期限制。"
             />
           ) : (
             <>
               {/* Month/day, no year: the catalog's authored years (2016-2018, and one 2999) are
                   metadata the game ignores, so printing them would contradict this recurrence. */}
               <StatRow
-                label="Window"
+                label="开放窗口"
                 value={season.recurring}
-                title={`Recurs every year: the game compares month and day only.${
-                  season.wraps ? ' This window runs through the new year.' : ''
-                }`}
+                title={`每年循环：游戏只比较月和日。${season.wraps ? '此窗口会跨越新年。' : ''}`}
               />
-              <StatRow label="In season today" value={season.open ? 'Yes' : 'No'} />
+              <StatRow label="今日是否在季" value={season.open ? '是' : '否'} />
             </>
           )}
-          <StatRow label="Hidden" value={quest.m_isVisible === 0 ? 'Yes' : 'No'} />
-          <StatRow label="Quest ID" value={quest.m_questName} />
+          <StatRow label="隐藏" value={quest.m_isVisible === 0 ? '是' : '否'} />
+          <StatRow label="任务 ID" value={quest.m_questName} />
         </div>
       </Section>
 
       {deps.length > 0 && (
-        <Section title="Prerequisites">
+        <Section title="前置任务">
           <div className="flex flex-wrap gap-1.5">
             {deps.map((dep) =>
               knownDependencies.has(dep) ? (

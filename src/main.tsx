@@ -5,7 +5,7 @@ import { router } from './ui/router.tsx';
 import './index.css';
 
 const rootEl = document.getElementById('root');
-if (!rootEl) throw new Error('Root element #root not found');
+if (!rootEl) throw new Error('未找到根元素 #root');
 
 createRoot(rootEl).render(
   <StrictMode>

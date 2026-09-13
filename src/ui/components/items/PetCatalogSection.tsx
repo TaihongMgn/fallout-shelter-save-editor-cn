@@ -71,7 +71,7 @@ export function PetCatalogSection({ virtualized = true }: { virtualized?: boolea
     if (blocked) return; // buttons are disabled; belt-and-braces for keyboard flows
     if (slotsFree !== null && !bypassCapacity && total > Math.max(0, slotsFree)) {
       // Full is handled by `blocked`; this catches a partial overflow (e.g. 3 free, add 5).
-      pushToast(`Not enough storage space (${Math.max(0, slotsFree)} free).`);
+      pushToast(`仓库空间不足（剩余 ${Math.max(0, slotsFree)} 个）。`);
       return;
     }
     // Pets are instances, so a count of N mints N fresh instances of the breed (each at its
@@ -82,8 +82,8 @@ export function PetCatalogSection({ virtualized = true }: { virtualized?: boolea
         for (let i = 0; i < count; i += 1) next = addPet(next, newPetFor(pet));
       }
       return next;
-    }, `Add ${total} pets to storage`);
-    pushToast(`Added ${total} ${total === 1 ? 'pet' : 'pets'} to storage.`);
+    }, `向仓库添加 ${total} 只宠物`);
+    pushToast(`已将 ${total} 只宠物添加到仓库。`);
   };
 
   const onConfirmEquip = (serializeIds: number[]): void => {
@@ -91,34 +91,30 @@ export function PetCatalogSection({ virtualized = true }: { virtualized?: boolea
     const pet = newPetFor(equipPet);
     applyEdit(
       (s) => serializeIds.reduce((acc, did) => createPet(acc, did, pet), s),
-      `Equip ${petSpecialName(equipPet)}`,
+      `装备 ${petSpecialName(equipPet)}`,
     );
-    pushToast(
-      `Equipped ${petSpecialName(equipPet)} on ${serializeIds.length} ${
-        serializeIds.length === 1 ? 'dweller' : 'dwellers'
-      }.`,
-    );
+    pushToast(`已将 ${petSpecialName(equipPet)} 装备到 ${serializeIds.length} 名居民身上。`);
   };
 
   return (
     <div className="h-full min-h-0">
       <CatalogTableView<Pet>
-        title="Pets"
-        unitNoun="pets"
+        title="宠物"
+        unitNoun="宠物"
         data={pets}
         schema={schema}
         persistKey="catalog.pets"
         getRowId={(p) => p.id}
         getRowLabel={(p) => petSpecialName(p)}
-        searchLabel="Search pets"
-        searchPlaceholder="Search pets…"
+        searchLabel="搜索宠物"
+        searchPlaceholder="搜索宠物…"
         gameDataStatus={gameDataStatus}
         onAddToStorage={onAddToStorage}
         addDisabled={blocked}
-        addDisabledReason="Storage is maxed. Tick the bypass checkbox in the notice above to add anyway."
+        addDisabledReason="仓库已达上限。如仍要添加，请勾选上方提示中的绕过复选框。"
         notice={notice}
         onEquip={(id) => setEquipId(id)}
-        equipLabel="Equip…"
+        equipLabel="装备…"
         virtualized={virtualized}
       />
 

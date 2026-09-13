@@ -58,7 +58,7 @@ export function EquipPickerDialog<T>({
     () => [
       badgeColumn<T>({
         id: '_equipped',
-        label: 'Equipped',
+        label: '已装备',
         predicate: (row) => getRowId(row) === equippedId,
       }),
     ],
@@ -74,11 +74,11 @@ export function EquipPickerDialog<T>({
             <div>
               <Dialog.Title className="text-base font-semibold">{title}</Dialog.Title>
               <Dialog.Description className="mt-0.5 text-xs text-neutral-400">
-                Currently equipped: {currentSummary}
+                当前装备：{currentSummary}
               </Dialog.Description>
             </div>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
             >
               ✕
@@ -100,7 +100,7 @@ export function EquipPickerDialog<T>({
               onEquip(getRowId(r));
               onClose();
             }}
-            emptyState="No items."
+            emptyState="暂无物品。"
           />
 
           <div className="mt-4 flex justify-between">
@@ -119,7 +119,7 @@ export function EquipPickerDialog<T>({
               onClick={onClose}
               className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-neutral-100"
             >
-              Close
+              关闭
             </button>
           </div>
         </Dialog.Content>

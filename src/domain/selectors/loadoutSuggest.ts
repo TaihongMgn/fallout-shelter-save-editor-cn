@@ -206,8 +206,8 @@ export function wastelandLoadoutRoomType(save: SaveData): LoadoutRoomType | null
   if (ids.length === 0) return null;
   return {
     type: WASTELAND_LOADOUT_TYPE,
-    name: 'Wasteland',
-    primaryStat: 'Explorers & unassigned',
+    name: '废土',
+    primaryStat: '探索者与未分配居民',
     statKey: 'E',
     dwellerIds: ids,
   };

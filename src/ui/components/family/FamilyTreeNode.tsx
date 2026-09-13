@@ -74,7 +74,7 @@ export function FamilyTreeNode({ node, assets, selected, dimmed, onSelect }: Fam
       <div
         className={base}
         style={style}
-        title={meta.absent ? 'Special character (not in this vault)' : meta.name}
+        title={meta.absent ? '特殊角色（不在当前避难所中）' : meta.name}
       >
         {inner}
       </div>
@@ -87,7 +87,7 @@ export function FamilyTreeNode({ node, assets, selected, dimmed, onSelect }: Fam
       style={style}
       onPointerDown={(e) => e.stopPropagation()}
       onClick={() => onSelect(meta.serializeId!)}
-      title={`Focus ${meta.name}`}
+      title={`聚焦 ${meta.name} 的血脉`}
     >
       {inner}
     </button>

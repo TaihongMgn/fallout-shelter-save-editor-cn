@@ -29,50 +29,42 @@ export function SeasonClockCard({
 }) {
   return (
     <VaultCard
-      title="Season clock"
+      title="赛季时钟"
       help={fieldHelp.seasonClock}
-      description={`Move season time forward for ${activeLabel}.`}
+      description={`将 ${activeLabel} 的赛季时间向前推移。`}
     >
       <p className="text-sm text-neutral-300">
-        Clock is{' '}
+        时钟{' '}
         <span className="text-neutral-100">
-          {offsetDays > 0
-            ? `${offsetDays} day${offsetDays === 1 ? '' : 's'} ahead`
-            : 'at real time'}
+          {offsetDays > 0 ? `快了 ${offsetDays} 天` : '与真实时间同步'}
         </span>
-        {endDate && <span className="text-neutral-500"> · season scheduled to end {endDate}</span>}
+        {endDate && <span className="text-neutral-500"> · 赛季预定 {endDate} 结束</span>}
       </p>
 
       <div className="mt-2 flex flex-wrap gap-2">
         <button type="button" className={BUTTON} onClick={() => onAdvanceDays(1)}>
-          +1 day
+          +1 天
         </button>
         <button type="button" className={BUTTON} onClick={() => onAdvanceDays(7)}>
-          +7 days
+          +7 天
         </button>
         <button
           type="button"
           className={BUTTON}
           disabled={endDate === null}
-          title={
-            endDate === null
-              ? 'This season has no known end date in the catalog'
-              : 'Jump the clock just past the season end'
-          }
+          title={endDate === null ? '赛季目录中没有该赛季的结束日期' : '将时钟直接跳到赛季结束之后'}
           onClick={onSkipToEnd}
         >
-          Skip past end of season
+          跳到赛季结束之后
         </button>
         <button type="button" className={BUTTON} disabled={offsetDays <= 0} onClick={onReset}>
-          Reset to real time
+          重置为真实时间
         </button>
       </div>
 
       <p className="mt-1.5 text-[11px] text-neutral-400">
-        This is the game&apos;s own debug clock, stored in the season file. It unlocks weekly
-        challenges and events early and can end the season; &quot;Reset to real time&quot; undoes it
-        completely. It is separate from the Vault time card on the Vault tab - this clock only moves
-        season timing and never advances production, crafting or other vault timers.
+        这是游戏自带的调试时钟，保存在赛季文件中。它会提前解锁每周挑战和活动，也可能直接结束赛季；「重置为真实时间」可以完全撤销。它与「避难所」标签页中的避难所时间卡片相互独立{' '}
+        - 该时钟只影响赛季时间，绝不会推进生产、制作或其他避难所计时器。
       </p>
     </VaultCard>
   );

@@ -39,7 +39,7 @@ export function SeasonOnboarding({
       const nvfFile = list.find((f) => f.name.toLowerCase().includes('nvf')) ?? null;
       const spdFile = list.find((f) => f !== nvfFile) ?? null;
       if (!spdFile) {
-        setError(`Select your ${SEASON_FILE_NAMES.spd} (and optionally ${SEASON_FILE_NAMES.nvf}).`);
+        setError(`请选择你的 ${SEASON_FILE_NAMES.spd}（可选 ${SEASON_FILE_NAMES.nvf}）。`);
         return;
       }
       const spdText = await spdFile.text();
@@ -48,8 +48,8 @@ export function SeasonOnboarding({
     } catch (e) {
       setError(
         e instanceof Error
-          ? `Couldn't read that file. Is it a real ${SEASON_FILE_NAMES.spd}? (${e.message})`
-          : 'Failed to read the season file.',
+          ? `无法读取该文件。它是有效的 ${SEASON_FILE_NAMES.spd} 吗？（${e.message}）`
+          : '读取赛季文件失败。',
       );
     } finally {
       setBusy(false);
@@ -58,46 +58,44 @@ export function SeasonOnboarding({
 
   return (
     <SourcePicker
-      title="Season Pass"
+      title="赛季通行证"
       description={
         <>
-          Recover season-pass rewards into your vault, or build a season pass from scratch. Either
-          way you can download an updated{' '}
-          <code className="text-neutral-300">{SEASON_FILE_NAMES.spd}</code> and{' '}
-          <code className="text-neutral-300">{SEASON_FILE_NAMES.nvf}</code> when you&apos;re done.
+          把赛季通行证的进度恢复到你的避难所，或者从零生成一份赛季通行证。无论哪种方式，完成后都可以下载更新后的{' '}
+          <code className="text-neutral-300">{SEASON_FILE_NAMES.spd}</code> 和{' '}
+          <code className="text-neutral-300">{SEASON_FILE_NAMES.nvf}</code>。
         </>
       }
-      uploadTitle="Use an existing file"
+      uploadTitle="使用现有文件"
       uploadDescription={
         <>
-          Load your real season-pass state: levels, premium, and what you&apos;ve already claimed.
-          Add <code className="text-neutral-300">{SEASON_FILE_NAMES.nvf}</code> too to keep the
-          active-season pointer in sync.
+          载入你真实的赛季通行证状态：等级、精英轨道，以及已领取的奖励。同时添加{' '}
+          <code className="text-neutral-300">{SEASON_FILE_NAMES.nvf}</code> 以保持当前赛季指针同步。
         </>
       }
       uploadHint={
         <>
-          Or drag and drop <code className="text-neutral-400">{SEASON_FILE_NAMES.spd}</code> (and{' '}
-          <code className="text-neutral-400">{SEASON_FILE_NAMES.nvf}</code>) onto this card.
+          也可以把 <code className="text-neutral-400">{SEASON_FILE_NAMES.spd}</code>（和{' '}
+          <code className="text-neutral-400">{SEASON_FILE_NAMES.nvf}</code>）拖放到此卡片上。
         </>
       }
-      uploadButtonLabel="Choose .dat file(s)"
+      uploadButtonLabel="选择 .dat 文件"
       accept=".dat"
       multiple
       busy={busy}
       onFiles={(files) => void loadFiles(files)}
-      prebuiltTitle="No file? Build one"
+      prebuiltTitle="没有文件？生成一份"
       prebuiltDescription={
         <>
-          Generates a genuine season pass: every season, nothing claimed, level 1, no premium. Fully
-          editable, and downloadable as a real{' '}
-          <code className="text-neutral-300">{SEASON_FILE_NAMES.spd}</code> for the game.
+          生成一份真实的赛季通行证：包含所有赛季，未领取任何奖励，1
+          级，未解锁精英。完全可编辑，完成后可作为真实的{' '}
+          <code className="text-neutral-300">{SEASON_FILE_NAMES.spd}</code> 下载给游戏使用。
         </>
       }
-      prebuiltButtonLabel={canContinue ? 'Continue' : 'Loading catalog…'}
+      prebuiltButtonLabel={canContinue ? '继续' : '目录加载中…'}
       prebuiltDisabled={!canContinue}
       onPrebuilt={onContinue}
-      prebuiltError={catalogError ? `Catalog unavailable: ${catalogError}` : null}
+      prebuiltError={catalogError ? `目录不可用：${catalogError}` : null}
       error={error}
       help={<WheresMyFile variant="season" />}
     />

@@ -27,7 +27,7 @@ import { MAX_DWELLER_HP, maxHpForLevel } from './dwellerHealth.ts';
 /** Thrown when an op targets a `serializeId` that no dweller has. */
 export class DwellerNotFoundError extends Error {
   constructor(public readonly serializeId: number) {
-    super(`No dweller with serializeId ${serializeId}.`);
+    super(`找不到 serializeId 为 ${serializeId} 的居民。`);
     this.name = 'DwellerNotFoundError';
   }
 }
@@ -100,7 +100,7 @@ export function setStat(
   opts?: ClampOpts,
 ): SaveData {
   if (!Number.isInteger(statIndex) || statIndex < 1 || statIndex > 7) {
-    throw new RangeError(`SPECIAL statIndex must be an integer 1..7, got ${statIndex}.`);
+    throw new RangeError(`SPECIAL 属性索引必须是 1~7 的整数，实际为 ${statIndex}。`);
   }
   return updateDweller(save, serializeId, (d) => {
     const stats = d.stats?.stats ?? [];
@@ -404,9 +404,8 @@ export function attachPetFromStorage(
   const dweller = getDweller(save, serializeId);
   const items = inventoryItems(save);
   const item = items[itemIndex];
-  if (!item) throw new RangeError(`No inventory item at index ${itemIndex}.`);
-  if (item.type !== 'Pet')
-    throw new TypeError(`Inventory item at index ${itemIndex} is not a Pet.`);
+  if (!item) throw new RangeError(`物品栏中不存在索引为 ${itemIndex} 的物品。`);
+  if (item.type !== 'Pet') throw new TypeError(`物品栏中索引为 ${itemIndex} 的物品不是宠物。`);
 
   const nextItems = items.filter((_, i) => i !== itemIndex);
   if (dweller.equippedPet) nextItems.push(dweller.equippedPet);

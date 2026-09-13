@@ -87,16 +87,16 @@ describe('SeasonPassView - onboarding', () => {
     render(<SeasonPassView />);
 
     // Onboarding is shown until a source is chosen.
-    expect(screen.getByRole('heading', { name: 'Season Pass' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '赛季通行证' })).toBeInTheDocument();
     expect(useSaveStore.getState().seasonSource).toBe('none');
 
-    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.click(screen.getByRole('button', { name: '继续' }));
 
     const s = useSaveStore.getState();
     expect(s.seasonSource).toBe('catalog');
     expect(s.seasonSave?.currentSeason).toBe('Institute'); // last catalog season
     // The workspace replaces onboarding: the export bar + season switcher appear.
-    expect(screen.getByText(/New season pass/)).toBeInTheDocument();
+    expect(screen.getByText(/全新赛季通行证/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Institute/ })).toBeInTheDocument();
   });
 });
@@ -107,7 +107,7 @@ describe('SeasonPassView - claiming on the board', () => {
     render(<SeasonPassView />);
 
     // Active season is Institute; its free rank-1 reward is 500 caps (id 301).
-    await user.click(screen.getByRole('button', { name: /^Rank 1 free/ }));
+    await user.click(screen.getByRole('button', { name: /^第 1 级（免费）/ }));
 
     const s = useSaveStore.getState();
     expect(s.past).toHaveLength(1); // ONE combined undo entry
@@ -120,7 +120,7 @@ describe('SeasonPassView - claiming on the board', () => {
     const user = userEvent.setup();
     render(<SeasonPassView />);
 
-    await user.click(screen.getByRole('button', { name: /^Rank 2 premium/ }));
+    await user.click(screen.getByRole('button', { name: /^第 2 级（精英）/ }));
 
     const s = useSaveStore.getState();
     expect(s.past).toHaveLength(0); // nothing claimed
@@ -129,7 +129,7 @@ describe('SeasonPassView - claiming on the board', () => {
       false,
     );
     // A guidance toast was raised instead.
-    expect(useToastStore.getState().toasts.some((t) => /premium/i.test(t.message))).toBe(true);
+    expect(useToastStore.getState().toasts.some((t) => /精英轨道/.test(t.message))).toBe(true);
   });
 });
 
@@ -138,19 +138,19 @@ describe('SeasonPassView - viewed vs active season', () => {
     const user = userEvent.setup();
     render(<SeasonPassView />);
 
-    await user.click(screen.getByRole('button', { name: 'New Vegas A' }));
+    await user.click(screen.getByRole('button', { name: '新维加斯A' }));
 
     expect(useSaveStore.getState().past).toHaveLength(0);
     // Viewing a non-active season reveals the "Make active" affordance.
-    expect(screen.getByRole('button', { name: 'Make active' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '设为当前' })).toBeInTheDocument();
   });
 
   it('"Make active" runs switchSeason, syncing spd.currentSeason and nvf', async () => {
     const user = userEvent.setup();
     render(<SeasonPassView />);
 
-    await user.click(screen.getByRole('button', { name: 'New Vegas A' }));
-    await user.click(screen.getByRole('button', { name: 'Make active' }));
+    await user.click(screen.getByRole('button', { name: '新维加斯A' }));
+    await user.click(screen.getByRole('button', { name: '设为当前' }));
 
     const s = useSaveStore.getState();
     expect(s.past).toHaveLength(1);

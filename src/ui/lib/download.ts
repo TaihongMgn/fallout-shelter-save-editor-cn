@@ -51,7 +51,7 @@ export async function saveText(filename: string, text: string): Promise<SaveOutc
       suggestedName: filename,
       types: [
         {
-          description: 'Fallout Shelter save',
+          description: '辐射：避难所存档',
           accept: { 'application/octet-stream': ['.sav'] },
         },
       ],

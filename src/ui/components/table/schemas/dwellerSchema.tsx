@@ -5,7 +5,7 @@ import { weaponAvgDamage } from '../../../../domain/gamedata/itemStats.ts';
 import { StatBadge } from '../../dwellers/StatBadge.tsx';
 import { DwellerThumbnailCell, HealthCell } from '../../dwellers/dwellerCells.tsx';
 import { ItemIcon } from '../../ItemIcon.tsx';
-import { inSelectedSet } from '../columnKit.tsx';
+import { inSelectedSet, prettyBonus, rarityLabel } from '../columnKit.tsx';
 import type { TableSchema } from '../tableSchema.ts';
 
 // Source-of-truth schema for the DWELLER roster. The full data column set;
@@ -22,29 +22,63 @@ const SPECIAL_KEYS = ['S', 'P', 'E', 'C', 'I', 'A', 'L'] as const;
 
 /** Hideable/reorderable columns (everything except picker-supplied select/current). */
 const HIDEABLE_DWELLER_COLUMNS: ReadonlyArray<{ id: string; label: string }> = [
-  { id: 'thumbnail', label: 'Thumbnail' },
-  { id: 'name', label: 'Name' },
-  { id: 'weapon', label: 'Weapon' },
-  { id: 'outfit', label: 'Outfit' },
-  { id: 'pet', label: 'Pet' },
-  { id: 'level', label: 'Level' },
-  { id: 's', label: 'Strength' },
-  { id: 'p', label: 'Perception' },
-  { id: 'e', label: 'Endurance' },
-  { id: 'c', label: 'Charisma' },
-  { id: 'i', label: 'Intelligence' },
-  { id: 'a', label: 'Agility' },
-  { id: 'l', label: 'Luck' },
-  { id: 'happiness', label: 'Happiness' },
-  { id: 'health', label: 'Health' },
-  { id: 'rarity', label: 'Rarity' },
-  { id: 'gender', label: 'Gender' },
-  { id: 'pregnant', label: 'Pregnant' },
-  { id: 'babyReady', label: 'Baby ready' },
-  { id: 'assignment', label: 'Assignment' },
+  { id: 'thumbnail', label: '头像' },
+  { id: 'name', label: '名称' },
+  { id: 'weapon', label: '武器' },
+  { id: 'outfit', label: '服装' },
+  { id: 'pet', label: '宠物' },
+  { id: 'level', label: '等级' },
+  { id: 's', label: '力量' },
+  { id: 'p', label: '感知' },
+  { id: 'e', label: '耐力' },
+  { id: 'c', label: '魅力' },
+  { id: 'i', label: '智力' },
+  { id: 'a', label: '敏捷' },
+  { id: 'l', label: '幸运' },
+  { id: 'happiness', label: '幸福度' },
+  { id: 'health', label: '生命值' },
+  { id: 'rarity', label: '稀有度' },
+  { id: 'gender', label: '性别' },
+  { id: 'pregnant', label: '怀孕中' },
+  { id: 'babyReady', label: '婴儿即将出生' },
+  { id: 'assignment', label: '岗位' },
 ];
 
-const GENDER_LABEL: Record<number, string> = { 1: 'Female', 2: 'Male' };
+const GENDER_LABEL: Record<number, string> = { 1: '女', 2: '男' };
+
+/** ERoomType → display name, mirroring the already-localized gamedata room-metadata names
+ *  (vault rooms only; unmapped labels pass through). */
+const ROOM_TYPE_LABELS: Record<string, string> = {
+  Armory: '军械库',
+  Bar: '休息室',
+  BarberShop: '理发店',
+  Cafeteria: '餐厅',
+  Casino: '游戏室',
+  Classroom: '教室',
+  DecorationFactory: '装饰工坊',
+  DesignFactory: '主题工坊',
+  Dojo: '运动室',
+  Elevator: '电梯',
+  Energy2: '核反应堆',
+  Entrance: '入口',
+  Geothermal: '发电机组',
+  Gym: '举重室',
+  Hydroponic: '水培园',
+  LivingQuarters: '居住舱',
+  MedBay: '医务室',
+  NukaCola: '核子可乐装瓶厂',
+  OutfitFactory: '服装工坊',
+  Overseer: '监管人办公室',
+  Radio: '广播室',
+  ScienceLab: '科学实验室',
+  Storage: '仓库',
+  SuperRoom2: '健身房',
+  UltraciteMining: '超镭矿场',
+  UltraciteWeaponFactory: '超镭武器工坊',
+  Water2: '净水厂',
+  WaterPlant: '净水站',
+  WeaponFactory: '武器工坊',
+};
 
 /** Roster weapon avg damage for sorting; missing/unknown sorts lowest. */
 function rowWeaponAvg(row: Row<DwellerRow>): number {
@@ -82,11 +116,11 @@ export function dwellerSchema({ onRevive }: DwellerSchemaHandlers = {}): TableSc
     header: string,
   ): ColumnDef<DwellerRow> => ({
     id,
-    accessorFn: (d) => (get(d) ? 'Yes' : 'No'),
+    accessorFn: (d) => (get(d) ? '是' : '否'),
     header,
     cell: ({ getValue }) =>
-      getValue<string>() === 'Yes' ? (
-        <span className="text-amber-300">Yes</span>
+      getValue<string>() === '是' ? (
+        <span className="text-amber-300">是</span>
       ) : (
         <span className="text-neutral-400">–</span>
       ),
@@ -110,7 +144,7 @@ export function dwellerSchema({ onRevive }: DwellerSchemaHandlers = {}): TableSc
       {
         id: 'name',
         accessorFn: (d) => (d.lastName ? `${d.name} ${d.lastName}` : d.name),
-        header: 'Name',
+        header: '名称',
         // Full name on hover (finding 4): the column truncates in compact/narrow layouts.
         cell: ({ getValue }) => {
           const name = getValue<string>();
@@ -118,12 +152,12 @@ export function dwellerSchema({ onRevive }: DwellerSchemaHandlers = {}): TableSc
         },
         size: 160,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Name' },
+        meta: { filterVariant: 'text', headerLabel: '名称' },
       },
       {
         id: 'weapon',
         accessorFn: (d) => d.weapon?.name ?? '',
-        header: 'Weapon',
+        header: '武器',
         // Display + text-filter by name, but SORT by avg damage so the column ranks weapons
         // by strength (shared weaponAvgDamage).
         sortingFn: (a, b) => rowWeaponAvg(a) - rowWeaponAvg(b),
@@ -144,12 +178,12 @@ export function dwellerSchema({ onRevive }: DwellerSchemaHandlers = {}): TableSc
         },
         size: 168,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Weapon' },
+        meta: { filterVariant: 'text', headerLabel: '武器' },
       },
       {
         id: 'outfit',
         accessorFn: (d) => d.outfit?.name ?? '',
-        header: 'Outfit',
+        header: '服装',
         cell: ({ row }) => {
           const o = row.original.outfit;
           if (!o) return <span className="text-neutral-400">–</span>;
@@ -166,12 +200,12 @@ export function dwellerSchema({ onRevive }: DwellerSchemaHandlers = {}): TableSc
         },
         size: 176,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Outfit' },
+        meta: { filterVariant: 'text', headerLabel: '服装' },
       },
       {
         id: 'pet',
         accessorFn: (d) => d.pet?.breed ?? '',
-        header: 'Pet',
+        header: '宠物',
         cell: ({ row }) => {
           const p = row.original.pet;
           if (!p) return <span className="text-neutral-400">–</span>;
@@ -181,27 +215,29 @@ export function dwellerSchema({ onRevive }: DwellerSchemaHandlers = {}): TableSc
               <span
                 className="truncate"
                 title={
-                  p.bonus ? `${p.uniqueName ?? p.breed} · ${p.bonus}` : (p.uniqueName ?? p.breed)
+                  p.bonus
+                    ? `${p.uniqueName ?? p.breed} · ${prettyBonus(p.bonus)}`
+                    : (p.uniqueName ?? p.breed)
                 }
               >
                 {p.uniqueName ?? p.breed}
-                {p.bonus && <span className="text-neutral-400"> · {p.bonus}</span>}
+                {p.bonus && <span className="text-neutral-400"> · {prettyBonus(p.bonus)}</span>}
               </span>
             </span>
           );
         },
         size: 150,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Pet' },
+        meta: { filterVariant: 'text', headerLabel: '宠物' },
       },
       {
         id: 'level',
         accessorFn: (d) => d.level,
-        header: 'Level',
+        header: '等级',
         cell: ({ getValue }) => getValue<number | null>() ?? '–',
         size: 72,
         filterFn: 'inNumberRange',
-        meta: { filterVariant: 'range', headerLabel: 'Level' },
+        meta: { filterVariant: 'range', headerLabel: '等级' },
       },
       statColumn('S', 'S'),
       statColumn('P', 'P'),
@@ -213,16 +249,16 @@ export function dwellerSchema({ onRevive }: DwellerSchemaHandlers = {}): TableSc
       {
         id: 'happiness',
         accessorFn: (d) => d.happiness,
-        header: 'Happy',
+        header: '幸福',
         cell: ({ getValue }) => getValue<number | null>() ?? '–',
         size: 90,
         filterFn: 'inNumberRange',
-        meta: { filterVariant: 'range', headerLabel: 'Happiness' },
+        meta: { filterVariant: 'range', headerLabel: '幸福度' },
       },
       {
         id: 'health',
         accessorFn: (d) => d.health,
-        header: 'Health',
+        header: '生命值',
         cell: ({ row }) =>
           onRevive ? (
             <HealthCell row={row} onRevive={onRevive} />
@@ -234,34 +270,34 @@ export function dwellerSchema({ onRevive }: DwellerSchemaHandlers = {}): TableSc
           ),
         size: 132,
         filterFn: 'inNumberRange',
-        meta: { filterVariant: 'range', headerLabel: 'Health' },
+        meta: { filterVariant: 'range', headerLabel: '生命值' },
       },
       {
         id: 'rarity',
-        accessorFn: (d) => d.rarity ?? '',
-        header: 'Rarity',
+        accessorFn: (d) => (d.rarity ? rarityLabel(d.rarity) : ''),
+        header: '稀有度',
         cell: ({ getValue }) => getValue<string>() || '–',
         size: 104,
         filterFn: inSelectedSet<DwellerRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Rarity' },
+        meta: { filterVariant: 'select', headerLabel: '稀有度' },
       },
       {
         id: 'gender',
         accessorFn: (d) => (d.gender != null ? (GENDER_LABEL[d.gender] ?? String(d.gender)) : '–'),
-        header: 'Gender',
+        header: '性别',
         size: 90,
         filterFn: inSelectedSet<DwellerRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Gender' },
+        meta: { filterVariant: 'select', headerLabel: '性别' },
       },
-      boolColumn('pregnant', (d) => d.pregnant, 'Pregnant'),
-      boolColumn('babyReady', (d) => d.babyReady, 'Baby ready'),
+      boolColumn('pregnant', (d) => d.pregnant, '怀孕中'),
+      boolColumn('babyReady', (d) => d.babyReady, '婴儿即将出生'),
       {
         id: 'assignment',
-        accessorFn: (d) => d.location.label,
-        header: 'Assignment',
+        accessorFn: (d) => ROOM_TYPE_LABELS[d.location.label] ?? d.location.label,
+        header: '岗位',
         size: 140,
         filterFn: inSelectedSet<DwellerRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Assignment' },
+        meta: { filterVariant: 'select', headerLabel: '岗位' },
       },
     ],
   };

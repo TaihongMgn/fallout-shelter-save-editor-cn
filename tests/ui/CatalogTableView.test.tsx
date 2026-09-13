@@ -32,15 +32,15 @@ function renderView(overrides: Partial<Parameters<typeof CatalogTableView<Weapon
   const onEquip = vi.fn();
   render(
     <CatalogTableView<Weapon>
-      title="Weapons"
-      unitNoun="weapons"
+      title="武器"
+      unitNoun="武器"
       data={WEAPONS}
       schema={weaponSchema()}
       persistKey="test.catalog.weapons"
       getRowId={(w) => w.id}
       getRowLabel={(w) => w.name}
-      searchLabel="Search weapons"
-      searchPlaceholder="Search weapons…"
+      searchLabel="搜索武器"
+      searchPlaceholder="搜索武器…"
       gameDataStatus="ready"
       onAddToStorage={onAddToStorage}
       onEquip={onEquip}
@@ -56,13 +56,13 @@ describe('CatalogTableView', () => {
     renderView();
     expect(screen.getByText('Laser Pistol')).toBeInTheDocument();
     expect(screen.getByText('Plasma Rifle')).toBeInTheDocument();
-    expect(screen.getByText('2 weapons')).toBeInTheDocument();
+    expect(screen.getByText('2 个武器')).toBeInTheDocument();
   });
 
   it('search narrows the catalog', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.type(screen.getByRole('searchbox', { name: 'Search weapons' }), 'plasma');
+    await user.type(screen.getByRole('searchbox', { name: '搜索武器' }), 'plasma');
     expect(bodyRows()).toHaveLength(1);
     expect(screen.getByText('Plasma Rifle')).toBeInTheDocument();
   });
@@ -70,9 +70,9 @@ describe('CatalogTableView', () => {
   it('multi-select then Add to storage reports the selected ids with a default count of 1', async () => {
     const user = userEvent.setup();
     const { onAddToStorage } = renderView();
-    await user.click(screen.getByRole('checkbox', { name: 'Select Laser Pistol' }));
-    await user.click(screen.getByRole('checkbox', { name: 'Select Plasma Rifle' }));
-    await user.click(screen.getByRole('button', { name: 'Add to storage (2)' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Laser Pistol' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Plasma Rifle' }));
+    await user.click(screen.getByRole('button', { name: '添加到仓库 (2)' }));
     expect(onAddToStorage).toHaveBeenCalledWith(
       expect.arrayContaining([
         { id: 'Laser', count: 1 },
@@ -87,7 +87,7 @@ describe('CatalogTableView', () => {
     const { onAddToStorage } = renderView();
     const plasmaRow = bodyRows().find((r) => within(r).queryByText('Plasma Rifle'));
     await user.click(
-      within(plasmaRow as HTMLElement).getByRole('button', { name: 'Add Plasma Rifle to storage' }),
+      within(plasmaRow as HTMLElement).getByRole('button', { name: '将 Plasma Rifle 添加到仓库' }),
     );
     expect(onAddToStorage).toHaveBeenCalledWith([{ id: 'Plasma', count: 1 }]);
   });
@@ -96,13 +96,11 @@ describe('CatalogTableView', () => {
     const user = userEvent.setup();
     const { onAddToStorage } = renderView();
     const plasmaRow = bodyRows().find((r) => within(r).queryByText('Plasma Rifle')) as HTMLElement;
-    const countInput = within(plasmaRow).getByRole('spinbutton', { name: 'Count' });
+    const countInput = within(plasmaRow).getByRole('spinbutton', { name: '数量' });
     await user.clear(countInput);
     await user.type(countInput, '5');
     await user.tab(); // blur commits the buffered value
-    await user.click(
-      within(plasmaRow).getByRole('button', { name: 'Add Plasma Rifle to storage' }),
-    );
+    await user.click(within(plasmaRow).getByRole('button', { name: '将 Plasma Rifle 添加到仓库' }));
     expect(onAddToStorage).toHaveBeenCalledWith([{ id: 'Plasma', count: 5 }]);
     // The count persists for repeated adds (it is not reset to 1).
     expect((countInput as HTMLInputElement).value).toBe('5');
@@ -112,7 +110,7 @@ describe('CatalogTableView', () => {
     const user = userEvent.setup();
     const { onEquip } = renderView();
     const plasmaRow = bodyRows().find((r) => within(r).queryByText('Plasma Rifle'));
-    await user.click(within(plasmaRow as HTMLElement).getByRole('button', { name: 'Equip…' }));
+    await user.click(within(plasmaRow as HTMLElement).getByRole('button', { name: '装备…' }));
     expect(onEquip).toHaveBeenCalledWith('Plasma');
   });
 
@@ -120,19 +118,19 @@ describe('CatalogTableView', () => {
     // Junk has no equip slot: render without onEquip and assert the action is absent.
     render(
       <CatalogTableView<Weapon>
-        title="Junk"
-        unitNoun="junk"
+        title="垃圾"
+        unitNoun="垃圾"
         data={WEAPONS}
         schema={weaponSchema()}
         persistKey="test.catalog.junk"
         getRowId={(w) => w.id}
-        searchLabel="Search junk"
-        searchPlaceholder="Search junk…"
+        searchLabel="搜索垃圾"
+        searchPlaceholder="搜索垃圾…"
         gameDataStatus="ready"
         onAddToStorage={vi.fn()}
         virtualized={false}
       />,
     );
-    expect(screen.queryByRole('button', { name: 'Equip…' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '装备…' })).not.toBeInTheDocument();
   });
 });

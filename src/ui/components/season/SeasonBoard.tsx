@@ -36,6 +36,12 @@ function byLevel(list: SeasonReward[] | undefined): Map<number, SeasonReward> {
 const LABEL_COL = 'w-16 shrink-0 text-xs';
 const CELL = 'h-12 w-12 shrink-0';
 
+/** Display labels for the track enum values (the logic values themselves stay English). */
+const TRACK_LABEL: Record<string, string> = {
+  premium: '精英',
+  free: '免费',
+};
+
 function RewardCellButton({
   reward,
   track,
@@ -73,10 +79,10 @@ function RewardCellButton({
       onClick={locked ? onLockedPremium : onToggle}
       onMouseEnter={onInspect}
       onFocus={onInspect}
-      aria-label={`Rank ${reward.levelRequired} ${track} - ${title}${
-        claimed ? ', claimed' : locked ? ', locked' : ''
+      aria-label={`第 ${reward.levelRequired} 级（${TRACK_LABEL[track] ?? track}）- ${title}${
+        claimed ? '，已领取' : locked ? '，未解锁' : ''
       }`}
-      title={`Rank ${reward.levelRequired} · ${rewardTypeLabel(reward.rewardType)} · ${title}`}
+      title={`第 ${reward.levelRequired} 级 · ${rewardTypeLabel(reward.rewardType)} · ${title}`}
       className={`relative flex items-center justify-center rounded border ${CELL} ${stateClass} ${
         inspected ? 'ring-2 ring-amber-400' : ''
       }`}
@@ -202,7 +208,7 @@ export function SeasonBoard({
         </div>
 
         <TrackRow
-          label="Premium"
+          label="精英"
           track="premium"
           rewards={premium}
           ranks={ranks}
@@ -215,7 +221,7 @@ export function SeasonBoard({
           onLockedPremium={onLockedPremium}
         />
         <TrackRow
-          label="Free"
+          label="免费"
           track="free"
           rewards={free}
           ranks={ranks}

@@ -16,11 +16,11 @@ export interface HandyTableRow extends MrHandyRow {
 }
 
 const HIDEABLE_HANDY_COLUMNS: ReadonlyArray<{ id: string; label: string }> = [
-  { id: 'name', label: 'Name' },
-  { id: 'variant', label: 'Variant' },
-  { id: 'health', label: 'Health' },
-  { id: 'status', label: 'Status' },
-  { id: 'location', label: 'Location' },
+  { id: 'name', label: '名称' },
+  { id: 'variant', label: '型号' },
+  { id: 'health', label: '生命值' },
+  { id: 'status', label: '状态' },
+  { id: 'location', label: '位置' },
 ];
 
 export function handyInstanceSchema(fullHealth: number): TableSchema<HandyTableRow> {
@@ -32,30 +32,30 @@ export function handyInstanceSchema(fullHealth: number): TableSchema<HandyTableR
       {
         id: 'name',
         accessorFn: (h) => h.name,
-        header: 'Name',
+        header: '名称',
         cell: ({ getValue }) => {
           const name = getValue<string>();
           return <span title={name}>{name}</span>;
         },
         size: 160,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Name' },
+        meta: { filterVariant: 'text', headerLabel: '名称' },
       },
       {
         id: 'variant',
         accessorFn: (h) => h.variantName,
-        header: 'Variant',
+        header: '型号',
         size: 130,
         filterFn: inSelectedSet<HandyTableRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Variant' },
+        meta: { filterVariant: 'select', headerLabel: '型号' },
       },
       {
         id: 'health',
         accessorFn: (h) => h.health ?? 0,
-        header: 'Health',
+        header: '生命值',
         cell: ({ row }) => {
           const h = row.original;
-          if (h.dead) return <span className="text-red-400">destroyed</span>;
+          if (h.dead) return <span className="text-red-400">已损毁</span>;
           if (h.health === null) return '–';
           const hurt = h.health < fullHealth;
           return (
@@ -66,48 +66,44 @@ export function handyInstanceSchema(fullHealth: number): TableSchema<HandyTableR
         },
         size: 110,
         filterFn: 'inNumberRange',
-        meta: { filterVariant: 'range', headerLabel: 'Health' },
+        meta: { filterVariant: 'range', headerLabel: '生命值' },
       },
       {
         id: 'status',
         accessorFn: (h) =>
           h.dead
-            ? 'Destroyed'
+            ? '已损毁'
             : h.inWasteland
-              ? 'In Wasteland'
+              ? '废土探索中'
               : h.floor === null
-                ? 'At Door'
-                : 'Placed',
-        header: 'Status',
+                ? '在大门等待'
+                : '已部署',
+        header: '状态',
         size: 110,
         filterFn: inSelectedSet<HandyTableRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Status' },
+        meta: { filterVariant: 'select', headerLabel: '状态' },
       },
       {
         id: 'location',
         accessorFn: (h) =>
-          h.inWasteland
-            ? 'Wasteland'
-            : h.floor === null
-              ? 'At the door'
-              : `Floor ${displayFloor(h.floor)}`,
-        header: 'Location',
+          h.inWasteland ? '废土' : h.floor === null ? '在大门' : `${displayFloor(h.floor)} 层`,
+        header: '位置',
         cell: ({ row }) => {
           const h = row.original;
           // Both unplaced states are NORMAL (collecting out in the wasteland, or waiting
           // at the door until placed), so they render neutrally - no warning glyph.
           if (h.inWasteland) {
-            return <span title="Out collecting in the wasteland">Wasteland</span>;
+            return <span title="正在废土外出收集">废土</span>;
           }
           return h.floor === null ? (
-            <span title="Waits at the vault door until you place it on a floor">At the door</span>
+            <span title="在避难所大门等待，直到你将它部署到某层">在大门</span>
           ) : (
-            <span title={h.roomLabel ?? undefined}>Floor {displayFloor(h.floor)}</span>
+            <span title={h.roomLabel ?? undefined}>{displayFloor(h.floor)} 层</span>
           );
         },
         size: 200,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Location' },
+        meta: { filterVariant: 'text', headerLabel: '位置' },
       },
     ],
   };

@@ -1,7 +1,7 @@
 [
   {
     "id": "AlarmClock",
-    "name": "Alarm Clock",
+    "name": "闹钟",
     "rarity": "Normal",
     "value": 2,
     "sprite": "AlarmClock",
@@ -9,7 +9,7 @@
   },
   {
     "id": "BaseballGlove",
-    "name": "Baseball Glove",
+    "name": "棒球手套",
     "rarity": "Normal",
     "value": 2,
     "sprite": "BaseballGlove",
@@ -17,7 +17,7 @@
   },
   {
     "id": "BrahminHide",
-    "name": "Brahmin Hide",
+    "name": "婆罗门兽皮",
     "rarity": "Rare",
     "value": 50,
     "sprite": "Leather-Brahmin",
@@ -25,7 +25,7 @@
   },
   {
     "id": "Camera",
-    "name": "Camera",
+    "name": "照相机",
     "rarity": "Rare",
     "value": 50,
     "sprite": "camera",
@@ -33,7 +33,7 @@
   },
   {
     "id": "ChemistrySet",
-    "name": "Chemistry Flask",
+    "name": "化学烧瓶",
     "rarity": "Legendary",
     "value": 200,
     "sprite": "ChemestryJar",
@@ -41,7 +41,7 @@
   },
   {
     "id": "DeskFan",
-    "name": "Desk Fan",
+    "name": "台扇",
     "rarity": "Normal",
     "value": 2,
     "sprite": "fan",
@@ -49,7 +49,7 @@
   },
   {
     "id": "DuctTape",
-    "name": "Duct Tape",
+    "name": "胶带",
     "rarity": "Normal",
     "value": 2,
     "sprite": "DuctTape",
@@ -57,7 +57,7 @@
   },
   {
     "id": "GiddyupButtercup",
-    "name": "Giddyup Buttercup",
+    "name": "骑骑杯",
     "rarity": "Legendary",
     "value": 200,
     "sprite": "Giddyup_Buttercup",
@@ -65,7 +65,7 @@
   },
   {
     "id": "Globe",
-    "name": "Globe",
+    "name": "地球仪",
     "rarity": "Rare",
     "value": 50,
     "sprite": "Globe",
@@ -73,7 +73,7 @@
   },
   {
     "id": "GoldWatch",
-    "name": "Gold Watch",
+    "name": "金表",
     "rarity": "Legendary",
     "value": 200,
     "sprite": "Gold_Watch",
@@ -81,7 +81,7 @@
   },
   {
     "id": "MagnifyingGlass",
-    "name": "Magnifying Glass",
+    "name": "放大镜",
     "rarity": "Normal",
     "value": 2,
     "sprite": "MagnifyingGlass",
@@ -89,7 +89,7 @@
   },
   {
     "id": "Microscope",
-    "name": "Microscope",
+    "name": "显微镜",
     "rarity": "Rare",
     "value": 50,
     "sprite": "Microscope",
@@ -97,7 +97,7 @@
   },
   {
     "id": "MilitaryCircuitBoard",
-    "name": "Military Circuit Board",
+    "name": "军用电路板",
     "rarity": "Legendary",
     "value": 200,
     "sprite": "Military-Grade_Circuit_Board",
@@ -105,7 +105,7 @@
   },
   {
     "id": "MilitaryDuctTape",
-    "name": "Military Duct Tape",
+    "name": "军用胶带",
     "rarity": "Legendary",
     "value": 200,
     "sprite": "DuctTape-Military",
@@ -113,7 +113,7 @@
   },
   {
     "id": "Shovel",
-    "name": "Shovel",
+    "name": "铁铲",
     "rarity": "Rare",
     "value": 50,
     "sprite": "Shovel",
@@ -121,7 +121,7 @@
   },
   {
     "id": "TeddyBear",
-    "name": "Teddy Bear",
+    "name": "泰迪熊",
     "rarity": "Rare",
     "value": 50,
     "sprite": "TeddyBear",
@@ -129,7 +129,7 @@
   },
   {
     "id": "ToyCar",
-    "name": "Toy Car",
+    "name": "玩具车",
     "rarity": "Normal",
     "value": 2,
     "sprite": "car",
@@ -137,7 +137,7 @@
   },
   {
     "id": "TriFoldFlag",
-    "name": "Tri-Fold Flag",
+    "name": "三折旗",
     "rarity": "Legendary",
     "value": 200,
     "sprite": "Tri-FoldFlag",
@@ -145,7 +145,7 @@
   },
   {
     "id": "Ultracite",
-    "name": "Ultracite",
+    "name": "超镭",
     "rarity": "Legendary",
     "value": 200,
     "sprite": "Ultracite",
@@ -153,7 +153,7 @@
   },
   {
     "id": "Wonderglue",
-    "name": "Wonderglue",
+    "name": "奇妙胶水",
     "rarity": "Rare",
     "value": 50,
     "sprite": "WonderGlue",
@@ -161,7 +161,7 @@
   },
   {
     "id": "YaoGuaiHide",
-    "name": "Yao Guai Hide",
+    "name": "妖怪兽皮",
     "rarity": "Legendary",
     "value": 200,
     "sprite": "Leather-YaoGuai",
@@ -169,7 +169,7 @@
   },
   {
     "id": "Yarn",
-    "name": "Yarn",
+    "name": "毛线",
     "rarity": "Normal",
     "value": 2,
     "sprite": "Cotton_Yarn",

@@ -36,34 +36,30 @@ export function AssignHandyFloorDialog({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/70" />
         <Dialog.Content className={`${MODAL_SMALL} p-6`}>
-          <Dialog.Title className="text-base font-semibold">
-            Assign {robotName} to a floor
-          </Dialog.Title>
+          <Dialog.Title className="text-base font-semibold">将 {robotName} 派驻到楼层</Dialog.Title>
           <Dialog.Description className="mt-2 text-sm leading-relaxed text-neutral-300">
-            Adds the robot and places it on the chosen floor. One robot per floor (the game&apos;s
-            rule) - floors that already have one are disabled.
+            将添加该机器人并放置到所选楼层。每层限一台机器人（游戏规则）——已有机器人的楼层不可选。
           </Dialog.Description>
           <label className="mt-4 flex flex-col gap-0.5">
-            <span className="text-[11px] uppercase tracking-wide text-neutral-400">Floor</span>
+            <span className="text-[11px] uppercase tracking-wide text-neutral-400">楼层</span>
             <select
-              aria-label="Floor to assign the robot to"
+              aria-label="选择机器人派驻到的楼层"
               value={picked ?? ''}
               onChange={(e) => setPick(e.target.value)}
               className="rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-sm text-neutral-100"
             >
-              {floorOptions.length === 0 && <option value="">No floors available</option>}
+              {floorOptions.length === 0 && <option value="">无可用楼层</option>}
               {floorOptions.map((f) => (
                 <option key={f.row} value={f.row} disabled={f.takenBy !== undefined}>
                   {f.label}
-                  {f.takenBy !== undefined ? ' (already has a robot)' : ''}
+                  {f.takenBy !== undefined ? '（已有机器人）' : ''}
                 </option>
               ))}
             </select>
           </label>
           {freeFloors.length === 0 && floorOptions.length > 0 && (
             <p className="mt-2 text-xs text-amber-400">
-              Every floor already has a robot - free one up first (or use Add to leave the new robot
-              waiting outside the vault).
+              每层都已有机器人——请先移除一台（或使用"添加"，让新机器人在避难所门外等候）。
             </p>
           )}
           <div className="mt-6 flex justify-end gap-2">
@@ -72,7 +68,7 @@ export function AssignHandyFloorDialog({
               onClick={onCancel}
               className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-neutral-100"
             >
-              Cancel
+              取消
             </button>
             <button
               type="button"
@@ -82,7 +78,7 @@ export function AssignHandyFloorDialog({
               }}
               className="rounded bg-amber-500 px-4 py-1.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-amber-400 disabled:opacity-40"
             >
-              Assign
+              派驻
             </button>
           </div>
         </Dialog.Content>

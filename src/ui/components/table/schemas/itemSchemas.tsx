@@ -12,7 +12,7 @@ import {
   outfitSpecialTotal,
   weaponAvgDamage,
 } from '../../../../domain/gamedata/itemStats.ts';
-import { iconColumn, inSelectedSet, nameCell } from '../columnKit.tsx';
+import { iconColumn, inSelectedSet, nameCell, rarityLabel } from '../columnKit.tsx';
 import type { TableSchema } from '../tableSchema.ts';
 
 // Source-of-truth schemas for the game-data ITEM tables - weapons, outfits, junk.
@@ -30,9 +30,43 @@ function statCell(value: number) {
 }
 
 // The three craft-status labels, doubling as the select-filter options and the sort keys.
-const CRAFT_OWNED = 'In collection';
-const CRAFT_YES = 'Craftable';
-const CRAFT_NONE = 'Not craftable';
+const CRAFT_OWNED = '已拥有配方';
+const CRAFT_YES = '可制作';
+const CRAFT_NONE = '不可制作';
+
+/** EWeaponType enum-name display labels (glossary); unknown names fall back to the raw name. */
+const WEAPON_TYPE_LABELS: Record<string, string> = {
+  None: '无',
+  Melee: '近战',
+  Gun: '枪械',
+  Flame: '火焰',
+  Rifle: '步枪',
+  FatMan: '胖子核弹',
+  MiniGun: '转管机枪',
+  GatlingLaser: '加特林激光',
+  Missile: '导弹',
+  JunkJet: '垃圾喷射器',
+  Thrower: '喷火器',
+  InstitutePistol: '学院手枪',
+  InstituteRifle: '学院步枪',
+  BaseballBat: '棒球棍',
+  Knife: '小刀',
+  Pickaxe: '镐',
+  PoolCue: '台球杆',
+  Sword: '剑',
+  Ripper: '撕裂者',
+  PowerFist: '动力拳套',
+  PulseRifle: '脉冲步枪',
+};
+
+/** EOutfitCategory enum-name display labels (glossary); unknown names fall back to the raw name. */
+const OUTFIT_CATEGORY_LABELS: Record<string, string> = {
+  None: '无',
+  Casual: '便装',
+  Premium: '精品',
+  Default: '默认',
+  CodeControlled: '代码控制',
+};
 
 /**
  * Wiring for the optional "Craftable" column on the standalone weapon/outfit catalogs.
@@ -62,7 +96,7 @@ function craftableColumn<T extends { id: string }>(c: CraftableColumnOptions): C
   return {
     id: 'craftable',
     accessorFn: (row) => craftStatus((row as { id: string }).id, c),
-    header: 'Craftable',
+    header: '可制作',
     size: 130,
     cell: ({ row }) => {
       const id = (row.original as { id: string }).id;
@@ -80,19 +114,15 @@ function craftableColumn<T extends { id: string }>(c: CraftableColumnOptions): C
             e.stopPropagation();
             c.onOpen(id);
           }}
-          title={
-            owned
-              ? 'Recipe is in your collection. Open in the Recipes tab.'
-              : 'Craftable. Open the recipe in the Recipes tab.'
-          }
+          title={owned ? '配方已在收藏中。在“配方”页打开。' : '可制作。在“配方”页打开该配方。'}
           className={`underline decoration-dotted underline-offset-2 ${tone}`}
         >
-          {owned ? 'In collection ✓' : 'Craftable'}
+          {owned ? '已拥有配方 ✓' : '可制作'}
         </button>
       );
     },
     filterFn: inSelectedSet<T>(),
-    meta: { filterVariant: 'select', headerLabel: 'Craftable' },
+    meta: { filterVariant: 'select', headerLabel: '可制作' },
   };
 }
 
@@ -109,58 +139,62 @@ export function weaponSchema(
   craft?: CraftableColumnOptions,
 ): TableSchema<Weapon> {
   const types = enumLabels(enums, 'EWeaponType');
+  const typeLabel = (code: number): string => {
+    const name = types.get(code) ?? String(code);
+    return WEAPON_TYPE_LABELS[name] ?? name;
+  };
   return {
     name: 'weapon',
     hideable: [
-      { id: 'name', label: 'Name' },
-      { id: 'damage', label: 'Damage' },
-      { id: 'avgDamage', label: 'Avg dmg' },
-      { id: 'type', label: 'Type' },
-      { id: 'rarity', label: 'Rarity' },
-      ...(craft ? [{ id: 'craftable', label: 'Craftable' }] : []),
+      { id: 'name', label: '名称' },
+      { id: 'damage', label: '伤害' },
+      { id: 'avgDamage', label: '平均伤害' },
+      { id: 'type', label: '类型' },
+      { id: 'rarity', label: '稀有度' },
+      ...(craft ? [{ id: 'craftable', label: '可制作' }] : []),
     ],
     columns: [
       iconColumn<Weapon>((w) => ({ type: 'weapons', id: w.id })),
       {
         id: 'name',
         accessorFn: (w) => w.name,
-        header: 'Name',
+        header: '名称',
         cell: ({ getValue }) => nameCell(getValue<string>()),
         size: 200,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Name' },
+        meta: { filterVariant: 'text', headerLabel: '名称' },
       },
       {
         id: 'damage',
         accessorFn: (w) => w.damageMax,
-        header: 'Damage',
+        header: '伤害',
         cell: ({ row }) => `${row.original.damageMin}–${row.original.damageMax}`,
         size: 96,
       },
       {
         id: 'avgDamage',
         accessorFn: (w) => weaponAvgDamage(w),
-        header: 'Avg dmg',
+        header: '平均伤害',
         cell: ({ getValue }) => formatAvgDamage(getValue<number>()),
         size: 90,
         filterFn: 'inNumberRange',
-        meta: { filterVariant: 'range', headerLabel: 'Avg dmg' },
+        meta: { filterVariant: 'range', headerLabel: '平均伤害' },
       },
       {
         id: 'type',
-        accessorFn: (w) => types.get(w.type) ?? String(w.type),
-        header: 'Type',
+        accessorFn: (w) => typeLabel(w.type),
+        header: '类型',
         size: 120,
         filterFn: inSelectedSet<Weapon>(),
-        meta: { filterVariant: 'select', headerLabel: 'Type' },
+        meta: { filterVariant: 'select', headerLabel: '类型' },
       },
       {
         id: 'rarity',
-        accessorFn: (w) => w.rarity,
-        header: 'Rarity',
+        accessorFn: (w) => rarityLabel(w.rarity),
+        header: '稀有度',
         size: 110,
         filterFn: inSelectedSet<Weapon>(),
-        meta: { filterVariant: 'select', headerLabel: 'Rarity' },
+        meta: { filterVariant: 'select', headerLabel: '稀有度' },
       },
       ...(craft ? [craftableColumn<Weapon>(craft)] : []),
     ],
@@ -171,36 +205,36 @@ export function junkSchema(): TableSchema<Junk> {
   return {
     name: 'junk',
     hideable: [
-      { id: 'name', label: 'Name' },
-      { id: 'value', label: 'Value' },
-      { id: 'rarity', label: 'Rarity' },
+      { id: 'name', label: '名称' },
+      { id: 'value', label: '价值' },
+      { id: 'rarity', label: '稀有度' },
     ],
     columns: [
       iconColumn<Junk>((j) => ({ type: 'junk', id: j.id })),
       {
         id: 'name',
         accessorFn: (j) => j.name,
-        header: 'Name',
+        header: '名称',
         cell: ({ getValue }) => nameCell(getValue<string>()),
         size: 240,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Name' },
+        meta: { filterVariant: 'text', headerLabel: '名称' },
       },
       {
         id: 'value',
         accessorFn: (j) => j.value,
-        header: 'Value',
+        header: '价值',
         size: 90,
         filterFn: 'inNumberRange',
-        meta: { filterVariant: 'range', headerLabel: 'Value' },
+        meta: { filterVariant: 'range', headerLabel: '价值' },
       },
       {
         id: 'rarity',
-        accessorFn: (j) => j.rarity,
-        header: 'Rarity',
+        accessorFn: (j) => rarityLabel(j.rarity),
+        header: '稀有度',
         size: 110,
         filterFn: inSelectedSet<Junk>(),
-        meta: { filterVariant: 'select', headerLabel: 'Rarity' },
+        meta: { filterVariant: 'select', headerLabel: '稀有度' },
       },
     ],
   };
@@ -224,26 +258,30 @@ export function outfitSchema(
   craft?: CraftableColumnOptions,
 ): TableSchema<Outfit> {
   const categories = enumLabels(enums, 'EOutfitCategory');
+  const categoryLabel = (code: number): string => {
+    const name = categories.get(code) ?? String(code);
+    return OUTFIT_CATEGORY_LABELS[name] ?? name;
+  };
   return {
     name: 'outfit',
     hideable: [
-      { id: 'name', label: 'Name' },
+      { id: 'name', label: '名称' },
       { id: 'special', label: 'Σ SPECIAL' },
       ...SPECIAL_KEYS.map((k) => ({ id: `special_${k}`, label: k })),
-      { id: 'type', label: 'Type' },
-      { id: 'rarity', label: 'Rarity' },
-      ...(craft ? [{ id: 'craftable', label: 'Craftable' }] : []),
+      { id: 'type', label: '类型' },
+      { id: 'rarity', label: '稀有度' },
+      ...(craft ? [{ id: 'craftable', label: '可制作' }] : []),
     ],
     columns: [
       iconColumn<Outfit>((o) => ({ type: 'outfits', id: o.id })),
       {
         id: 'name',
         accessorFn: (o) => o.name,
-        header: 'Name',
+        header: '名称',
         cell: ({ getValue }) => nameCell(getValue<string>()),
         size: 200,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Name' },
+        meta: { filterVariant: 'text', headerLabel: '名称' },
       },
       {
         // Σ = sum of all SPECIAL bonuses, so users can sort by total outfit power;
@@ -258,19 +296,19 @@ export function outfitSchema(
       ...outfitStatColumns(),
       {
         id: 'type',
-        accessorFn: (o) => categories.get(o.category) ?? String(o.category),
-        header: 'Type',
+        accessorFn: (o) => categoryLabel(o.category),
+        header: '类型',
         size: 120,
         filterFn: inSelectedSet<Outfit>(),
-        meta: { filterVariant: 'select', headerLabel: 'Type' },
+        meta: { filterVariant: 'select', headerLabel: '类型' },
       },
       {
         id: 'rarity',
-        accessorFn: (o) => o.rarity,
-        header: 'Rarity',
+        accessorFn: (o) => rarityLabel(o.rarity),
+        header: '稀有度',
         size: 110,
         filterFn: inSelectedSet<Outfit>(),
-        meta: { filterVariant: 'select', headerLabel: 'Rarity' },
+        meta: { filterVariant: 'select', headerLabel: '稀有度' },
       },
       ...(craft ? [craftableColumn<Outfit>(craft)] : []),
     ],

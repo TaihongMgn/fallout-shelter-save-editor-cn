@@ -12,52 +12,52 @@ export function handyCatalogSchema(): TableSchema<Handy> {
   return {
     name: 'handyCatalog',
     hideable: [
-      { id: 'name', label: 'Name' },
-      { id: 'variantId', label: 'Variant id' },
-      { id: 'source', label: 'How to get' },
-      { id: 'boxOdds', label: 'Box odds' },
+      { id: 'name', label: '名称' },
+      { id: 'variantId', label: '型号 ID' },
+      { id: 'source', label: '获取方式' },
+      { id: 'boxOdds', label: '巧手先生盒概率' },
     ],
     columns: [
       iconColumn<Handy>((h) => ({ type: 'handies', id: h.id })),
       {
         id: 'name',
         accessorFn: (h) => h.name,
-        header: 'Name',
+        header: '名称',
         cell: ({ getValue }) => nameCell(getValue<string>()),
         size: 150,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Name' },
+        meta: { filterVariant: 'text', headerLabel: '名称' },
       },
       {
         id: 'variantId',
         accessorFn: (h) => h.variantId,
-        header: 'Variant id',
+        header: '型号 ID',
         cell: ({ getValue }) => (
           <span className="font-mono text-xs text-neutral-400">{getValue<string>()}</span>
         ),
         size: 110,
         filterFn: inSelectedSet<Handy>(),
-        meta: { filterVariant: 'select', headerLabel: 'Variant id' },
+        meta: { filterVariant: 'select', headerLabel: '型号 ID' },
       },
       {
         id: 'source',
         accessorFn: (h) => h.source,
-        header: 'How to get',
+        header: '获取方式',
         cell: ({ getValue }) => nameCell(getValue<string>()),
         size: 260,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'How to get' },
+        meta: { filterVariant: 'text', headerLabel: '获取方式' },
       },
       {
         // The in-game "Mr. Handy box" pull chance; Victor/Curie are season-pass only (0%).
         id: 'boxOdds',
         accessorFn: (h) => h.mrHandyBoxOdds,
-        header: 'Box odds',
+        header: '巧手先生盒概率',
         cell: ({ row }) =>
           row.original.mrHandyBoxOdds > 0 ? pct(row.original.mrHandyBoxOdds) : '–',
         size: 100,
         filterFn: 'inNumberRange',
-        meta: { filterVariant: 'range', headerLabel: 'Box odds' },
+        meta: { filterVariant: 'range', headerLabel: '巧手先生盒概率' },
       },
     ],
   };

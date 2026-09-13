@@ -236,7 +236,7 @@ export function FamilyTreeView() {
   if (!gameData || !forest || !layout) {
     return (
       <div className="flex h-full items-center justify-center text-sm text-neutral-400">
-        {gameDataStatus === 'error' ? 'Game data unavailable.' : 'Loading family tree…'}
+        {gameDataStatus === 'error' ? '游戏数据不可用。' : '正在加载家谱…'}
       </div>
     );
   }
@@ -246,16 +246,15 @@ export function FamilyTreeView() {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="flex flex-wrap items-center gap-3 border-b border-neutral-800 p-3">
-        <h2 className="text-lg font-semibold">Family Tree</h2>
+        <h2 className="text-lg font-semibold">家谱</h2>
         <span className="text-sm text-neutral-400">
-          {forest.components.length} {forest.components.length === 1 ? 'family' : 'families'} ·{' '}
-          {layout.nodes.length} members
+          {forest.components.length} 个家族 · {layout.nodes.length} 名成员
         </span>
         {(selectedNodeId || activeStat) && (
           <span className="rounded-full border border-amber-500/60 bg-amber-500/10 px-2.5 py-0.5 text-xs text-amber-300">
             {selectedNodeId
-              ? `Highlighting ${forest.meta.get(selectedNodeId)?.name}'s bloodline`
-              : `Highlighting ${statSet?.size ?? 0} dweller(s)`}
+              ? `正在高亮 ${forest.meta.get(selectedNodeId)?.name} 的血脉`
+              : `正在高亮 ${statSet?.size ?? 0} 名居民`}
             <button
               type="button"
               onClick={() => {
@@ -263,7 +262,7 @@ export function FamilyTreeView() {
                 setActiveStat(null);
               }}
               className="ml-2 text-amber-400/80 hover:text-amber-200"
-              aria-label="Clear highlight"
+              aria-label="清除高亮"
             >
               ✕
             </button>
@@ -274,7 +273,7 @@ export function FamilyTreeView() {
             type="button"
             onClick={() => zoomBy(1 / 1.2)}
             className="rounded border border-neutral-700 px-2 py-1 text-neutral-300 hover:bg-neutral-800"
-            aria-label="Zoom out"
+            aria-label="缩小"
           >
             −
           </button>
@@ -282,7 +281,7 @@ export function FamilyTreeView() {
             type="button"
             onClick={() => zoomBy(1.2)}
             className="rounded border border-neutral-700 px-2 py-1 text-neutral-300 hover:bg-neutral-800"
-            aria-label="Zoom in"
+            aria-label="放大"
           >
             +
           </button>
@@ -291,7 +290,7 @@ export function FamilyTreeView() {
             onClick={fit}
             className="rounded border border-neutral-700 px-2 py-1 text-neutral-300 hover:bg-neutral-800"
           >
-            Fit
+            适应视图
           </button>
         </div>
       </div>
@@ -310,7 +309,7 @@ export function FamilyTreeView() {
       >
         {!hasFamilies ? (
           <div className="flex h-full items-center justify-center text-sm text-neutral-400">
-            No dwellers to show.
+            没有可显示的居民。
           </div>
         ) : (
           <div

@@ -126,7 +126,7 @@ describe('DwellersView - filtering', () => {
   it('global search narrows to matching dwellers', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.type(screen.getByRole('searchbox', { name: /search dwellers/i }), 'alice');
+    await user.type(screen.getByRole('searchbox', { name: /搜索居民/ }), 'alice');
     expect(bodyRows()).toHaveLength(1);
     expect(screen.getByText('Alice Cox')).toBeInTheDocument();
   });
@@ -134,7 +134,7 @@ describe('DwellersView - filtering', () => {
   it('the "Dead only" quick chip shows only dead dwellers', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('button', { name: 'Dead only' }));
+    await user.click(screen.getByRole('button', { name: '仅已死亡' }));
     const rows = bodyRows();
     expect(rows).toHaveLength(1);
     expect(within(rows[0]).getByText('Bob')).toBeInTheDocument();
@@ -143,8 +143,8 @@ describe('DwellersView - filtering', () => {
   it('a per-column range filter (Level ≥ 40) narrows the roster', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('button', { name: 'Filter Level' }));
-    await user.type(screen.getByRole('spinbutton', { name: 'level minimum' }), '40');
+    await user.click(screen.getByRole('button', { name: '筛选 等级' }));
+    await user.type(screen.getByRole('spinbutton', { name: 'level 最小值' }), '40');
     expect(bodyRows()).toHaveLength(1);
     expect(screen.getByText('Alice Cox')).toBeInTheDocument();
   });
@@ -156,7 +156,7 @@ describe('DwellersView - revive', () => {
     renderView();
     const bobRow = bodyRows().find((r) => within(r).queryByText('Bob'));
     expect(bobRow).toBeDefined();
-    await user.click(within(bobRow as HTMLElement).getByRole('button', { name: 'Revive' }));
+    await user.click(within(bobRow as HTMLElement).getByRole('button', { name: '复活' }));
     expect(dwellerById(2)?.health?.healthValue).toBe(80);
   });
 });
@@ -166,10 +166,10 @@ describe('DwellersView - bulk actions', () => {
     const user = userEvent.setup();
     renderView();
 
-    await user.click(screen.getByRole('checkbox', { name: 'Select all' }));
-    expect(screen.getByText(/3 selected/)).toBeInTheDocument();
+    await user.click(screen.getByRole('checkbox', { name: '全选' }));
+    expect(screen.getByText(/已选择 3 名/)).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Max SPECIAL' }));
+    await user.click(screen.getByRole('button', { name: 'SPECIAL 全满' }));
     const stats = dwellerById(2)?.stats?.stats ?? [];
     expect(stats.slice(1, 8).map((s) => s.value)).toEqual([10, 10, 10, 10, 10, 10, 10]);
   });
@@ -181,7 +181,7 @@ describe('DwellersView - selection of a row', () => {
     renderView();
     const aliceRow = bodyRows().find((r) => within(r).queryByText('Alice Cox'));
     await user.click(within(aliceRow as HTMLElement).getByText('Alice Cox'));
-    expect(screen.getByRole('button', { name: 'Close detail panel' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '关闭详情面板' })).toBeInTheDocument();
   });
 });
 
@@ -189,11 +189,11 @@ describe('DwellersView - add dweller', () => {
   it('adds a level-1 dweller through the store and opens it in the sheet', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('button', { name: '+ Add dweller' }));
+    await user.click(screen.getByRole('button', { name: '+ 添加居民' }));
 
     const dialog = screen.getByRole('dialog');
-    await user.type(within(dialog).getByRole('textbox', { name: 'First name' }), 'New');
-    await user.click(within(dialog).getByRole('button', { name: 'Add dweller' }));
+    await user.type(within(dialog).getByRole('textbox', { name: '名' }), 'New');
+    await user.click(within(dialog).getByRole('button', { name: '添加居民' }));
 
     // serializeIds are 1..3 in the fixture, no counter → the new dweller is 4.
     const created = dwellerById(4);
@@ -201,6 +201,6 @@ describe('DwellersView - add dweller', () => {
     expect(created?.experience?.currentLevel).toBe(1);
     expect(created?.savedRoom).toBe(-1);
     // It opens in the sheet for further editing.
-    expect(screen.getByRole('button', { name: 'Close detail panel' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '关闭详情面板' })).toBeInTheDocument();
   });
 });

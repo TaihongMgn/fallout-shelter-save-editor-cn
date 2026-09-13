@@ -99,11 +99,23 @@ interface RoomSidePanelProps {
 
 /** Row label + tooltip + action label per timer kind. */
 const TIMER_COPY: Record<RoomTimerKind, { label: string; help: string; action: string }> = {
-  production: { label: 'Production cycle', help: fieldHelp.roomTimers, action: 'Finish now' },
-  crafting: { label: 'Crafting', help: fieldHelp.craftingTimer, action: 'Finish now' },
-  radio: { label: 'Broadcast cycle', help: fieldHelp.roomTimers, action: 'Finish now' },
-  training: { label: 'Training', help: fieldHelp.trainingTimer, action: 'Finish now' },
-  rush: { label: 'Rush cost cooldown', help: fieldHelp.rushTimer, action: 'Reset now' },
+  production: { label: '生产周期', help: fieldHelp.roomTimers, action: '立即完成' },
+  crafting: { label: '制作', help: fieldHelp.craftingTimer, action: '立即完成' },
+  radio: { label: '广播周期', help: fieldHelp.roomTimers, action: '立即完成' },
+  training: { label: '训练', help: fieldHelp.trainingTimer, action: '立即完成' },
+  rush: { label: '加速冷却', help: fieldHelp.rushTimer, action: '立即重置' },
+};
+
+/** Display labels for save room-class enum values (the logic values themselves stay English). */
+const CLASS_LABEL: Record<string, string> = {
+  Production: '生产',
+  Training: '训练',
+  Crafting: '制作',
+  Consumable: '消耗品',
+  Facility: '设施',
+  Quest: '任务',
+  Utility: '功能',
+  None: '无',
 };
 
 const SECTION = 'border-t border-neutral-800 pt-3 mt-3';
@@ -185,13 +197,13 @@ export function RoomSidePanel({
         <div>
           <h3 className="text-base font-semibold text-neutral-100">{label}</h3>
           <p className="text-xs text-neutral-400">
-            Floor {node.row} · {node.room.class ?? node.type}
+            {node.row} 层 · {CLASS_LABEL[node.room.class ?? ''] ?? node.room.class ?? node.type}
           </p>
         </div>
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close room panel"
+          aria-label="关闭房间面板"
           className="rounded px-2 text-neutral-400 hover:text-neutral-200"
         >
           ✕
@@ -212,7 +224,7 @@ export function RoomSidePanel({
       {advisories.length > 0 && (
         <div className={SECTION}>
           <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-neutral-400">
-            Advisories
+            建议
           </h4>
           <ul className="space-y-2">
             {advisories.map((rec) => (
@@ -244,14 +256,14 @@ export function RoomSidePanel({
             aria-pressed={moveActive}
             onClick={onToggleMove}
           >
-            {moveActive ? 'Cancel move' : 'Move room'}
+            {moveActive ? '取消移动' : '移动房间'}
           </button>
           {moveActive &&
             (moveBlockedReason ? (
               <p className="mt-1 text-[11px] text-amber-400">{moveBlockedReason}</p>
             ) : (
               <p className="mt-1 text-[11px] text-sky-400">
-                Pick a highlighted cell on the grid - or just drag the room block.
+                在网格上选择一个高亮的格子，也可以直接拖动房间块。
               </p>
             ))}
         </div>
@@ -260,7 +272,7 @@ export function RoomSidePanel({
       {themeOptions.length > 0 && (
         <div className={SECTION}>
           <label className="block text-xs text-neutral-400">
-            Theme
+            主题
             <select
               value={currentTheme}
               onChange={(e) => onSetTheme(e.target.value)}
@@ -273,7 +285,7 @@ export function RoomSidePanel({
               ))}
             </select>
           </label>
-          <p className="mt-1 text-[11px] text-neutral-500">Applies to all {label} rooms.</p>
+          <p className="mt-1 text-[11px] text-neutral-500">将应用于所有 {label} 房间。</p>
         </div>
       )}
 
@@ -282,7 +294,7 @@ export function RoomSidePanel({
           <div className={SECTION}>
             <div className="mb-1 flex items-center justify-between text-xs text-neutral-400">
               <span className="flex items-center gap-1.5">
-                Level <InfoTooltip text={fieldHelp.roomLevel} />
+                等级 <InfoTooltip text={fieldHelp.roomLevel} />
               </span>
               <span className="text-neutral-300">
                 {node.level} / {maxLevel}
@@ -306,7 +318,7 @@ export function RoomSidePanel({
                 disabled={node.level >= maxLevel}
                 onClick={onMaxLevel}
               >
-                Max
+                最大
               </button>
             </div>
           </div>
@@ -314,7 +326,7 @@ export function RoomSidePanel({
           <div className={SECTION}>
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1.5 text-xs text-neutral-400">
-                Health: {damaged ? <span className="text-amber-400">damaged</span> : 'healthy'}
+                生命值：{damaged ? <span className="text-amber-400">受损</span> : '完好'}
                 <InfoTooltip text={fieldHelp.roomRepair} />
               </span>
               <button
@@ -324,12 +336,12 @@ export function RoomSidePanel({
                 title={fieldHelp.roomRepair}
                 onClick={onRepair}
               >
-                Repair
+                修复
               </button>
             </div>
             <label className="mt-2 flex items-center justify-between text-xs text-neutral-400">
               <span className="flex items-center gap-1.5">
-                Powered <InfoTooltip text={fieldHelp.roomPower} />
+                供电 <InfoTooltip text={fieldHelp.roomPower} />
               </span>
               <input
                 type="checkbox"
@@ -344,7 +356,7 @@ export function RoomSidePanel({
               title={mergeable.ok ? undefined : mergeable.reason}
               onClick={onMerge}
             >
-              Merge with neighbour
+              与相邻房间合并
             </button>
           </div>
 
@@ -356,7 +368,7 @@ export function RoomSidePanel({
           {(timers.length > 0 || productionAwaitingCollect) && (
             <div className={SECTION}>
               <div className="mb-1 flex items-center gap-1.5 text-xs text-neutral-400">
-                <span>Timers</span>
+                <span>计时器</span>
                 <InfoTooltip text={fieldHelp.roomTimers} />
               </div>
               <ul className="flex flex-col gap-1.5">
@@ -365,9 +377,9 @@ export function RoomSidePanel({
                   const done = timer.remainingSeconds !== null && timer.remainingSeconds <= 0;
                   const what =
                     timer.kind === 'training'
-                      ? `${timer.slotDwellerName ?? 'Dweller'} training`
+                      ? `${timer.slotDwellerName ?? '居民'} 训练中`
                       : timer.kind === 'crafting' && timer.itemName
-                        ? `Crafting ${timer.itemName}`
+                        ? `正在制作 ${timer.itemName}`
                         : copy.label;
                   return (
                     <li
@@ -380,7 +392,7 @@ export function RoomSidePanel({
                           {timer.remainingSeconds !== null && !done && (
                             <span className="text-neutral-500">
                               {' '}
-                              - {formatDuration(timer.remainingSeconds)} left
+                              - 剩余 {formatDuration(timer.remainingSeconds)}
                             </span>
                           )}
                         </span>
@@ -388,7 +400,7 @@ export function RoomSidePanel({
                       </span>
                       {done ? (
                         <span className="shrink-0 text-[11px] text-emerald-300/90">
-                          Finishes on next load
+                          下次载入时完成
                         </span>
                       ) : (
                         <button
@@ -409,19 +421,18 @@ export function RoomSidePanel({
                 {productionAwaitingCollect && (
                   <li className="flex items-center justify-between gap-2 text-xs text-neutral-300">
                     <span className="flex min-w-0 items-center gap-1.5">
-                      <span className="truncate">Production cycle</span>
+                      <span className="truncate">生产周期</span>
                       <InfoTooltip text={fieldHelp.roomTimers} />
                     </span>
                     <span className="shrink-0 text-[11px] text-emerald-300/90">
-                      Output full - collect in game
+                      产出已满，请在游戏中收取
                     </span>
                   </li>
                 )}
               </ul>
               {productionAwaitingCollect && (
                 <p className="mt-1.5 text-[11px] text-neutral-500">
-                  This room holds finished output, so no cycle timer is stored in the save. A new
-                  cycle starts after collecting the resources in game.
+                  该房间存有已完成的产出，因此存档中没有存储生产周期。在游戏中收取资源后，才会开始新的生产周期。
                 </p>
               )}
               {timers.filter((t) => t.kind === 'training' && (t.remainingSeconds ?? 1) > 0).length >
@@ -431,7 +442,7 @@ export function RoomSidePanel({
                   className={`${BTN} mt-2 w-full`}
                   onClick={() => onCompleteTimers?.(['training'])}
                 >
-                  Finish all training
+                  完成全部训练
                 </button>
               )}
             </div>
@@ -439,7 +450,7 @@ export function RoomSidePanel({
 
           <div className={SECTION}>
             <div className="mb-1 flex items-center justify-between text-xs text-neutral-400">
-              <span>Occupants</span>
+              <span>居民</span>
               <span className="text-neutral-300">
                 {occupants.length}
                 {maxDwellers > 0 ? ` / ${maxDwellers}` : ''}
@@ -454,7 +465,7 @@ export function RoomSidePanel({
                   <span className="truncate text-neutral-200">{o.name}</span>
                   <button
                     type="button"
-                    aria-label={`Unassign ${o.name}`}
+                    aria-label={`取消派驻 ${o.name}`}
                     onClick={() => onUnassign(o.id)}
                     className="text-neutral-400 hover:text-red-400"
                   >
@@ -462,7 +473,7 @@ export function RoomSidePanel({
                   </button>
                 </li>
               ))}
-              {occupants.length === 0 && <li className="text-xs text-neutral-400">Empty</li>}
+              {occupants.length === 0 && <li className="text-xs text-neutral-400">空</li>}
             </ul>
             <button
               type="button"
@@ -470,16 +481,16 @@ export function RoomSidePanel({
               disabled={maxDwellers > 0 && occupants.length >= maxDwellers}
               onClick={onOpenAssign}
             >
-              Assign dwellers
+              派驻居民
             </button>
             {onAutoStaff && autoStaffFree > 0 && (
               <button
                 type="button"
                 className={`${BTN} mt-2 w-full`}
                 onClick={onAutoStaff}
-                title={`Fill this room's ${autoStaffFree} empty slot${autoStaffFree === 1 ? '' : 's'} - assign idle dwellers first, generate the rest`}
+                title={`为该房间填满 ${autoStaffFree} 个空位：先派驻空闲居民，其余自动生成`}
               >
-                Auto-staff this room ({autoStaffFree})
+                自动派驻该房间（{autoStaffFree}）
               </button>
             )}
             {onApplyLoadout && (
@@ -491,11 +502,9 @@ export function RoomSidePanel({
                     disabled={occupants.length === 0}
                     onClick={onApplyLoadout}
                   >
-                    {loadoutLabel ?? 'Apply loadout'}
+                    {loadoutLabel ?? '应用配置'}
                   </button>
-                  {loadoutHelp && (
-                    <InfoTooltip text={loadoutHelp} label="What this loadout equips" />
-                  )}
+                  {loadoutHelp && <InfoTooltip text={loadoutHelp} label="此配置装备的内容" />}
                 </div>
                 {onOpenBulkLoadouts && (
                   <button
@@ -503,7 +512,7 @@ export function RoomSidePanel({
                     onClick={onOpenBulkLoadouts}
                     className="mt-1 text-[11px] text-sky-400 hover:text-sky-300 hover:underline"
                   >
-                    Customize in Bulk → Location loadouts
+                    在「批量 → 场所装备配置」中自定义
                   </button>
                 )}
               </div>
@@ -515,15 +524,15 @@ export function RoomSidePanel({
               robot / mints a brand-new one straight into this room. */}
           {(onAssignHandy || onCreateHandy || floorHandy) && (
             <div className={SECTION}>
-              <div className="mb-1 text-xs text-neutral-400">Mr. Handy (this floor)</div>
+              <div className="mb-1 text-xs text-neutral-400">巧手先生（本层）</div>
               {floorHandy ? (
                 <div className="flex items-center justify-between rounded bg-neutral-800/60 px-2 py-1 text-xs">
                   <span className="truncate text-neutral-200">{floorHandy.name}</span>
                   {onUnassignHandy && (
                     <button
                       type="button"
-                      aria-label={`Send ${floorHandy.name} outside the vault`}
-                      title="Detach from this floor (the robot goes outside and waits at the vault door until placed again)"
+                      aria-label={`将 ${floorHandy.name} 送出避难所`}
+                      title="从本层移除（机器人将离开避难所，在大门等待，直到再次放置）"
                       onClick={() => onUnassignHandy(floorHandy.id)}
                       className="text-neutral-400 hover:text-red-400"
                     >
@@ -538,10 +547,10 @@ export function RoomSidePanel({
                       <select
                         value={handyPick}
                         onChange={(e) => setHandyPick(e.target.value)}
-                        aria-label="Unassigned Mr. Handy to place here"
+                        aria-label="选择要放置到此处的空闲巧手先生"
                         className="min-w-0 flex-1 rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-xs text-neutral-100"
                       >
-                        <option value="">Pick an unassigned robot…</option>
+                        <option value="">选择一台未分配的机器人…</option>
                         {unassignedHandies.map((h) => (
                           <option key={h.id} value={h.id}>
                             {h.name} (#{h.id})
@@ -557,7 +566,7 @@ export function RoomSidePanel({
                           setHandyPick('');
                         }}
                       >
-                        Assign
+                        派驻
                       </button>
                     </div>
                   )}
@@ -566,9 +575,9 @@ export function RoomSidePanel({
                       type="button"
                       className={`${BTN} mt-2 w-full`}
                       onClick={onCreateHandy}
-                      title="Mint a brand-new Mr. Handy directly into this room"
+                      title="在该房间直接生成一台全新的巧手先生"
                     >
-                      Create a Mr. Handy here
+                      在此创建巧手先生
                     </button>
                   )}
                 </>
@@ -586,7 +595,7 @@ export function RoomSidePanel({
           title={canRemove.ok ? undefined : canRemove.reason}
           onClick={onDelete}
         >
-          Delete room
+          删除房间
         </button>
       </div>
     </aside>

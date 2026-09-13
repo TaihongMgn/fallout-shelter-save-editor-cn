@@ -46,7 +46,7 @@ export function RewardDetail({
   if (!reward || !track) {
     return (
       <div className="flex min-h-44 items-center justify-center rounded-lg border border-neutral-800 bg-neutral-900/40 p-4 text-sm text-neutral-500">
-        Hover or focus a reward on the board to see its details.
+        悬停或聚焦棋盘上的奖励即可查看详情。
       </div>
     );
   }
@@ -78,7 +78,7 @@ export function RewardDetail({
             </h3>
             {reward.isPrestige && (
               <span className="rounded bg-amber-500/15 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-amber-300">
-                prestige
+                尊享
               </span>
             )}
             <span
@@ -86,19 +86,19 @@ export function RewardDetail({
                 claimed ? 'bg-emerald-500/15 text-emerald-300' : 'bg-neutral-800 text-neutral-400'
               }`}
             >
-              {claimed ? 'claimed' : 'unclaimed'}
+              {claimed ? '已领取' : '未领取'}
             </span>
           </div>
 
           <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3">
-            <Field label="Track" value={track === 'premium' ? 'Premium' : 'Free'} />
-            <Field label="Type" value={rewardTypeLabel(reward.rewardType)} />
-            <Field label="Rank" value={reward.levelRequired} />
+            <Field label="轨道" value={track === 'premium' ? '精英' : '免费'} />
+            <Field label="类型" value={rewardTypeLabel(reward.rewardType)} />
+            <Field label="级" value={reward.levelRequired} />
             {QUANTITY_TYPES.has(reward.rewardType) && (
-              <Field label="Quantity" value={Math.trunc(reward.dataValInt).toLocaleString()} />
+              <Field label="数量" value={Math.trunc(reward.dataValInt).toLocaleString()} />
             )}
-            {reward.dataValString && <Field label="Item code" value={reward.dataValString} />}
-            <Field label="Reward id" value={reward.id} />
+            {reward.dataValString && <Field label="物品代码" value={reward.dataValString} />}
+            <Field label="奖励 ID" value={reward.id} />
           </dl>
         </div>
 
@@ -106,14 +106,14 @@ export function RewardDetail({
           type="button"
           onClick={onToggle}
           disabled={claimBlocked}
-          title={claimBlocked ? 'Unlock the premium track to claim this reward' : undefined}
+          title={claimBlocked ? '解锁精英轨道后才能领取该奖励' : undefined}
           className={`shrink-0 rounded px-3 py-1.5 text-sm font-medium transition-colors disabled:opacity-40 ${
             claimed
               ? 'border border-neutral-700 text-neutral-200 hover:bg-neutral-800'
               : 'bg-amber-500 text-neutral-900 hover:bg-amber-400'
           }`}
         >
-          {claimed ? 'Unclaim' : 'Claim'}
+          {claimed ? '取消领取' : '领取'}
         </button>
       </div>
 
@@ -121,8 +121,8 @@ export function RewardDetail({
           swaps, so premium-locked and free cells produce identical card heights. */}
       <p className="mt-2 min-h-8 text-xs text-neutral-500">
         {claimBlocked
-          ? 'Premium rewards require the premium track unlocked (Status → Premium, or Claim all).'
-          : 'Claim / Unclaim edits the claimed list; the game hands out rewards the next time the save loads.'}
+          ? '精英奖励需要先解锁精英轨道（在「状态」中开启精英轨道，或使用「全部领取」）。'
+          : '「领取 / 取消领取」编辑的是已领取列表；游戏会在下次载入存档时发放奖励。'}
       </p>
     </div>
   );

@@ -32,6 +32,8 @@ export interface RecipeCatalogSource {
   unlockables: { recipes: readonly string[] };
   weaponById: ReadonlyMap<string, { name: string; rarity?: string }>;
   outfitById: ReadonlyMap<string, { name: string; rarity?: string }>;
+  /** 可选：房间类型 → 房间元数据（含显示名）。提供时主题配方名用中文房名。 */
+  roomMetadataByType?: ReadonlyMap<string, { name: string }>;
 }
 
 /** Humanize an enum-style id for display (e.g. "LivingQuarters" → "Living Quarters"). */
@@ -49,12 +51,15 @@ export function buildRecipeRows(gameData: RecipeCatalogSource | undefined): Reci
   for (const id of gameData.unlockables.recipes) {
     const theme = themeRecipeInfo(id);
     if (theme) {
+      // 主题配方名 "<房名>: <主题>">：优先用已汉化的房间显示名，缺数据时回退 humanize。
+      const roomName =
+        gameData.roomMetadataByType?.get(theme.roomType)?.name ?? humanize(theme.roomType);
       rows.push({
         id,
         kind: 'Theme',
         roomType: theme.roomType,
         themeValue: theme.theme,
-        name: `${humanize(theme.roomType)}: ${themeLabel(theme.theme)}`,
+        name: `${roomName}: ${themeLabel(theme.theme)}`,
       });
       continue;
     }

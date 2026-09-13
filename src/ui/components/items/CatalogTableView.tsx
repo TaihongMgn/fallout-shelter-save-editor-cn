@@ -94,12 +94,12 @@ export function CatalogTableView<T>({
   searchPlaceholder,
   gameDataStatus,
   onAddToStorage,
-  bulkAddLabel = 'Add to storage',
+  bulkAddLabel = '添加到仓库',
   addDisabled = false,
   addDisabledReason,
   notice = null,
   onEquip,
-  equipLabel = 'Equip…',
+  equipLabel = '装备…',
   focusRowId,
   virtualized = true,
 }: CatalogTableViewProps<T>) {
@@ -129,7 +129,7 @@ export function CatalogTableView<T>({
     () => [
       {
         id: 'addCount',
-        header: 'Count',
+        header: '数量',
         cell: ({ row }) => {
           const id = getRowId(row.original);
           return (
@@ -148,9 +148,9 @@ export function CatalogTableView<T>({
       actionsColumn<T>(
         [
           {
-            text: 'Add',
+            text: '添加',
             tone: 'emerald',
-            ariaLabel: (row) => `Add ${labelFor(row)} to storage`,
+            ariaLabel: (row) => `将 ${labelFor(row)} 添加到仓库`,
             disabled: () => addDisabled,
             title: () => (addDisabled ? addDisabledReason : undefined),
             onClick: (row) => {
@@ -198,7 +198,7 @@ export function CatalogTableView<T>({
             onClick={clearSelection}
             className="rounded px-2 py-1 text-xs text-neutral-400 hover:text-neutral-100"
           >
-            Clear
+            清空
           </button>
         </div>
       )}
@@ -211,13 +211,13 @@ export function CatalogTableView<T>({
       <div className="flex items-baseline gap-3">
         <h2 className="text-lg font-semibold">{title}</h2>
         <span className="text-sm text-neutral-400">
-          {data.length} {unitNoun}
+          {data.length} 个{unitNoun}
         </span>
         {gameDataStatus === 'loading' && (
-          <span className="text-xs text-neutral-400">loading game data…</span>
+          <span className="text-xs text-neutral-400">游戏数据加载中…</span>
         )}
         {gameDataStatus === 'error' && (
-          <span className="text-xs text-amber-500">game data unavailable</span>
+          <span className="text-xs text-amber-500">游戏数据不可用</span>
         )}
       </div>
 
@@ -244,7 +244,7 @@ export function CatalogTableView<T>({
         rowSelection={rowSelection}
         onRowSelectionChange={setRowSelection}
         toolbar={toolbar}
-        emptyState={`No ${unitNoun} match the search.`}
+        emptyState={`没有符合搜索条件的${unitNoun}。`}
       />
     </div>
   );

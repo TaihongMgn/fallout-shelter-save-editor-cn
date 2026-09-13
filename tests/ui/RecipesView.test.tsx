@@ -57,7 +57,7 @@ const bodyRows = (): HTMLElement[] => {
 };
 const rowFor = (text: string): HTMLElement =>
   bodyRows().find((r) => within(r).queryByText(text)) as HTMLElement;
-const themeRow = (): HTMLElement => rowFor('Cafeteria: Institute');
+const themeRow = (): HTMLElement => rowFor('Cafeteria: 学院');
 
 beforeEach(() => {
   localStorage.clear();
@@ -78,21 +78,21 @@ describe('RecipesView', () => {
     renderView();
     expect(screen.getByText('Laser Pistol')).toBeInTheDocument();
     expect(screen.getByText('BOS Uniform')).toBeInTheDocument();
-    expect(screen.getByText('Cafeteria: Institute')).toBeInTheDocument();
-    expect(screen.getByText('3 recipes')).toBeInTheDocument();
+    expect(screen.getByText('Cafeteria: 学院')).toBeInTheDocument();
+    expect(screen.getByText('3 个配方')).toBeInTheDocument();
   });
 
   it('shows a rarity column joined from the item', () => {
     renderView();
     // Rarity comes from the joined weapon/outfit; the theme row has none.
-    expect(within(rowFor('Laser Pistol')).getByText('Rare')).toBeInTheDocument();
+    expect(within(rowFor('Laser Pistol')).getByText('稀有')).toBeInTheDocument();
   });
 
   it('select + Add to collection writes the chosen ids to survivalW.recipes', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('checkbox', { name: 'Select Laser Pistol' }));
-    await user.click(screen.getByRole('button', { name: 'Add to collection (1)' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Laser Pistol' }));
+    await user.click(screen.getByRole('button', { name: '添加到收藏 (1)' }));
     expect(recipes()).toContain('Laser');
   });
 
@@ -100,50 +100,50 @@ describe('RecipesView', () => {
     const user = userEvent.setup();
     renderView();
     const laser = rowFor('Laser Pistol');
-    await user.click(within(laser).getByRole('button', { name: 'Add' }));
+    await user.click(within(laser).getByRole('button', { name: '添加' }));
     expect(recipes()).toContain('Laser');
 
     // The button flips to Remove and toggles back off.
-    await user.click(within(rowFor('Laser Pistol')).getByRole('button', { name: 'Remove' }));
+    await user.click(within(rowFor('Laser Pistol')).getByRole('button', { name: '移除' }));
     expect(recipes()).not.toContain('Laser');
   });
 
   it('theme Build crafts a themeList entry and learns the recipe', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(within(themeRow()).getByRole('button', { name: 'Build' }));
+    await user.click(within(themeRow()).getByRole('button', { name: '制作' }));
     expect(recipes()).toContain('CafeteriaInstitute');
     expect(themeList().some((t) => t.id === 'CafeteriaInstitute')).toBe(true);
     // Built ⇒ shown as known: the collection toggle now offers Remove.
-    expect(within(themeRow()).getByRole('button', { name: 'Remove' })).toBeInTheDocument();
+    expect(within(themeRow()).getByRole('button', { name: '移除' })).toBeInTheDocument();
   });
 
   it('Unlock all adds every missing recipe in one click, then disables', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('button', { name: 'Unlock all (3)' }));
+    await user.click(screen.getByRole('button', { name: '全部解锁 (3)' }));
     expect(recipes()).toEqual(
       expect.arrayContaining(['Laser', 'BOSUniform', 'CafeteriaInstitute']),
     );
-    expect(screen.getByRole('button', { name: 'Unlock all' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: '全部解锁' })).toBeDisabled();
   });
 
   it('Build all themes crafts every unbuilt theme in one click, then disables', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('button', { name: 'Build all themes (1)' }));
+    await user.click(screen.getByRole('button', { name: '制作全部主题 (1)' }));
     expect(themeList().some((t) => t.id === 'CafeteriaInstitute')).toBe(true);
-    expect(screen.getByRole('button', { name: 'Build all themes' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: '制作全部主题' })).toBeDisabled();
   });
 
   it('theme Apply themes the room type, and removal cascades it away', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(within(themeRow()).getByRole('button', { name: 'Apply' }));
+    await user.click(within(themeRow()).getByRole('button', { name: '应用' }));
     expect(themeByRoomType().Cafeteria).toBe('Institute');
 
-    await user.click(screen.getByRole('checkbox', { name: 'Select Cafeteria: Institute' }));
-    await user.click(screen.getByRole('button', { name: 'Remove from collection (1)' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Cafeteria: 学院' }));
+    await user.click(screen.getByRole('button', { name: '从收藏中移除 (1)' }));
     expect(recipes()).not.toContain('CafeteriaInstitute');
     expect(themeList().some((t) => t.id === 'CafeteriaInstitute')).toBe(false);
     expect(themeByRoomType().Cafeteria).not.toBe('Institute');
@@ -156,14 +156,14 @@ describe('RecipesView', () => {
       await user.click(within(rowFor('Laser Pistol')).getByText('Laser Pistol'));
       const panel = screen.getByRole('complementary');
       expect(within(panel).getByText('5–7')).toBeInTheDocument(); // damage range
-      expect(within(panel).getByRole('button', { name: 'Close recipe panel' })).toBeInTheDocument();
+      expect(within(panel).getByRole('button', { name: '关闭配方面板' })).toBeInTheDocument();
     });
 
     it('an outfit recipe panel jumps to the Outfits tab', async () => {
       const user = userEvent.setup();
       renderView();
       await user.click(within(rowFor('BOS Uniform')).getByText('BOS Uniform'));
-      await user.click(screen.getByRole('button', { name: /View in Outfits tab/ }));
+      await user.click(screen.getByRole('button', { name: '前往服装页查看 →' }));
       expect(screen.getByTestId('location')).toHaveTextContent('/outfits/BOSUniform');
     });
 
@@ -171,7 +171,7 @@ describe('RecipesView', () => {
       const user = userEvent.setup();
       renderView();
       await user.click(within(rowFor('Laser Pistol')).getByText('Laser Pistol'));
-      await user.click(screen.getByRole('button', { name: /View in Weapons tab/ }));
+      await user.click(screen.getByRole('button', { name: '前往武器页查看 →' }));
       expect(screen.getByTestId('location')).toHaveTextContent('/weapons/Laser');
     });
 
@@ -181,14 +181,14 @@ describe('RecipesView', () => {
       await user.click(within(rowFor('Laser Pistol')).getByText('Laser Pistol'));
       await user.click(
         within(screen.getByRole('complementary')).getByRole('button', {
-          name: 'Add to collection',
+          name: '添加到收藏',
         }),
       );
       expect(recipes()).toContain('Laser');
       // The panel now offers Remove; toggling it off removes the recipe again.
       await user.click(
         within(screen.getByRole('complementary')).getByRole('button', {
-          name: 'Remove from collection',
+          name: '从收藏中移除',
         }),
       );
       expect(recipes()).not.toContain('Laser');
@@ -197,10 +197,10 @@ describe('RecipesView', () => {
     it('a theme recipe panel offers no jump (themes have no catalog item)', async () => {
       const user = userEvent.setup();
       renderView();
-      await user.click(within(themeRow()).getByText('Cafeteria: Institute'));
+      await user.click(within(themeRow()).getByText('Cafeteria: 学院'));
       const panel = screen.getByRole('complementary');
-      expect(within(panel).getByRole('button', { name: 'Close recipe panel' })).toBeInTheDocument();
-      expect(within(panel).queryByRole('button', { name: /View in/ })).toBeNull();
+      expect(within(panel).getByRole('button', { name: '关闭配方面板' })).toBeInTheDocument();
+      expect(within(panel).queryByRole('button', { name: /前往/ })).toBeNull();
     });
   });
 });

@@ -54,13 +54,13 @@ function passesQuickFilters(row: DwellerRow, q: DwellerQuickFilters): boolean {
 
 /** Disabled-button tooltip when the vault and the door queue are both at their caps. */
 const fullTitle = (c: DwellerCapacity): string =>
-  `Vault full (${c.population}/${c.populationCap}) and door queue full (${c.waiting}/${DOOR_QUEUE_CAP})`;
+  `避难所已满（${c.population}/${c.populationCap}），大门队列已满（${c.waiting}/${DOOR_QUEUE_CAP}）`;
 
 const QUICK_CHIPS: ReadonlyArray<{ key: keyof DwellerQuickFilters; label: string }> = [
-  { key: 'fistOnly', label: 'Fist only' },
-  { key: 'vaultSuitOnly', label: 'Vault suit only' },
-  { key: 'emptyPet', label: 'No pet' },
-  { key: 'deadOnly', label: 'Dead only' },
+  { key: 'fistOnly', label: '仅拳头武器' },
+  { key: 'vaultSuitOnly', label: '仅避难所制服' },
+  { key: 'emptyPet', label: '无宠物' },
+  { key: 'deadOnly', label: '仅已死亡' },
 ];
 
 export function DwellersView({ virtualized = true }: { virtualized?: boolean } = {}) {
@@ -108,7 +108,7 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
       if (!current) return;
       const cap = dwellerCapacity(current, gameData?.roomCapacity);
       if (cap.vaultFree <= 0 && cap.doorFree <= 0) {
-        pushToast('Vault and door queue are both full.', 'info');
+        pushToast('避难所和大门队列都已满。', 'info');
         return;
       }
       const toDoor = cap.vaultFree <= 0;
@@ -118,9 +118,9 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
           const id = next.dwellers?.id;
           return toDoor && typeof id === 'number' ? markDwellerWaiting(next, id) : next;
         },
-        toDoor ? 'Add dweller (waiting at door)' : 'Add dweller',
+        toDoor ? '添加居民（在大门等待）' : '添加居民',
       );
-      if (toDoor) pushToast('Vault at capacity - the new dweller waits at the door.', 'info');
+      if (toDoor) pushToast('避难所已满——新居民将在大门等待。', 'info');
       const list = useSaveStore.getState().save?.dwellers?.dwellers ?? [];
       const created = list[list.length - 1];
       if (created) goTo('dwellers', created.serializeId);
@@ -146,11 +146,11 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
         if (!entry) return [];
         let safe = entry;
         if (!gameData.outfitById.has(entry.outfitId)) {
-          fixes.push(`outfit "${entry.outfitId}"`);
+          fixes.push(`服装 "${entry.outfitId}"`);
           safe = { ...safe, outfitId: DEFAULT_OUTFIT_ID };
         }
         if (entry.weaponId && !gameData.weaponById.has(entry.weaponId)) {
-          fixes.push(`weapon "${entry.weaponId}"`);
+          fixes.push(`武器 "${entry.weaponId}"`);
           safe = { ...safe, weaponId: DEFAULT_WEAPON_ID };
         }
         return [{ uniqueId, safe, level: 30 + Math.floor(Math.random() * 21) }];
@@ -165,7 +165,7 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
       const cap = dwellerCapacity(current, gameData.roomCapacity);
       const totalFree = cap.vaultFree + cap.doorFree;
       if (totalFree <= 0) {
-        pushToast('Vault and door queue are both full.', 'info');
+        pushToast('避难所和大门队列都已满。', 'info');
         return;
       }
       const picks = preps.slice(0, totalFree);
@@ -182,20 +182,20 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
             return next;
           }, s),
         picks.length === 1
-          ? `Add ${first.safe.name || first.uniqueId}`
-          : `Add ${picks.length} special dwellers`,
+          ? `添加 ${first.safe.name || first.uniqueId}`
+          : `添加 ${picks.length} 名特殊居民`,
       );
       if (fixes.length) {
-        pushToast(`Unknown ${fixes.join(' & ')} replaced with the default.`, 'info');
+        pushToast(`未知的${fixes.join('与')}已替换为默认物品。`, 'info');
       }
       if (toDoorCount > 0) {
         pushToast(
-          `Vault at capacity - ${toDoorCount === picks.length ? (toDoorCount === 1 ? 'the new dweller waits' : `all ${toDoorCount} wait`) : `${toDoorCount} of them wait`} at the door.`,
+          `避难所已满——${toDoorCount === picks.length ? (toDoorCount === 1 ? '新居民将在大门等待' : `全部 ${toDoorCount} 名将在大门等待`) : `其中 ${toDoorCount} 名将在大门等待`}。`,
           'info',
         );
       }
       if (picks.length < preps.length) {
-        pushToast(`${preps.length - picks.length} skipped - vault and door queue full.`, 'info');
+        pushToast(`${preps.length - picks.length} 名已跳过——避难所和大门队列已满。`, 'info');
       }
       const list = useSaveStore.getState().save?.dwellers?.dwellers ?? [];
       const created = list[list.length - 1];
@@ -205,7 +205,7 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
   );
 
   const onRevive = useCallback(
-    (id: number) => applyEdit((s) => reviveAll(s, [id]), 'Revive dweller'),
+    (id: number) => applyEdit((s) => reviveAll(s, [id]), '复活居民'),
     [applyEdit],
   );
   const schema = useMemo(() => dwellerSchema({ onRevive }), [onRevive]);
@@ -247,8 +247,8 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
           type="search"
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Search dwellers…"
-          aria-label="Search dwellers"
+          placeholder="搜索居民…"
+          aria-label="搜索居民"
           className="w-64 rounded border border-neutral-700 bg-neutral-900 px-2 py-1 text-sm text-neutral-100 placeholder-neutral-500"
         />
         {QUICK_CHIPS.map(({ key, label }) => {
@@ -274,7 +274,7 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
           onClick={resetFilters}
           className="rounded px-2 py-1 text-xs text-neutral-400 hover:text-neutral-100"
         >
-          Reset filters
+          重置筛选
         </button>
         <div className="ml-auto flex items-center gap-2">
           <button
@@ -284,7 +284,7 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
             title={addBlocked && capacity !== null ? fullTitle(capacity) : undefined}
             className="rounded border border-emerald-700 px-3 py-1 text-xs text-emerald-300 hover:bg-emerald-900/40 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            + Add dweller
+            + 添加居民
           </button>
           <button
             type="button"
@@ -292,14 +292,14 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
             disabled={!gameData || addBlocked}
             title={
               !gameData
-                ? 'Loading game data…'
+                ? '正在加载游戏数据…'
                 : addBlocked && capacity !== null
                   ? fullTitle(capacity)
                   : undefined
             }
             className="rounded border border-amber-700 px-3 py-1 text-xs text-amber-300 hover:bg-amber-900/40 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            + Add special
+            + 添加特殊居民
           </button>
           {columnsMenu}
         </div>
@@ -313,20 +313,20 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
   const tablePane = (
     <div className="flex min-w-0 flex-1 flex-col p-4">
       <div className="flex items-baseline gap-3">
-        <h2 className="text-lg font-semibold">Dwellers</h2>
+        <h2 className="text-lg font-semibold">居民</h2>
         <span
           className="text-sm text-neutral-400"
-          title="Dwellers in the save vs the vault's capacity from living quarters"
+          title="存档中的居民数与由居住舱容量得出的避难所容量"
         >
           {visibleRows.length === rows.length
             ? `${rows.length}${populationCap !== null ? `/${populationCap}` : ''}`
-            : `${visibleRows.length} of ${rows.length}${populationCap !== null ? `/${populationCap}` : ''}`}
+            : `${visibleRows.length}（共 ${rows.length}${populationCap !== null ? `/${populationCap}` : ''}）`}
         </span>
         {gameDataStatus === 'loading' && (
-          <span className="text-xs text-neutral-400">loading game data…</span>
+          <span className="text-xs text-neutral-400">正在加载游戏数据…</span>
         )}
         {gameDataStatus === 'error' && (
-          <span className="text-xs text-amber-500">game data unavailable - showing raw ids</span>
+          <span className="text-xs text-amber-500">游戏数据不可用——正在显示原始 ID</span>
         )}
       </div>
 
@@ -349,7 +349,7 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
         onRowSelectionChange={setRowSelection}
         onRowClick={(r) => goTo('dwellers', r.serializeId)}
         {...(selectedDwellerId != null ? { activeRowId: String(selectedDwellerId) } : {})}
-        emptyState="No dwellers match the current filters."
+        emptyState="没有符合当前筛选条件的居民。"
       />
     </div>
   );
@@ -357,7 +357,7 @@ export function DwellersView({ virtualized = true }: { virtualized?: boolean } =
   return (
     <div className="flex h-full min-h-0">
       <ResizableSplit
-        ariaLabel="Resize dweller detail panel"
+        ariaLabel="调整居民详情面板大小"
         width={panelWidth}
         onWidthChange={setPanelWidth}
         left={tablePane}

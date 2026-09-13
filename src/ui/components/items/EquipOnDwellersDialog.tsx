@@ -19,6 +19,13 @@ import { MODAL_LARGE } from '../../lib/modalClasses.ts';
 
 export type EquipSlot = 'Weapon' | 'Outfit' | 'Pet';
 
+/** Chinese display label for each equip slot (the slot enum value itself stays English). */
+const SLOT_LABEL: Record<EquipSlot, string> = {
+  Weapon: '武器',
+  Outfit: '服装',
+  Pet: '宠物',
+};
+
 /** The dweller's current item name for the slot being equipped (or "–" when empty). */
 function currentSlotLabel(dweller: DwellerRow, slot: EquipSlot): string {
   if (slot === 'Weapon') return dweller.weapon?.name ?? '–';
@@ -69,7 +76,7 @@ export function EquipOnDwellersDialog({
       {
         id: 'current',
         accessorFn: (d) => currentSlotLabel(d, slot),
-        header: `Current ${slot}`,
+        header: `当前${SLOT_LABEL[slot]}`,
         cell: ({ getValue }) => {
           const label = getValue<string>();
           return <span title={label}>{label}</span>;
@@ -91,14 +98,14 @@ export function EquipOnDwellersDialog({
         <Dialog.Content className={`${MODAL_LARGE} p-5`}>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <Dialog.Title className="text-base font-semibold">Equip {itemName}</Dialog.Title>
+              <Dialog.Title className="text-base font-semibold">装备 {itemName}</Dialog.Title>
               <Dialog.Description className="mt-0.5 text-xs text-neutral-400">
-                Select dwellers to equip this {slotNoun} onto. Each dweller&rsquo;s current{' '}
-                {slotNoun} is replaced. Sort or search to find the right dwellers.
+                选择要装备此{SLOT_LABEL[slot]}的居民。每位居民当前的{SLOT_LABEL[slot]}
+                将被替换。可排序或搜索来找到目标居民。
               </Dialog.Description>
             </div>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
             >
               ✕
@@ -119,18 +126,18 @@ export function EquipOnDwellersDialog({
             rowSelection={rowSelection}
             onRowSelectionChange={setRowSelection}
             initialSorting={[{ id: 'name', desc: false }]}
-            emptyState="No dwellers to equip."
+            emptyState="没有可装备的居民。"
           />
 
           <div className="mt-4 flex items-center justify-between">
-            <span className="text-xs text-neutral-400">{selectedIds.length} selected</span>
+            <span className="text-xs text-neutral-400">已选择 {selectedIds.length} 名居民</span>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={onClose}
                 className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-neutral-100"
               >
-                Cancel
+                取消
               </button>
               <button
                 type="button"
@@ -141,7 +148,7 @@ export function EquipOnDwellersDialog({
                 }}
                 className="rounded border border-sky-700 px-3 py-1.5 text-sm text-sky-300 hover:bg-sky-900/40 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                Equip on {selectedIds.length === 1 ? '1 dweller' : `${selectedIds.length} dwellers`}
+                装备到 {selectedIds.length} 名居民
               </button>
             </div>
           </div>

@@ -100,7 +100,7 @@ beforeEach(() => {
 
 const openCatalog = async (user: ReturnType<typeof userEvent.setup>) => {
   renderInSectionRoute(<PetsView virtualized={false} />, { initialPath: '/pets' });
-  await user.click(screen.getByRole('tab', { name: 'Catalog' }));
+  await user.click(screen.getByRole('tab', { name: '图鉴' }));
 };
 
 describe('PetsView - Catalog tab', () => {
@@ -108,19 +108,19 @@ describe('PetsView - Catalog tab', () => {
     const user = userEvent.setup();
     renderInSectionRoute(<PetsView virtualized={false} />, { initialPath: '/pets' });
     // Owned tab (default): the owned roster (0 owned), not the catalog rows.
-    expect(screen.getByText('0 owned')).toBeInTheDocument();
+    expect(screen.getByText('已拥有 0 只')).toBeInTheDocument();
     expect(screen.queryByText('Dogmeat')).not.toBeInTheDocument();
-    await user.click(screen.getByRole('tab', { name: 'Catalog' }));
+    await user.click(screen.getByRole('tab', { name: '图鉴' }));
     expect(screen.getByText('Dogmeat')).toBeInTheDocument(); // special name surfaced
     expect(screen.getByText('Whiskers')).toBeInTheDocument();
-    expect(screen.getByText('2 pets')).toBeInTheDocument();
+    expect(screen.getByText('2 个宠物')).toBeInTheDocument();
   });
 
   it('Add to storage grants a fresh pet instance at its top legal value', async () => {
     const user = userEvent.setup();
     await openCatalog(user);
-    await user.click(screen.getByRole('checkbox', { name: 'Select Dogmeat' }));
-    await user.click(screen.getByRole('button', { name: 'Add to storage (1)' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Dogmeat' }));
+    await user.click(screen.getByRole('button', { name: '添加到仓库 (1)' }));
     const pets = inventory().filter((i) => i.type === 'Pet');
     expect(pets).toHaveLength(1);
     expect(pets[0].id).toBe('dog_l');
@@ -131,7 +131,7 @@ describe('PetsView - Catalog tab', () => {
   it('the per-row Add button grants a single pet without multi-select', async () => {
     const user = userEvent.setup();
     await openCatalog(user);
-    await user.click(screen.getByRole('button', { name: 'Add Dogmeat to storage' }));
+    await user.click(screen.getByRole('button', { name: '将 Dogmeat 添加到仓库' }));
     const pets = inventory().filter((i) => i.type === 'Pet');
     expect(pets).toHaveLength(1);
     expect(pets[0].id).toBe('dog_l');
@@ -141,10 +141,10 @@ describe('PetsView - Catalog tab', () => {
     const user = userEvent.setup();
     await openCatalog(user);
     const dogRow = bodyRows().find((r) => within(r).queryByText('Dogmeat'));
-    await user.click(within(dogRow as HTMLElement).getByRole('button', { name: 'Equip…' }));
+    await user.click(within(dogRow as HTMLElement).getByRole('button', { name: '装备…' }));
     const dialog = screen.getByRole('dialog');
-    await user.click(within(dialog).getByRole('checkbox', { name: 'Select Alice' }));
-    await user.click(within(dialog).getByRole('button', { name: 'Equip on 1 dweller' }));
+    await user.click(within(dialog).getByRole('checkbox', { name: '选择 Alice' }));
+    await user.click(within(dialog).getByRole('button', { name: '装备到 1 名居民' }));
     expect(dwellerById(1)?.equippedPet?.id).toBe('dog_l');
   });
 });

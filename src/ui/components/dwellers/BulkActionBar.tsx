@@ -46,13 +46,10 @@ export function BulkActionBar({
   // room rosters, training slots, partner/child entries and wasteland teams with the ids.
   const removeSelected = (): void => {
     const count = selectedIds.length;
-    applyEdit(
-      (s) => removeDwellers(s, selectedIds),
-      `Remove ${count} dweller${count === 1 ? '' : 's'}`,
-    );
+    applyEdit((s) => removeDwellers(s, selectedIds), `移除 ${count} 名居民`);
     setConfirmRemove(false);
     onClear();
-    pushToast(`Removed ${count} dweller${count === 1 ? '' : 's'}.`, 'success');
+    pushToast(`已移除 ${count} 名居民。`, 'success');
   };
 
   const run = (op: (save: SaveData, ids: readonly number[]) => SaveData, label: string) => () =>
@@ -65,53 +62,41 @@ export function BulkActionBar({
 
   return (
     <div className="flex flex-wrap items-center gap-2 border-b border-neutral-800 bg-neutral-900/70 px-3 py-2">
-      <span className="text-sm font-medium text-amber-400">{selectedIds.length} selected</span>
+      <span className="text-sm font-medium text-amber-400">已选择 {selectedIds.length} 名</span>
       <span className="mx-1 h-4 w-px bg-neutral-700" />
 
-      <button type="button" className={BTN} onClick={run(reviveAll, 'Revive selected')}>
-        Revive
+      <button type="button" className={BTN} onClick={run(reviveAll, '复活（所选）')}>
+        复活
       </button>
-      <button type="button" className={BTN} onClick={run(setMaxHealthAll, 'Heal (selected)')}>
-        Heal
+      <button type="button" className={BTN} onClick={run(setMaxHealthAll, '治疗（所选）')}>
+        治疗
       </button>
-      <button type="button" className={BTN} onClick={run(maxHpAll, 'Max HP (selected)')}>
-        Max HP
+      <button type="button" className={BTN} onClick={run(maxHpAll, '最大生命值（所选）')}>
+        最大生命值
       </button>
-      <button
-        type="button"
-        className={BTN}
-        onClick={run(setRadiationAll, 'Cure radiation (selected)')}
-      >
-        Cure
+      <button type="button" className={BTN} onClick={run(setRadiationAll, '治疗辐射（所选）')}>
+        治辐射
       </button>
-      <button type="button" className={BTN} onClick={run(maxSpecialAll, 'Max SPECIAL (selected)')}>
-        Max SPECIAL
+      <button type="button" className={BTN} onClick={run(maxSpecialAll, 'SPECIAL 全满（所选）')}>
+        SPECIAL 全满
       </button>
-      <button
-        type="button"
-        className={BTN}
-        onClick={run(maxHappinessAll, 'Max happiness (selected)')}
-      >
-        Max Happiness
+      <button type="button" className={BTN} onClick={run(maxHappinessAll, '幸福度全满（所选）')}>
+        幸福度全满
       </button>
-      <button
-        type="button"
-        className={BTN}
-        onClick={run(makeLegendaryAll, 'Make legendary (selected)')}
-      >
-        Make Legendary
+      <button type="button" className={BTN} onClick={run(makeLegendaryAll, '升为传说（所选）')}>
+        升为传说
       </button>
 
       <span className="mx-1 h-4 w-px bg-neutral-700" />
       <label className="flex items-center gap-1 text-xs text-neutral-400">
-        Level
+        等级
         <input
           type="number"
           min={1}
           max={50}
           value={level}
           onChange={(e) => setLevel(Number(e.target.value))}
-          aria-label="Bulk level value"
+          aria-label="批量等级值"
           className="w-14 rounded border border-neutral-700 bg-neutral-950 px-1 py-1 text-neutral-100"
         />
       </label>
@@ -121,31 +106,29 @@ export function BulkActionBar({
         onClick={() =>
           applyEdit(
             (s) => setLevelAll(s, selectedIds, level, endBonusFor),
-            `Set level ${level} (selected)`,
+            `设置等级为 ${level}（所选）`,
           )
         }
       >
-        Set Level
+        设置等级
       </button>
 
       <span className="mx-1 h-4 w-px bg-neutral-700" />
       <button
         type="button"
         className={BTN}
-        onClick={() =>
-          applyEdit((s) => setPregnantAll(s, selectedIds, true), 'Make pregnant (selected)')
-        }
+        onClick={() => applyEdit((s) => setPregnantAll(s, selectedIds, true), '设为怀孕（所选）')}
       >
-        Pregnant
+        怀孕
       </button>
       <button
         type="button"
         className={BTN}
         onClick={() =>
-          applyEdit((s) => setBabyReadyAll(s, selectedIds, true), 'Set baby ready (selected)')
+          applyEdit((s) => setBabyReadyAll(s, selectedIds, true), '设为婴儿即将出生（所选）')
         }
       >
-        Baby ready
+        婴儿即将出生
       </button>
 
       <span className="mx-1 h-4 w-px bg-neutral-700" />
@@ -155,7 +138,7 @@ export function BulkActionBar({
           onClick={() => setConfirmRemove(true)}
           className="rounded border border-red-700 px-2 py-1 text-xs text-red-300 hover:bg-red-900/40"
         >
-          Remove ({selectedIds.length})
+          移除（{selectedIds.length}）
         </button>
       </HoverTooltip>
 
@@ -164,20 +147,19 @@ export function BulkActionBar({
         onClick={onClear}
         className="ml-auto rounded px-2 py-1 text-xs text-neutral-400 hover:text-neutral-100"
       >
-        Clear selection
+        取消选择
       </button>
 
       <ConfirmDialog
         open={confirmRemove}
-        title="Remove selected dwellers"
+        title="移除所选居民"
         message={
           <>
-            Remove {selectedIds.length} dweller{selectedIds.length === 1 ? '' : 's'} from the save?
-            Anything they have equipped goes with them, and they leave their rooms and exploration
-            teams. You can undo this while the editor is open.
+            确定从存档中移除 {selectedIds.length}{' '}
+            名居民？他们携带的装备将一并移除，并会从所在房间和探索队伍中离开。编辑器打开期间你可以撤销此操作。
           </>
         }
-        confirmLabel={`Remove ${selectedIds.length} dweller${selectedIds.length === 1 ? '' : 's'}`}
+        confirmLabel={`移除 ${selectedIds.length} 名居民`}
         destructive
         onConfirm={removeSelected}
         onCancel={() => setConfirmRemove(false)}

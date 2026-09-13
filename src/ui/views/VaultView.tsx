@@ -85,19 +85,19 @@ export function VaultView() {
   }, [save, originalSave, nowMs]);
 
   if (!save || !view) {
-    return <div className="p-8 text-sm text-neutral-400">No save loaded.</div>;
+    return <div className="p-8 text-sm text-neutral-400">未载入存档。</div>;
   }
 
   return (
     <div className="h-full overflow-auto">
       <div className="mx-auto max-w-5xl p-6">
         <div className="flex items-baseline gap-3">
-          <h2 className="text-lg font-semibold">Vault settings</h2>
+          <h2 className="text-lg font-semibold">避难所设置</h2>
           {gameDataStatus === 'loading' && (
-            <span className="text-xs text-neutral-400">loading game data…</span>
+            <span className="text-xs text-neutral-400">游戏数据加载中…</span>
           )}
           {gameDataStatus === 'error' && (
-            <span className="text-xs text-amber-500">game data unavailable - caps disabled</span>
+            <span className="text-xs text-amber-500">游戏数据不可用 - 上限校验已禁用</span>
           )}
         </div>
 
@@ -106,29 +106,29 @@ export function VaultView() {
             resources={view.resources}
             caps={caps}
             allowOutOfRange={allowOutOfRange}
-            onSet={(key, value) => applyEdit((s) => setResource(s, key, value), `Set ${key}`)}
+            onSet={(key, value) => applyEdit((s) => setResource(s, key, value), `设置 ${key}`)}
             onMaxAll={() => {
               if (!caps) return;
-              applyEdit((s) => maxResources(s, caps), 'Max resources');
-              pushToast('Resources maxed to legal capacity');
+              applyEdit((s) => maxResources(s, caps), '资源拉满');
+              pushToast('资源已加满至合法上限');
             }}
           />
 
           <ConsumablesCard
             counts={view.counts}
             onSet={(code, count) =>
-              applyEdit((s) => setConsumableCount(s, code, count), 'Set consumables')
+              applyEdit((s) => setConsumableCount(s, code, count), '设置消耗品')
             }
             starterPackPurchased={view.starterPackPurchased}
             onToggleStarterPack={(purchased) => {
-              applyEdit((s) => setStarterPackPurchased(s, purchased), 'Starter Pack');
-              pushToast(`Starter Pack offer ${purchased ? 'hidden' : 'restored'}`);
+              applyEdit((s) => setStarterPackPurchased(s, purchased), '新手礼包');
+              pushToast(`新手礼包优惠已${purchased ? '隐藏' : '恢复'}`);
             }}
             starterPacksInVault={view.counts[CONSUMABLE_CODES.StarterPack] ?? 0}
             onSetStarterPacks={(count) =>
               applyEdit(
                 (s) => setConsumableCount(s, CONSUMABLE_CODES.StarterPack, count),
-                'Set Starter Packs',
+                '设置新手礼包',
               )
             }
           />
@@ -137,21 +137,21 @@ export function VaultView() {
             name={view.name}
             mode={view.mode}
             theme={view.theme}
-            onName={(value) => applyEdit((s) => setVaultName(s, value), 'Set vault name')}
-            onMode={(mode: VaultMode) => applyEdit((s) => setVaultMode(s, mode), 'Set vault mode')}
-            onTheme={(theme) => applyEdit((s) => setVaultTheme(s, theme), 'Set vault theme')}
+            onName={(value) => applyEdit((s) => setVaultName(s, value), '设置避难所名称')}
+            onMode={(mode: VaultMode) => applyEdit((s) => setVaultMode(s, mode), '设置避难所模式')}
+            onTheme={(theme) => applyEdit((s) => setVaultTheme(s, theme), '设置避难所主题')}
           />
 
           <MiscCard
             strangerShown={view.strangerShown}
             onToggleStranger={(show) => {
-              applyEdit((s) => setMysteriousStranger(s, show), 'Mysterious Stranger');
-              pushToast(`Mysterious Stranger ${show ? 'set to appear' : 'hidden'}`);
+              applyEdit((s) => setMysteriousStranger(s, show), '神秘陌生人');
+              pushToast(`神秘陌生人已${show ? '设为出现' : '隐藏'}`);
             }}
             timeToAppear={view.strangerTimeToAppear}
             remainingTime={view.strangerRemaining}
             onSetTimers={(timers) =>
-              applyEdit((s) => setStrangerTimers(s, timers), 'Stranger timers')
+              applyEdit((s) => setStrangerTimers(s, timers), '神秘陌生人计时')
             }
           />
 
@@ -160,13 +160,13 @@ export function VaultView() {
             deathclawRemaining={view.deathclaw.remainingSeconds}
             canToggleDeathclaw={view.canToggleDeathclaw}
             onSetDeathclaw={(enabled) => {
-              applyEdit((s) => setDeathclawEnabled(s, enabled), 'Deathclaw attacks');
-              pushToast(`Deathclaw attacks ${enabled ? 'enabled' : 'blocked'}`);
+              applyEdit((s) => setDeathclawEnabled(s, enabled), '死亡爪袭击');
+              pushToast(`死亡爪袭击已${enabled ? '启用' : '阻止'}`);
             }}
             bottleAndCappy={view.bottleAndCappy}
             onSetBottleAndCappy={(enabled) => {
-              applyEdit((s) => setBottleAndCappyEnabled(s, enabled), 'Bottle & Cappy');
-              pushToast(`Bottle & Cappy visits ${enabled ? 'allowed' : 'prevented'}`);
+              applyEdit((s) => setBottleAndCappyEnabled(s, enabled), '瓶子 & 卡皮');
+              pushToast(`瓶子 & 卡皮的来访已${enabled ? '允许' : '阻止'}`);
             }}
           />
 
@@ -175,12 +175,12 @@ export function VaultView() {
             clockAheadSeconds={view.clockAheadSeconds}
             onFastForward={(seconds, label) => {
               applyEdit((s) => fastForwardVault(s, seconds), label);
-              pushToast(`${label} - applies when the save is loaded in game`);
+              pushToast(`${label} - 将在游戏载入存档时生效`);
             }}
             dailyRewards={view.dailyRewards}
             onMakeDailyRewardsClaimable={() => {
-              applyEdit((s) => makeDailyRewardsClaimable(s), 'Daily reward claimable');
-              pushToast('Daily reward will be claimable on next load');
+              applyEdit((s) => makeDailyRewardsClaimable(s), '每日奖励可领取');
+              pushToast('每日奖励将在下次载入时可领取');
             }}
           />
         </div>

@@ -38,7 +38,7 @@ export function useSeasonCatalog(): UseSeasonCatalogResult {
       .catch((e: unknown) => {
         inflight = null; // allow a later retry
         if (active) {
-          setError(e instanceof Error ? e.message : 'Failed to load the Season Pass catalog.');
+          setError(e instanceof Error ? e.message : '赛季通行证目录加载失败。');
           setStatus('error');
         }
       });

@@ -84,7 +84,7 @@ export function selectMrHandyRows(save: SaveData): MrHandyRow[] {
       const room = byActor.get(id) ?? null;
       return {
         serializeId: id,
-        name: a.name ?? 'Mr. Handy',
+        name: a.name ?? '巧手先生',
         variant: a.MrHandyVariantID ?? DEFAULT_MR_HANDY_VARIANT,
         health: typeof a.health === 'number' ? a.health : null,
         dead: a.death === true,
@@ -129,7 +129,7 @@ export function handyFloorOptions(save: SaveData): HandyFloorOption[] {
       const takenBy = taken.get(row);
       return {
         row,
-        label: `Floor ${displayFloor(row)}`,
+        label: `第 ${displayFloor(row)} 层`,
         ...(takenBy !== undefined ? { takenBy } : {}),
       };
     });
@@ -191,7 +191,7 @@ export function createMrHandy(save: SaveData, spec: NewMrHandy = {}): SaveData {
     characterType: spec.characterType ?? MR_HANDY_CHARACTER_TYPE,
     actorDataId: spec.actorDataId ?? null,
     serializeId: id,
-    name: spec.name?.trim() || 'Mr. Handy',
+    name: spec.name?.trim() || '巧手先生',
     canCollect: true,
     willGoToWasteland: false,
     equipment: {

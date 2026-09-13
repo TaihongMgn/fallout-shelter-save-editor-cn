@@ -6,104 +6,93 @@
 export const fieldHelp = {
   // --- Dweller: SPECIAL (each letter drives different rooms) ----------------------
   special:
-    'SPECIAL drives how well a dweller works each room type: S Power, P Water, A Food (Diner/Garden), I MedBay & Science Lab, E Nuka-Cola & radiation resist, C Radio (attracts dwellers) & faster relationships, L rush success and bonus loot. Higher = more output.',
+    'SPECIAL 决定居民在各类型房间中的工作效率：S 电力、P 水、A 食物（餐厅/花园）、I 医务室与科学实验室、E 核子可乐与辐射抗性、C 广播室（吸引居民）并加快恋爱关系、L 加速成功率与额外战利品。数值越高，产出越多。',
   level:
-    'The dweller level (1–50). Higher levels grant more max health. Setting it here writes the level and resets XP; the game never lowers a level on load.',
-  rarity:
-    'Cosmetic tier (Normal / Rare / Legendary) shown on the card. It does not change stats - those come from SPECIAL and equipment.',
+    '居民等级（1–50）。等级越高，最大生命值越多。在此设置会写入等级并重置经验值；游戏在载入时绝不会降低等级。',
+  rarity: '外观稀有度（普通/稀有/传说），显示在卡片上。它不改变属性——属性来自 SPECIAL 和装备。',
   happiness:
-    "A dweller's mood (0–100%). The vault-wide average gives a production bonus (up to +10%) and feeds your vault rating. Working the right room, partners, and being fed/hydrated raise it.",
+    '居民的心情（0–100%）。全避难所平均值会带来产量加成（最高 +10%）并计入避难所评级。让居民在对的房间工作、有伴侣相伴、吃饱喝足都能提升它。',
   health:
-    'Current hit points. Reaches 0 → the dweller is incapacitated (revive in the roster). Radiation lowers the max until cured with RadAway.',
-  maxHealth: 'Maximum hit points. The game recomputes this from level + Endurance on load.',
+    '当前生命值。降到 0 后，居民会失去行动能力（可在居民名册中复活）。辐射会压低生命上限，直到用消辐宁清除。',
+  maxHealth: '最大生命值。游戏会在载入时根据等级 + 耐力重新计算此值。',
   radiation:
-    'Radiation damage (0 = clean). It eats into max health until removed with RadAway. Endurance reduces how fast it builds in the wasteland.',
+    '辐射伤害（0 = 无辐射）。它会侵蚀最大生命值，直到用消辐宁清除。耐力能减缓居民在废土中积累辐射的速度。',
   colors:
-    'Raw ARGB colors the game renders as a tint. The barbershop only offers presets, but the save accepts any color - pick from swatches or enter a custom value.',
+    '游戏渲染为染色效果的原始 ARGB 颜色。理发店只提供预设颜色，但存档接受任意颜色——可从色板中挑选或输入自定义值。',
   pregnancy:
-    'Pregnancy flags for female dwellers. "Pregnant" starts the timer; "Baby ready" means the child is due. Ticking "Baby ready" also completes the due timer (the pair the game writes together); unticking it restores the timer to what the imported save recorded. Charisma (Radio room) speeds pregnancies.',
-  hair: 'Hairstyle / facial-hair piece. Cosmetic only; pieces are filtered to the dweller’s gender like the in-game barbershop.',
+    '女性居民的怀孕标记。“怀孕中”启动计时；“婴儿即将出生”表示孩子即将出生。勾选“婴儿即将出生”也会同时完成到期计时（这两项是游戏成对写入的）；取消勾选则会把计时恢复为导入存档记录的状态。魅力（广播室）可加快怀孕。',
+  hair: '发型/胡须部件。纯属外观；部件会像游戏内理发店一样按居民性别过滤。',
   removeDweller:
-    'Removes the dweller and cleans up every trace, the way the game itself does: they leave room work rosters, their training slot is emptied (its timer deleted), they exit exploration teams (a team left empty disbands), and pregnancy/family records are patched so nothing breaks at the next birth. Names stay on the family tree. Their equipped weapon, outfit and pet are deleted with them - unequip to storage first to keep the items. Undo restores everything while the editor is open.',
+    '移除该居民并像游戏自身那样清理所有痕迹：从房间工作名册中除名，训练槽被清空（其计时器被删除），退出探索小队（小队被清空则解散），怀孕/家庭记录也会被修补，确保下次出生时不出问题。家谱上仍保留名字。其装备的武器、服装和宠物会随之一并删除——想保留物品请先卸下到仓库。编辑器打开期间，撤销可恢复一切。',
 
   // --- Equipment -------------------------------------------------------------------
   weapon:
-    'The equipped weapon. Damage range matters for wasteland survival and fighting incidents. A wrong id makes the game swap to a default weapon, so only real ids are written.',
-  outfit:
-    'The equipped outfit. Outfits grant SPECIAL bonuses that add to the dweller’s base stats, improving room output and wasteland survival.',
-  pet: 'Pets give a bonus locked to their breed (e.g. extra damage, XP, or caps). Only the rolled value and name are editable; the bonus type is fixed.',
+    '已装备的武器。伤害范围对废土生存和应对事故都很重要。错误的 id 会让游戏换成默认武器，因此只写入真实存在的 id。',
+  outfit: '已装备的服装。服装提供的 SPECIAL 加成会加到居民基础属性上，提升房间产出与废土生存能力。',
+  pet: '宠物提供锁定到品种的加成（例如额外伤害、经验值或瓶盖）。只有掷出的数值和名字可编辑；加成类型是固定的。',
 
   // --- Vault settings --------------------------------------------------------------
   resources:
-    'Stored resources. Caps (Nuka) buy and upgrade rooms; Food/Water/Energy keep the vault running; StimPak/RadAway heal. Values can be set up to each resource’s capacity.',
+    '存储的资源。瓶盖（Nuka）用于购买和升级房间；食物/水/电力维持避难所运转；治疗针/消辐宁用于治疗。各数值最多可设到对应资源的容量。',
   maxResources:
-    'Fills every resource up to its legal capacity (base + each storage room’s contribution). It never lowers a value that is already higher.',
+    '将所有资源填到合法容量上限（基础值 + 每个仓库房间的贡献）。它绝不会调低已经更高的数值。',
   consumables:
-    'Counts of Lunchboxes, Mr. Handies, Pet Carriers, and Starter Packs. Lunchbox contents are rolled when opened, so grant items directly in Storage instead.',
-  vaultName: 'The 3-digit vault number shown in-game (000–999).',
-  vaultMode:
-    'Normal or Survival. Survival raises consumption and incident difficulty; switching does not retroactively change existing rooms.',
-  vaultTheme: 'The decorative theme applied to rooms (Normal / holiday themes).',
-  mysteriousStranger:
-    'The Mysterious Stranger spawns randomly and gives caps when tapped. This toggles whether he can appear and his current state.',
+    '午餐盒、巧手先生、宠物箱和新手礼包的数量。午餐盒的内容物在打开时才掷出，所以请改为在仓库中直接发放物品。',
+  vaultName: '游戏中显示的 3 位避难所编号（000–999）。',
+  vaultMode: '普通或生存模式。生存模式会提高消耗和事故难度；切换不会追溯改变已存在的房间。',
+  vaultTheme: '应用到房间上的装饰主题（普通/节日主题）。',
+  mysteriousStranger: '神秘陌生人会随机出现，被点击后给予瓶盖。此开关控制他能否出现以及当前状态。',
   starterPack:
-    'Two separate controls. The offer toggle marks the one-time real-money Starter Pack as already bought, which only hides its store prompt - it adds nothing. “Unopened packs in vault” stocks that many unopened Starter Packs in your consumables; open them in-game to receive the contents (often a pet and multiple special dwellers).',
+    '两个独立的控件。促销开关把一次性付费的新手礼包标记为已购买，只会隐藏其商店提示——不会添加任何东西。“避难所内未开封礼包”则把相应数量的未开封新手礼包存入你的消耗品队列；在游戏中打开即可获得内容物（通常是一只宠物和多名特殊居民）。',
 
   // --- Rooms -----------------------------------------------------------------------
-  roomLevel:
-    'Room upgrade level (1–3). Higher levels increase output, storage, and dweller capacity, but also energy draw.',
-  roomPower:
-    'Whether the room is powered. Unpowered rooms stop producing. The game powers rooms down automatically when energy runs short.',
+  roomLevel: '房间升级等级（1–3）。等级越高，产量、存储和居民容量越大，但耗电也越多。',
+  roomPower: '房间是否有电。无电的房间会停止生产。电力不足时游戏会自动为房间断电。',
   roomRepair:
-    'Clears a room’s accumulated incident damage (the scorch left by fires, radroaches, raiders, and other incidents) back to zero. Rooms only take this damage while an incident is actively burning and normally heal it on their own once the incident is cleared, so leftover damage in a saved game is cosmetic and does not stop production. Useful mainly for a save captured mid-incident, or a room whose scorch got stuck.',
+    '清零房间累积的事故损伤（火灾、辐射蟑螂、掠夺者等事故留下的焦痕）。房间只会在事故进行中承受这种损伤，事故结束后通常会自行恢复，因此存档中残留的损伤只是外观问题，不会阻碍生产。主要用于捕捉在事故进行中的存档，或焦痕卡住的房间。',
   roomMerge:
-    'Merging joins two identical adjacent rooms of the same level into a wider one with more capacity and output. Only valid merges are allowed.',
-  roomDecoration:
-    'An optional decoration object placed in the room (cosmetic / small happiness effect depending on theme).',
+    '合并会把两个相同且相邻的同级房间连成一个更宽、容量和产量更大的房间。只允许合法的合并。',
+  roomDecoration: '放置在房间里的可选装饰物（装饰性质/依主题带来小幅幸福度效果）。',
 
   // --- Timers ------------------------------------------------------------------------
   // Shared semantics: task timers are stored as elapsed-play-time deadlines; the game
   // "catches up" on load, so edits apply the next time the save is loaded in game.
   vaultTime:
-    'Fast-forwards every timer in the vault at once by backdating the save timestamp. On the next load the game believes you were away that long and advances production, crafting, training, pregnancies, exploration and cooldowns together. Takes effect the next time the save is loaded in the game. Independent of the Season clock: vault time is stored in this save, season timing in the season file.',
+    '通过回写存档时间戳，一次性快进避难所内的所有计时器。下次载入时游戏会视同你离开了这么久，并一并推进生产、制作、训练、怀孕、探索和冷却。效果在下次于游戏中载入存档时生效。与赛季时钟相互独立：避难所时间存于此存档，赛季时间存于赛季文件。',
   deathclawToggle:
-    'Whether deathclaw attacks can trigger (they roll when the vault door opens or the radio pulls dwellers, once your vault passes 60 dwellers). Off stores a far-future blocker in the save’s timer list - without it the game would re-enable attacks after about 30 minutes. Toggle back on to remove the blocker completely.',
+    '死亡爪袭击能否触发（当避难所大门打开或广播室拉来居民时判定，且你的避难所居民数超过 60 后才会发生）。关闭会在存档的计时器列表中存入一个遥远未来的阻止项——没有它，游戏会在约 30 分钟后重新开启袭击。重新打开即可彻底移除阻止项。',
   bottleAndCappy:
-    'Bottle & Cappy are the mascot pair that wander in for a dance visit after you complete their unlock quest; tapping them pays caps or Quantum, and while they are inside they block other incidents. Off prevents visits entirely (fully reversible); On only re-allows them, it does not summon the pair.',
+    '瓶子与卡皮是在你完成其解锁任务后进来跳舞巡游的吉祥物搭档；点它们可获得瓶盖或量子核子可乐，它们在场时会阻挡其他事故。关闭可完全阻止到访（完全可逆）；打开只是重新允许，不会立刻召唤这对搭档。',
   dailyRewards:
-    'The daily reward timer (in season vaults: one Spin-to-Win poker chip per day) resets at midnight on a real-world clock. "Make claimable now" marks it elapsed so the reward lands as soon as the save is loaded in the game. When no timer is recorded there is nothing to do - the game creates it already claimable on load.',
+    '每日奖励计时器（赛季避难所为每天一枚 Spin-to-Win 扑克筹码）在现实时钟的午夜重置。“立即设为可领取”会把它标记为已到期，奖励会在存档于游戏中载入后立刻到账。若没有记录计时器则无需操作——游戏载入时会直接创建为已可领取。',
   pregnancyTimer:
-    'Time until the baby is due. "Deliver now" completes the due timer and ticks "Baby ready" - the same pair the game sets when a pregnancy finishes naturally. The birth still needs free vault space, exactly like in game, and takes effect the next time the save is loaded.',
+    '距离婴儿出生的时间。“立即出生”会完成到期计时并勾选“婴儿即将出生”——与游戏自然完成怀孕时写入的同一组状态。与游戏内一样，出生仍需要避难所有空余空间，并在下次载入存档时生效。',
   pendingChildren:
-    'How many babies this pregnancy delivers. On "1 (default roll)" the game decides at birth: normally one baby, or twins/triplets when the mother carries a breeding pet with a Multiple Children bonus. Picking 2 or 3 skips that roll and delivers exactly that many - no pet needed. The birth still requires free vault space for the full count.',
-  childGrowUp:
-    'Time until this child grows into an adult dweller. "Grow up now" completes the timer on the next load in game.',
+    '这次怀孕会生下几个婴儿。“1（默认掷骰）”由游戏在出生时决定：通常是一个婴儿，或当母亲携带带“多子女”加成宠物时的双胞胎/三胞胎。选 2 或 3 会跳过判定，精确生下该数量——不需要宠物。出生仍需要足够的空余空间容纳全部数量。',
+  childGrowUp: '距离这个孩子长成成年居民的时间。“立即长大”会在下次于游戏中载入时完成该计时。',
   exploringTimer:
-    'Wasteland trips track elapsed travel time in the save. Adding hours to an exploring dweller advances loot finds and quest arrival; a returning dweller can be brought home instantly. Applies the next time the save is loaded in the game.',
+    '废土之旅会在存档中记录已用旅行时间。为探索中的居民增加小时数可推进战利品发现和任务到达；返回途中的居民可被立即送回家。在下次于游戏中载入存档时生效。',
   roomTimers:
-    'Timers running in this room. Completing one makes it finish during the next load in game. Repeating timers (production, training) complete one cycle and then continue at their normal pace.',
+    '这个房间中正在运行的计时器。完成其中一个会让它在下次载入游戏时完成。循环型计时器（生产、训练）完成一轮后照常节奏继续。',
   craftingTimer:
-    'The item being crafted. "Finish now" marks the work complete so the item is ready to collect the next time the save is loaded in the game.',
+    '正在制作的物品。“立即完成”会把工作标记为完成，下次在游戏中载入存档后物品即可收取。',
   trainingTimer:
-    'Each training slot levels one SPECIAL point per cycle. "Finish now" completes the current cycle for that dweller on the next load; training then continues at its normal pace.',
+    '每个训练位每轮提升一点 SPECIAL。对某位居民“立即完成”会在下次载入时完成其当前一轮；随后训练照常节奏继续。',
   rushTimer:
-    'Each rush raises the next rush’s incident risk for a while; this timer is that penalty cooling back down. "Reset now" clears the escalated risk on the next load in game.',
+    '每次加速都会在一段时间内提高下一次加速的事故风险；此计时器就是该惩罚冷却的过程。“立即重置”会在下次载入游戏时清除已提升的风险。',
   seasonClock:
-    'The game’s own season debug clock (stored in the season file). Advancing it shifts ALL season timing forward - weekly challenge unlocks, event windows, and the season end - without touching your vault. Fully reversible with "Reset to real time". Independent of the Vault time card: this never advances vault production, crafting or other .sav timers.',
+    '游戏自己的赛季调试时钟（存于赛季文件）。推进它会把所有赛季时间一起前移——每周挑战解锁、活动窗口和赛季结束——而不触碰你的避难所。可用“重置为真实时间”完全还原。与避难所时间卡相互独立：它绝不会推进避难所的生产、制作或其他 .sav 计时器。',
 
   // --- Storage ---------------------------------------------------------------------
   storageCapacity:
-    'Stored items vs. storage capacity. Capacity = base 10 + each storage room’s contribution. The game counts every item (including pets); over capacity is allowed but warned.',
+    '存储的物品与仓库容量的对比。容量 = 基础 10 + 每个仓库房间的贡献。游戏会计入每一件物品（包括宠物）；允许超出容量，但会给出警告。',
 
   // --- Advisor ---------------------------------------------------------------------
   advisorProduction:
-    'Resources produced per real-time minute at the current staffing, assuming you collect the rooms. Higher SPECIAL, levels, and happiness raise it.',
-  advisorConsumption:
-    'Resources consumed per minute: Food/Water scale with the number of living dwellers; Energy is the combined draw of all powered rooms.',
-  advisorNet:
-    'Production minus consumption. Negative means the resource drains over time - staff or build more of that room type.',
-  advisorStatus:
-    'Sustainability at a glance: green = comfortable surplus, amber = thin margin, red = deficit (running out).',
+    '按当前人员配置，每现实分钟可产出的资源（假设你收取了房间产出）。更高的 SPECIAL、等级和幸福度会提高它。',
+  advisorConsumption: '每分钟消耗的资源：食物/水随存活居民数量增减；电力是所有通电房间的总耗电。',
+  advisorNet: '产量减去消耗。为负表示该资源会随时间耗尽——为该类型房间派人手或多建一些。',
+  advisorStatus: '可持续性一目了然：绿色 = 盈余充足，黄色 = 余量紧张，红色 = 亏空（即将耗尽）。',
 } as const;
 
 export type FieldHelpKey = keyof typeof fieldHelp;

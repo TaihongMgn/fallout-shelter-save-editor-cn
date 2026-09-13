@@ -170,15 +170,15 @@ export function JsonTree({ tree, onPeek }: JsonTreeProps) {
 
   const copyPath = (id: string): void => {
     navigator.clipboard?.writeText(id).then(
-      () => pushToast('JSONPath copied'),
-      () => pushToast('Could not copy path', 'info'),
+      () => pushToast('JSONPath 已复制'),
+      () => pushToast('无法复制路径', 'info'),
     );
   };
 
   if (!tree) {
     return (
       <div className="flex h-full items-center justify-center p-4 text-center text-xs text-neutral-500">
-        The document is empty or not valid JSON, so there is no tree to show.
+        文档为空或不是有效的 JSON，因此没有可显示的树形结构。
       </div>
     );
   }
@@ -193,7 +193,7 @@ export function JsonTree({ tree, onPeek }: JsonTreeProps) {
           onKeyDown={(e) => {
             if (e.key === 'Enter') step(e.shiftKey ? -1 : 1);
           }}
-          placeholder="Search keys & values…"
+          placeholder="搜索键名和值…"
           className="min-w-0 flex-1 rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-xs text-neutral-200 focus:border-amber-500/60 focus:outline-none"
         />
         {query.trim() && (
@@ -203,7 +203,7 @@ export function JsonTree({ tree, onPeek }: JsonTreeProps) {
             </span>
             <button
               type="button"
-              aria-label="Previous match"
+              aria-label="上一个匹配"
               onClick={() => step(-1)}
               disabled={matches.length === 0}
               className="rounded px-1.5 py-0.5 text-xs text-neutral-300 hover:bg-neutral-800 disabled:opacity-40"
@@ -212,7 +212,7 @@ export function JsonTree({ tree, onPeek }: JsonTreeProps) {
             </button>
             <button
               type="button"
-              aria-label="Next match"
+              aria-label="下一个匹配"
               onClick={() => step(1)}
               disabled={matches.length === 0}
               className="rounded px-1.5 py-0.5 text-xs text-neutral-300 hover:bg-neutral-800 disabled:opacity-40"
@@ -233,7 +233,7 @@ export function JsonTree({ tree, onPeek }: JsonTreeProps) {
             const isActiveMatch = matches[matchIndex] === node.id;
             const isSelected = selectedId === node.id;
             const label =
-              node.index !== null ? `${node.index}` : node.key !== null ? node.key : '$ (root)';
+              node.index !== null ? `${node.index}` : node.key !== null ? node.key : '$（根）';
             return (
               <div
                 key={node.id}
@@ -280,14 +280,14 @@ export function JsonTree({ tree, onPeek }: JsonTreeProps) {
                 <button
                   type="button"
                   tabIndex={-1}
-                  aria-label="Copy JSONPath"
+                  aria-label="复制 JSONPath"
                   onClick={(e) => {
                     e.stopPropagation();
                     copyPath(node.id);
                   }}
                   className="ml-auto hidden shrink-0 rounded px-1 text-[10px] text-neutral-400 hover:bg-neutral-700 hover:text-neutral-100 group-hover:block"
                 >
-                  path
+                  路径
                 </button>
               </div>
             );

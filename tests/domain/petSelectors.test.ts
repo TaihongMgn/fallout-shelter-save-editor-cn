@@ -82,7 +82,7 @@ describe('petSelectors - selectPetRows', () => {
     const persian = byId.get('persian_l');
     expect(persian?.location).toEqual({ kind: 'stored', index: 1 });
     expect(persian?.rowId).toBe('s:1');
-    expect(persian?.assignedTo).toBe('Storage');
+    expect(persian?.assignedTo).toBe('仓库');
   });
 
   it('degrades to raw ids when no game data is supplied', () => {

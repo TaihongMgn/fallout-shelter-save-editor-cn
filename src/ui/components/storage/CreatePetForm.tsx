@@ -4,6 +4,7 @@ import { petBonusRange } from '../../../domain/gamedata/gameData.ts';
 import type { Pet } from '../../../domain/gamedata/schemas.ts';
 import type { NewPet } from '../../../domain/ops/dwellerOps.ts';
 import { NumberField } from '../forms/NumberField.tsx';
+import { prettyBonus, rarityLabel } from '../table/columnKit.tsx';
 
 // Shared "create a pet instance" form: breed + rarity selectors
 // determine the locked bonus EFFECT (shown read-only); only the rolled VALUE (within the
@@ -14,9 +15,6 @@ import { NumberField } from '../forms/NumberField.tsx';
 // NOTE: currently used only by AddItemsDialog. PetAttachDialog still has its OWN inline
 // create view; adopting this shared form there (and retiring that duplicate) is an open
 // cleanup.
-
-/** Lightly humanize an EBonusEffect id for display (e.g. "DamageBoost" → "Damage Boost"). */
-const prettyBonus = (bonus: string): string => bonus.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
 
 interface CreatePetFormProps {
   gameData: GameData | null;
@@ -67,18 +65,16 @@ export function CreatePetForm({
   const effectiveName = name ?? selectedPet?.name ?? '';
 
   if (breeds.length === 0) {
-    return (
-      <p className="text-sm text-amber-500">Pet catalog unavailable - game data did not load.</p>
-    );
+    return <p className="text-sm text-amber-500">宠物图鉴不可用——游戏数据未加载。</p>;
   }
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-end gap-3">
         <label className="flex flex-col gap-0.5">
-          <span className="text-[11px] uppercase tracking-wide text-neutral-400">Breed</span>
+          <span className="text-[11px] uppercase tracking-wide text-neutral-400">品种</span>
           <select
-            aria-label="Breed"
+            aria-label="品种"
             value={breed}
             onChange={(e) => setBreed(e.target.value)}
             className="rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-sm text-neutral-100"
@@ -91,34 +87,34 @@ export function CreatePetForm({
           </select>
         </label>
         <label className="flex flex-col gap-0.5">
-          <span className="text-[11px] uppercase tracking-wide text-neutral-400">Rarity</span>
+          <span className="text-[11px] uppercase tracking-wide text-neutral-400">稀有度</span>
           <select
-            aria-label="Rarity"
+            aria-label="稀有度"
             value={petId}
             onChange={(e) => setPetId(e.target.value)}
             className="rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-sm text-neutral-100"
           >
             {rarityChoices.map((p) => (
               <option key={p.id} value={p.id}>
-                {p.rarity}
+                {rarityLabel(p.rarity)}
               </option>
             ))}
           </select>
         </label>
       </div>
       <div className="text-sm text-neutral-300">
-        <span className="text-neutral-400">Bonus (locked): </span>
+        <span className="text-neutral-400">加成（已锁定）：</span>
         {selectedPet ? prettyBonus(selectedPet.bonus) : '–'}
         {range && (
           <span className="text-neutral-400">
             {' '}
-            - legal range {range.min}–{range.max}
+            （合法范围 {range.min}–{range.max}）
           </span>
         )}
       </div>
       <div className="flex flex-wrap items-end gap-4">
         <NumberField
-          label="Bonus value"
+          label="加成值"
           value={effectiveValue}
           onCommit={setValue}
           min={range?.min ?? 0}
@@ -126,10 +122,10 @@ export function CreatePetForm({
           allowOutOfRange={allowOutOfRange}
         />
         <label className="flex flex-col gap-0.5">
-          <span className="text-[11px] uppercase tracking-wide text-neutral-400">Unique name</span>
+          <span className="text-[11px] uppercase tracking-wide text-neutral-400">唯一名称</span>
           <input
             type="text"
-            aria-label="Unique name"
+            aria-label="唯一名称"
             value={effectiveName}
             onChange={(e) => setName(e.target.value)}
             className="rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-sm text-neutral-100"

@@ -6,8 +6,8 @@ export function Toggle({
   label,
   on,
   onChange,
-  onLabel = 'On',
-  offLabel = 'Off',
+  onLabel = '开',
+  offLabel = '关',
   disabled = false,
 }: {
   label: string;

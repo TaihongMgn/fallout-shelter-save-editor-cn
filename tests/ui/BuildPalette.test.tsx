@@ -35,18 +35,18 @@ describe('BuildPalette', () => {
   it('shows cost, capacity, stat letter, width, and production as visible text', () => {
     render(<BuildPalette rooms={ROOMS} activeType={null} onPick={() => {}} />);
     const diner = screen.getByRole('button', { name: /Diner/ });
-    expect(diner).toHaveTextContent('100 caps');
+    expect(diner).toHaveTextContent('100 瓶盖');
     expect(diner).toHaveTextContent('👥 2');
     expect(diner).toHaveTextContent('(A)'); // Agility as a compact SPECIAL letter
-    expect(diner).toHaveTextContent('1× wide');
-    expect(diner).toHaveTextContent('+Food'); // third-line production fact
-    expect(diner).toHaveAttribute('title', expect.stringContaining('Agility'));
+    expect(diner).toHaveTextContent('1 格宽');
+    expect(diner).toHaveTextContent('+食物'); // third-line production fact
+    expect(diner).toHaveAttribute('title', expect.stringContaining('敏捷'));
   });
 
   it('omits capacity / stat / production facts for a facility with none (Elevator)', () => {
     render(<BuildPalette rooms={ROOMS} activeType={null} onPick={() => {}} />);
     const elevator = screen.getByRole('button', { name: /Elevator/ });
-    expect(elevator).toHaveTextContent('100 caps');
+    expect(elevator).toHaveTextContent('100 瓶盖');
     expect(elevator).not.toHaveTextContent('👥');
     expect(elevator).not.toHaveTextContent('None');
     expect(elevator).not.toHaveTextContent('+');
@@ -59,7 +59,7 @@ describe('BuildPalette', () => {
       { ...ROOMS[0], type: 'Armory', name: 'Armory', locked: true },
     ];
     render(<BuildPalette rooms={rooms} activeType={null} onPick={() => {}} />);
-    await user.selectOptions(screen.getByRole('combobox', { name: 'Filter rooms' }), 'locked');
+    await user.selectOptions(screen.getByRole('combobox', { name: '筛选房间' }), 'locked');
     expect(screen.queryByRole('button', { name: /Diner/ })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Armory/ })).toBeInTheDocument();
   });
@@ -76,7 +76,7 @@ describe('BuildPalette', () => {
     expect(names.findIndex((t) => t.includes('Aqua'))).toBeLessThan(
       names.findIndex((t) => t.includes('Diner')),
     );
-    await user.selectOptions(screen.getByRole('combobox', { name: 'Sort rooms by' }), 'price');
+    await user.selectOptions(screen.getByRole('combobox', { name: '房间排序' }), 'price');
     names = screen.getAllByRole('button').map((b) => b.textContent ?? '');
     expect(names.findIndex((t) => t.includes('Diner'))).toBeLessThan(
       names.findIndex((t) => t.includes('Aqua')),

@@ -40,7 +40,7 @@ export function ObjectivePickerDialog({
     () => [
       badgeColumn<ObjectiveDef>({
         id: '_current',
-        label: 'Current',
+        label: '当前',
         predicate: (o) => o.m_objectiveID === currentId,
         size: 76,
       }),
@@ -54,16 +54,16 @@ export function ObjectivePickerDialog({
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/70" />
         <Dialog.Content className={`${MODAL_LARGE} p-5`}>
           <div className="flex items-start justify-between gap-3">
-            <Dialog.Title className="text-base font-semibold">Choose an objective</Dialog.Title>
+            <Dialog.Title className="text-base font-semibold">选择目标</Dialog.Title>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
             >
               ✕
             </Dialog.Close>
           </div>
           <Dialog.Description className="sr-only">
-            Replace this slot with a different daily objective from the catalog.
+            从目标目录中另选一个每日目标来替换此槽位。
           </Dialog.Description>
 
           <UnifiedTable<ObjectiveDef>
@@ -76,14 +76,14 @@ export function ObjectivePickerDialog({
             data={objectives}
             getRowId={(o) => o.m_objectiveID}
             enableGlobalFilter
-            searchLabel="Search objectives"
-            searchPlaceholder="Search objectives…"
+            searchLabel="搜索目标"
+            searchPlaceholder="搜索目标…"
             initialSorting={[
               { id: 'tier', desc: false },
               { id: 'objective', desc: false },
             ]}
             onRowClick={(o) => onPick(o.m_objectiveID)}
-            emptyState="No objectives match."
+            emptyState="没有匹配的目标。"
           />
         </Dialog.Content>
       </Dialog.Portal>

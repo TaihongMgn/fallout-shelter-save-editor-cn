@@ -30,7 +30,7 @@ describe('buildRecipeRows', () => {
     const theme = rows.find((r) => r.id === 'CafeteriaInstitute');
     expect(theme).toMatchObject({
       kind: 'Theme',
-      name: 'Cafeteria: Institute',
+      name: 'Cafeteria: 学院',
       roomType: 'Cafeteria',
       themeValue: 'Institute',
     });

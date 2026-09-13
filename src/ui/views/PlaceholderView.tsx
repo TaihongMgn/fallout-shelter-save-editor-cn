@@ -8,7 +8,7 @@ export function PlaceholderView({ section }: { section: Section }) {
   return (
     <div className="p-8">
       <h2 className="text-lg font-semibold capitalize text-neutral-200">{section}</h2>
-      <p className="mt-2 text-sm text-neutral-400">This section is not available yet.</p>
+      <p className="mt-2 text-sm text-neutral-400">该版块暂未开放。</p>
     </div>
   );
 }

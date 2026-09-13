@@ -40,7 +40,7 @@ export function checkSaveHealth(save: SaveData): HealthReport {
 
   const root = asRecord(save);
   if (!root) {
-    issues.push({ severity: 'error', message: 'Save root is not a JSON object.' });
+    issues.push({ severity: 'error', message: '存档根节点不是 JSON 对象。' });
     return { metadata, issues };
   }
 
@@ -50,7 +50,7 @@ export function checkSaveHealth(save: SaveData): HealthReport {
   const dwellersBlock = asRecord(root.dwellers);
   const dwellerList = dwellersBlock?.dwellers;
   if (!Array.isArray(dwellerList)) {
-    issues.push({ severity: 'error', message: 'Missing dwellers array (save.dwellers.dwellers).' });
+    issues.push({ severity: 'error', message: '缺少居民数组（save.dwellers.dwellers）。' });
   } else {
     metadata.dwellerCount = dwellerList.length;
     const seen = new Set<unknown>();
@@ -64,7 +64,7 @@ export function checkSaveHealth(save: SaveData): HealthReport {
     if (duplicates > 0) {
       issues.push({
         severity: 'warning',
-        message: `${duplicates} dweller(s) share a duplicate serializeId.`,
+        message: `${duplicates} 名居民共用重复的 serializeId。`,
       });
     }
   }
@@ -72,7 +72,7 @@ export function checkSaveHealth(save: SaveData): HealthReport {
   // Vault + resources
   const vault = asRecord(root.vault);
   if (!vault) {
-    issues.push({ severity: 'error', message: 'Missing vault object (save.vault).' });
+    issues.push({ severity: 'error', message: '缺少 vault 对象（save.vault）。' });
   } else {
     if (typeof vault.VaultName === 'string') metadata.vaultName = vault.VaultName;
 
@@ -85,7 +85,7 @@ export function checkSaveHealth(save: SaveData): HealthReport {
         if (typeof value === 'number' && !Number.isFinite(value)) {
           issues.push({
             severity: 'warning',
-            message: `Resource "${key}" has a non-finite value (${String(value)}).`,
+            message: `资源“${key}”的数值不是有限数（${String(value)}）。`,
           });
         }
       }

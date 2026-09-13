@@ -18,15 +18,15 @@ export function WeaponsView({ virtualized = true }: { virtualized?: boolean } = 
   const schema = useMemo(() => weaponSchema(gameData?.enums, craft), [gameData, craft]);
   return (
     <ItemCatalogSection
-      title="Weapons"
-      unitNoun="weapons"
+      title="武器"
+      unitNoun="武器"
       storageType="Weapon"
       slot="Weapon"
       data={gameData?.weapons ?? []}
       schema={schema}
       persistKey="catalog.weapons"
-      searchLabel="Search weapons"
-      searchPlaceholder="Search weapons…"
+      searchLabel="搜索武器"
+      searchPlaceholder="搜索武器…"
       focusRowId={detail ?? null}
       virtualized={virtualized}
     />

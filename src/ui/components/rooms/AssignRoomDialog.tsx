@@ -64,11 +64,9 @@ export function AssignRoomDialog({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/70" />
         <Dialog.Content className={`${MODAL_LARGE} p-5`}>
-          <Dialog.Title className="text-base font-semibold">Assign to {roomLabel}</Dialog.Title>
+          <Dialog.Title className="text-base font-semibold">派驻至 {roomLabel}</Dialog.Title>
           <Dialog.Description className="mt-1 text-xs text-neutral-400">
-            {remaining > 0
-              ? `${remaining} free slot${remaining === 1 ? '' : 's'}`
-              : 'Select dwellers to assign'}
+            {remaining > 0 ? `${remaining} 个空闲槽位` : '选择要派驻的居民'}
           </Dialog.Description>
 
           <UnifiedTable<DwellerRow>
@@ -81,25 +79,23 @@ export function AssignRoomDialog({
             data={dwellers}
             getRowId={(d) => String(d.serializeId)}
             enableGlobalFilter
-            searchLabel="Search dwellers"
-            searchPlaceholder="Search dwellers…"
+            searchLabel="搜索居民"
+            searchPlaceholder="搜索居民…"
             initialSorting={[{ id: 'name', desc: false }]}
             enableRowSelection
             rowSelection={rowSelection}
             onRowSelectionChange={setRowSelection}
-            emptyState="No dwellers"
+            emptyState="无居民"
           />
 
           <div className="mt-4 flex items-center justify-end gap-2">
-            {overCapacity && (
-              <span className="mr-auto text-xs text-amber-400">Exceeds free slots</span>
-            )}
+            {overCapacity && <span className="mr-auto text-xs text-amber-400">超出空闲槽位</span>}
             <button
               type="button"
               onClick={close}
               className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-neutral-100"
             >
-              Cancel
+              取消
             </button>
             <button
               type="button"
@@ -110,7 +106,7 @@ export function AssignRoomDialog({
               }}
               className="rounded bg-amber-500 px-4 py-1.5 text-sm font-medium text-neutral-900 hover:bg-amber-400 disabled:opacity-40"
             >
-              Assign {selectedIds.length || ''}
+              派驻 {selectedIds.length || ''}
             </button>
           </div>
         </Dialog.Content>

@@ -67,40 +67,40 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
 
   const onAddToCollection = (ids: string[]): void => {
     if (ids.length === 0) return;
-    applyEdit((s) => addRecipes(s, ids), `Add ${ids.length} to recipes`);
-    pushToast(`Added ${ids.length} to recipe collection.`);
+    applyEdit((s) => addRecipes(s, ids), `将 ${ids.length} 个配方加入收藏`);
+    pushToast(`已将 ${ids.length} 个配方加入收藏。`);
     clearSelection();
   };
 
   const onRemoveFromCollection = (ids: string[]): void => {
     if (ids.length === 0) return;
-    applyEdit((s) => removeRecipes(s, ids), `Remove ${ids.length} from recipes`);
-    pushToast(`Removed ${ids.length} from recipe collection.`);
+    applyEdit((s) => removeRecipes(s, ids), `从收藏中移除 ${ids.length} 个配方`);
+    pushToast(`已从配方收藏中移除 ${ids.length} 个配方。`);
     clearSelection();
   };
 
   const onToggleCollection = (row: RecipeViewRow): void => {
     if (row.known) {
       // Remove cascades for theme recipes (also un-applies + un-builds).
-      applyEdit((s) => removeRecipes(s, [row.id]), `Remove ${row.name} from recipes`);
-      pushToast(`Removed ${row.name} from recipe collection.`);
+      applyEdit((s) => removeRecipes(s, [row.id]), `从配方收藏中移除 ${row.name}`);
+      pushToast(`已从配方收藏中移除 ${row.name}。`);
     } else {
-      applyEdit((s) => addRecipes(s, [row.id]), `Add ${row.name} to recipes`);
-      pushToast(`Added ${row.name} to recipe collection.`);
+      applyEdit((s) => addRecipes(s, [row.id]), `将 ${row.name} 加入配方收藏`);
+      pushToast(`已将 ${row.name} 加入配方收藏。`);
     }
   };
 
   const onToggleBuild = (row: RecipeViewRow): void => {
     applyEdit(
       (s) => (row.built ? unbuildTheme(s, row.id) : buildTheme(s, row.id)),
-      `${row.built ? 'Unbuild' : 'Build'} ${row.name}`,
+      `${row.built ? '取消制作' : '制作'} ${row.name}`,
     );
   };
 
   const onToggleApply = (row: RecipeViewRow): void => {
     applyEdit(
       (s) => (row.applied ? unapplyThemeRecipe(s, row.id) : applyThemeRecipe(s, row.id)),
-      `${row.applied ? 'Unapply' : 'Apply'} ${row.name}`,
+      `${row.applied ? '取消应用' : '应用'} ${row.name}`,
     );
   };
 
@@ -112,16 +112,13 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
     [rows],
   );
   const unlockAll = (): void => {
-    applyEdit((s) => addRecipes(s, unknownIds), 'Unlock all recipes');
-    pushToast(`Unlocked ${unknownIds.length} recipe${unknownIds.length === 1 ? '' : 's'}.`);
+    applyEdit((s) => addRecipes(s, unknownIds), '解锁全部配方');
+    pushToast(`已解锁 ${unknownIds.length} 个配方。`);
   };
   const buildAllThemes = (): void => {
     // buildTheme also ensures the recipe is known, so this covers locked themes too.
-    applyEdit(
-      (s) => unbuiltThemeIds.reduce((acc, id) => buildTheme(acc, id), s),
-      'Build all themes',
-    );
-    pushToast(`Built ${unbuiltThemeIds.length} theme${unbuiltThemeIds.length === 1 ? '' : 's'}.`);
+    applyEdit((s) => unbuiltThemeIds.reduce((acc, id) => buildTheme(acc, id), s), '制作全部主题');
+    pushToast(`已制作 ${unbuiltThemeIds.length} 个主题。`);
   };
 
   // Master-detail: resolve the selected row + its joined catalog item for the side panel.
@@ -157,7 +154,7 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
             <button
               type="button"
               disabled={!save}
-              title={r.known ? 'Remove from collection' : 'Add to collection'}
+              title={r.known ? '从收藏中移除' : '添加到收藏'}
               onClick={(e) => {
                 e.stopPropagation();
                 onToggleCollection(r);
@@ -168,7 +165,7 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
                   : 'border-emerald-700 text-emerald-300 hover:bg-emerald-900/40'
               }`}
             >
-              {r.known ? 'Remove' : 'Add'}
+              {r.known ? '移除' : '添加'}
             </button>
             {r.kind === 'Theme' && (
               <>
@@ -181,7 +178,7 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
                   }}
                   className="rounded border border-sky-700 px-2 py-0.5 text-xs text-sky-300 hover:bg-sky-900/40 disabled:opacity-40"
                 >
-                  {r.built ? 'Unbuild' : 'Build'}
+                  {r.built ? '取消制作' : '制作'}
                 </button>
                 <button
                   type="button"
@@ -192,7 +189,7 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
                   }}
                   className="rounded border border-amber-700 px-2 py-0.5 text-xs text-amber-300 hover:bg-amber-900/40 disabled:opacity-40"
                 >
-                  {r.applied ? 'Unapply' : 'Apply'}
+                  {r.applied ? '取消应用' : '应用'}
                 </button>
               </>
             )}
@@ -214,8 +211,8 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
         type="search"
         value={globalFilter}
         onChange={(e) => setGlobalFilter(e.target.value)}
-        placeholder="Search recipes…"
-        aria-label="Search recipes"
+        placeholder="搜索配方…"
+        aria-label="搜索配方"
         className="w-64 rounded border border-neutral-700 bg-neutral-900 px-2 py-1 text-sm text-neutral-100 placeholder-neutral-500"
       />
       {selectedIds.length > 0 && (
@@ -225,14 +222,14 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
             onClick={() => onAddToCollection(selectedIds)}
             className="rounded border border-emerald-700 px-3 py-1 text-xs text-emerald-300 hover:bg-emerald-900/40"
           >
-            Add to collection ({selectedIds.length})
+            添加到收藏 ({selectedIds.length})
           </button>
           <button
             type="button"
             onClick={() => onRemoveFromCollection(selectedIds)}
             className="rounded border border-red-800 px-3 py-1 text-xs text-red-300 hover:bg-red-900/40"
           >
-            Remove from collection ({selectedIds.length})
+            从收藏中移除 ({selectedIds.length})
           </button>
           <button
             type="button"
@@ -250,12 +247,12 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
           onClick={unlockAll}
           title={
             unknownIds.length === 0
-              ? 'Every recipe is already in the collection'
-              : `Add all ${unknownIds.length} missing recipes to the collection`
+              ? '全部配方已在收藏中'
+              : `将全部 ${unknownIds.length} 个缺失配方加入收藏`
           }
           className="rounded border border-emerald-700 px-3 py-1 text-xs text-emerald-300 hover:bg-emerald-900/40 disabled:opacity-40 disabled:hover:bg-transparent"
         >
-          Unlock all{unknownIds.length > 0 ? ` (${unknownIds.length})` : ''}
+          全部解锁{unknownIds.length > 0 ? ` (${unknownIds.length})` : ''}
         </button>
         <button
           type="button"
@@ -263,12 +260,12 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
           onClick={buildAllThemes}
           title={
             unbuiltThemeIds.length === 0
-              ? 'Every theme is already built'
-              : `Mark all ${unbuiltThemeIds.length} unbuilt themes as fully crafted`
+              ? '全部主题已制作'
+              : `将全部 ${unbuiltThemeIds.length} 个未制作主题标记为已制作`
           }
           className="rounded border border-sky-700 px-3 py-1 text-xs text-sky-300 hover:bg-sky-900/40 disabled:opacity-40 disabled:hover:bg-transparent"
         >
-          Build all themes{unbuiltThemeIds.length > 0 ? ` (${unbuiltThemeIds.length})` : ''}
+          制作全部主题{unbuiltThemeIds.length > 0 ? ` (${unbuiltThemeIds.length})` : ''}
         </button>
         {columnsMenu}
       </div>
@@ -278,13 +275,13 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
   const leftPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col p-4">
       <div className="flex items-baseline gap-3">
-        <h2 className="text-lg font-semibold">Recipes</h2>
-        <span className="text-sm text-neutral-400">{rows.length} recipes</span>
+        <h2 className="text-lg font-semibold">配方</h2>
+        <span className="text-sm text-neutral-400">{rows.length} 个配方</span>
         {gameDataStatus === 'loading' && (
-          <span className="text-xs text-neutral-400">loading game data…</span>
+          <span className="text-xs text-neutral-400">正在加载游戏数据…</span>
         )}
         {gameDataStatus === 'error' && (
-          <span className="text-xs text-amber-500">game data unavailable</span>
+          <span className="text-xs text-amber-500">游戏数据不可用</span>
         )}
       </div>
 
@@ -308,7 +305,7 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
         onRowClick={onRowClick}
         {...(detail != null ? { activeRowId: detail } : {})}
         focusRowId={detail ?? null}
-        emptyState="No recipes match the search."
+        emptyState="没有符合搜索条件的配方。"
       />
     </div>
   );
@@ -316,7 +313,7 @@ export function RecipesView({ virtualized = true }: { virtualized?: boolean } = 
   return (
     <div className="flex h-full min-h-0">
       <ResizableSplit
-        ariaLabel="Resize recipe detail panel"
+        ariaLabel="调整配方详情面板宽度"
         width={panelWidth}
         onWidthChange={setPanelWidth}
         left={leftPane}

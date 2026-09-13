@@ -11,15 +11,15 @@ export function JunkView({ virtualized = true }: { virtualized?: boolean } = {})
   const schema = useMemo(() => junkSchema(), []);
   return (
     <ItemCatalogSection
-      title="Junk"
-      unitNoun="junk"
+      title="垃圾"
+      unitNoun="垃圾"
       storageType="Junk"
       slot={null}
       data={gameData?.junk ?? []}
       schema={schema}
       persistKey="catalog.junk"
-      searchLabel="Search junk"
-      searchPlaceholder="Search junk…"
+      searchLabel="搜索垃圾"
+      searchPlaceholder="搜索垃圾…"
       virtualized={virtualized}
     />
   );

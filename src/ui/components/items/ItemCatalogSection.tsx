@@ -94,14 +94,14 @@ export function ItemCatalogSection<T extends StackableItem>({
     if (blocked) return; // buttons are disabled; belt-and-braces for keyboard flows
     if (slotsFree !== null && !bypassCapacity && total > Math.max(0, slotsFree)) {
       // Full is handled by `blocked`; this catches a partial overflow (e.g. 3 free, add 5).
-      pushToast(`Not enough storage space (${Math.max(0, slotsFree)} free).`);
+      pushToast(`仓库空间不足（剩余 ${Math.max(0, slotsFree)} 个）。`);
       return;
     }
     applyEdit(
       (s) => items.reduce((acc, it) => grantItems(acc, storageType, it.id, it.count), s),
-      `Add ${total} to storage`,
+      `向仓库添加 ${total} 个`,
     );
-    pushToast(`Added ${total} ${unitNoun} to storage.`);
+    pushToast(`已将 ${total} 个${unitNoun}添加到仓库。`);
   };
 
   const onConfirmEquip = (serializeIds: number[]): void => {
@@ -110,13 +110,9 @@ export function ItemCatalogSection<T extends StackableItem>({
     const id = equipItem.id;
     applyEdit(
       (s) => serializeIds.reduce((acc, did) => op(acc, did, id), s),
-      `Equip ${equipItem.name}`,
+      `装备 ${equipItem.name}`,
     );
-    pushToast(
-      `Equipped ${equipItem.name} on ${serializeIds.length} ${
-        serializeIds.length === 1 ? 'dweller' : 'dwellers'
-      }.`,
-    );
+    pushToast(`已将 ${equipItem.name} 装备到 ${serializeIds.length} 名居民身上。`);
   };
 
   return (
@@ -135,7 +131,7 @@ export function ItemCatalogSection<T extends StackableItem>({
         gameDataStatus={gameDataStatus}
         onAddToStorage={onAddToStorage}
         addDisabled={blocked}
-        addDisabledReason="Storage is maxed. Tick the bypass checkbox in the notice above to add anyway."
+        addDisabledReason="仓库已达上限。如仍要添加，请勾选上方提示中的绕过复选框。"
         notice={notice}
         {...(slot !== null ? { onEquip: (id: string) => setEquipId(id) } : {})}
         {...(focusRowId != null ? { focusRowId } : {})}

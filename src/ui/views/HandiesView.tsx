@@ -86,25 +86,22 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
   const onDeleteSelected = (): void => {
     const ids = selectedRowIds.map(Number).filter((n) => Number.isInteger(n));
     if (ids.length === 0) return;
-    applyEdit(
-      (s) => deleteMrHandies(s, ids),
-      `Delete ${ids.length} robot${ids.length === 1 ? '' : 's'}`,
-    );
-    pushToast(`Deleted ${ids.length} robot${ids.length === 1 ? '' : 's'}.`);
+    applyEdit((s) => deleteMrHandies(s, ids), `删除 ${ids.length} 台机器人`);
+    pushToast(`已删除 ${ids.length} 台机器人。`);
     setRowSelection({});
     if (selectedId !== null && ids.includes(selectedId)) setSelectedId(null);
   };
 
   const onDeleteRow = (row: MrHandyRow): void => {
-    applyEdit((s) => deleteMrHandy(s, row.serializeId), `Delete ${row.name}`);
-    pushToast(`Deleted ${row.name}.`);
+    applyEdit((s) => deleteMrHandy(s, row.serializeId), `删除 ${row.name}`);
+    pushToast(`已删除 ${row.name}。`);
     setRowSelection({});
     if (selectedId === row.serializeId) setSelectedId(null);
   };
 
   const onHealAll = (): void => {
-    applyEdit((s) => healMrHandies(s, fullHealth), 'Heal all Mr. Handies');
-    pushToast(`Healed ${hurtCount} robot${hurtCount === 1 ? '' : 's'}.`);
+    applyEdit((s) => healMrHandies(s, fullHealth), '治疗所有巧手先生');
+    pushToast(`已治疗 ${hurtCount} 台机器人。`);
   };
 
   // Leading select checkboxes + trailing per-row Delete, composed around the schema.
@@ -114,9 +111,9 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
       actionsColumn<HandyTableRow>(
         [
           {
-            text: 'Delete',
+            text: '删除',
             tone: 'red',
-            ariaLabel: (r) => `Delete ${r.name}`,
+            ariaLabel: (r) => `删除 ${r.name}`,
             onClick: (r) => onDeleteRow(r),
           },
         ],
@@ -132,7 +129,7 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
     <div className="flex h-full min-h-0 flex-col">
       <div
         role="tablist"
-        aria-label="Mr. Handies view"
+        aria-label="巧手先生页面"
         className="flex gap-1 border-b border-neutral-800 px-4 pt-3"
       >
         {(['owned', 'catalog'] as const).map((t) => (
@@ -148,7 +145,7 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
                 : 'text-neutral-400 hover:text-neutral-100'
             }`}
           >
-            {t === 'owned' ? 'Owned' : 'Catalog'}
+            {t === 'owned' ? '已拥有' : '图鉴'}
           </button>
         ))}
       </div>
@@ -160,21 +157,19 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
       ) : (
         <div className="flex min-h-0 flex-1">
           <ResizableSplit
-            ariaLabel="Resize robot detail panel"
+            ariaLabel="调整机器人详情面板宽度"
             width={panelWidth}
             onWidthChange={setPanelWidth}
             left={
               <div className="flex min-w-0 flex-1 flex-col p-4">
                 <div className="flex items-baseline gap-3">
-                  <h2 className="text-lg font-semibold">Mr. Handies</h2>
-                  <span className="text-sm text-neutral-400">{rows.length} owned</span>
+                  <h2 className="text-lg font-semibold">巧手先生</h2>
+                  <span className="text-sm text-neutral-400">已拥有 {rows.length} 台</span>
                   {gameDataStatus === 'loading' && (
-                    <span className="text-xs text-neutral-400">loading game data…</span>
+                    <span className="text-xs text-neutral-400">游戏数据加载中…</span>
                   )}
                   {gameDataStatus === 'error' && (
-                    <span className="text-xs text-amber-500">
-                      game data unavailable - showing raw ids
-                    </span>
+                    <span className="text-xs text-amber-500">游戏数据不可用——显示原始 ID</span>
                   )}
                 </div>
 
@@ -193,8 +188,8 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
                         type="search"
                         value={globalFilter}
                         onChange={(e) => setGlobalFilter(e.target.value)}
-                        placeholder="Search robots…"
-                        aria-label="Search robots"
+                        placeholder="搜索机器人…"
+                        aria-label="搜索机器人"
                         className="w-64 rounded border border-neutral-700 bg-neutral-900 px-2 py-1 text-sm text-neutral-100 placeholder-neutral-500"
                       />
                       {selectedRowIds.length > 0 && (
@@ -204,14 +199,14 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
                             onClick={onDeleteSelected}
                             className="rounded border border-red-800 px-3 py-1 text-xs text-red-300 hover:bg-red-900/40"
                           >
-                            Delete ({selectedRowIds.length})
+                            删除 ({selectedRowIds.length})
                           </button>
                           <button
                             type="button"
                             onClick={() => setRowSelection({})}
                             className="rounded px-2 py-1 text-xs text-neutral-400 hover:text-neutral-100"
                           >
-                            Clear
+                            清空
                           </button>
                         </div>
                       )}
@@ -222,12 +217,12 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
                           onClick={onHealAll}
                           title={
                             hurtCount === 0
-                              ? 'Every robot is already at full health'
-                              : `Restore ${hurtCount} to ${fullHealth} HP and revive the destroyed`
+                              ? '所有机器人生命值已满'
+                              : `将 ${hurtCount} 台恢复至 ${fullHealth} 点生命值，并复活已损毁的机器人`
                           }
                           className="rounded border border-emerald-700 px-3 py-1 text-xs text-emerald-300 hover:bg-emerald-900/40 disabled:opacity-40 disabled:hover:bg-transparent"
                         >
-                          Heal all{hurtCount > 0 ? ` (${hurtCount})` : ''}
+                          全部治疗{hurtCount > 0 ? ` (${hurtCount})` : ''}
                         </button>
                         {columnsMenu}
                       </div>
@@ -243,7 +238,7 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
                   onRowSelectionChange={setRowSelection}
                   onRowClick={(r) => setSelectedId(r.serializeId)}
                   {...(selectedId !== null ? { activeRowId: String(selectedId) } : {})}
-                  emptyState="No robots owned. Add one from the Catalog tab."
+                  emptyState="尚未拥有机器人。可在「图鉴」标签页添加。"
                 />
               </div>
             }
@@ -257,7 +252,7 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
                   floorOptions={floorOptions}
                   onClose={() => setSelectedId(null)}
                   onRename={(name) =>
-                    applyEdit((s) => editMrHandy(s, selected.serializeId, { name }), 'Rename robot')
+                    applyEdit((s) => editMrHandy(s, selected.serializeId, { name }), '重命名机器人')
                   }
                   onSetVariant={(variant) =>
                     applyEdit(
@@ -267,35 +262,35 @@ export function HandiesView({ virtualized = true }: { virtualized?: boolean } = 
                           characterType: variant.characterType,
                           actorDataId: variant.actorDataId,
                         }),
-                      `Set variant to ${variant.name}`,
+                      `将变体设为 ${variant.name}`,
                     )
                   }
                   onSetHealth={(health) =>
                     applyEdit(
                       (s) => setMrHandyHealth(s, selected.serializeId, health),
-                      'Set robot health',
+                      '设置机器人生命值',
                     )
                   }
                   onHeal={() => {
                     applyEdit(
                       (s) => healMrHandy(s, selected.serializeId, fullHealth),
-                      `Heal ${selected.name}`,
+                      `治疗 ${selected.name}`,
                     );
-                    pushToast(`Healed ${selected.name}.`);
+                    pushToast(`已治疗 ${selected.name}。`);
                   }}
                   onMove={(row) => {
                     if (row === null) {
                       applyEdit(
                         (s) => unassignMrHandy(s, selected.serializeId),
-                        'Unassign Mr. Handy',
+                        '取消派驻巧手先生',
                       );
-                      pushToast('Robot sent outside the vault (it waits at the door).');
+                      pushToast('机器人已送出避难所（在大门等待）。');
                     } else {
                       applyEdit(
                         (s) => moveMrHandyToFloor(s, selected.serializeId, row),
-                        'Move Mr. Handy',
+                        '移动巧手先生',
                       );
-                      pushToast(`Robot moved to floor ${displayFloor(row)}.`);
+                      pushToast(`机器人已移动到第 ${displayFloor(row)} 层。`);
                     }
                   }}
                   onDelete={() => onDeleteRow(selected)}

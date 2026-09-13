@@ -187,8 +187,8 @@ describe('scaled description and reward', () => {
 
   it('scales the reward by m_rewardIncrement per level', () => {
     const d = def({ m_baseRewardType: 0, m_baseRewardAmount: 50, m_rewardIncrement: 10 });
-    expect(objectiveRewardLabel(d, 0)).toBe('50 Caps');
-    expect(objectiveRewardLabel(d, 5)).toBe('100 Caps');
+    expect(objectiveRewardLabel(d, 0)).toBe('50 瓶盖');
+    expect(objectiveRewardLabel(d, 5)).toBe('100 瓶盖');
   });
 });
 
@@ -203,9 +203,9 @@ describe('requirementProgressEntries', () => {
         currentBabies: 2,
       }),
     ).toEqual([
-      { key: 'rushCount', label: 'Rush count', value: '3', numeric: 3 },
-      { key: 'numSpinsMade', label: 'Spins made', value: '0', numeric: 0 },
-      { key: 'currentBabies', label: 'Babies', value: '2', numeric: 2 },
+      { key: 'rushCount', label: '加速次数', value: '3', numeric: 3 },
+      { key: 'numSpinsMade', label: '已抽奖次数', value: '0', numeric: 0 },
+      { key: 'currentBabies', label: '当前婴儿数', value: '2', numeric: 2 },
     ]);
   });
 
@@ -218,22 +218,22 @@ describe('requirementProgressEntries', () => {
 
 describe('objectiveModeLabel', () => {
   it('labels the mode from the normal/survival flags', () => {
-    expect(objectiveModeLabel(def({ m_isNormalMode: 1, m_isSurvivalMode: 1 }))).toBe('Both');
-    expect(objectiveModeLabel(def({ m_isNormalMode: 0, m_isSurvivalMode: 1 }))).toBe('Survival');
-    expect(objectiveModeLabel(def({ m_isNormalMode: 1, m_isSurvivalMode: 0 }))).toBe('Normal');
+    expect(objectiveModeLabel(def({ m_isNormalMode: 1, m_isSurvivalMode: 1 }))).toBe('两者');
+    expect(objectiveModeLabel(def({ m_isNormalMode: 0, m_isSurvivalMode: 1 }))).toBe('生存模式');
+    expect(objectiveModeLabel(def({ m_isNormalMode: 1, m_isSurvivalMode: 0 }))).toBe('普通模式');
   });
 });
 
 describe('objectiveRewardLabel', () => {
   it('labels the base reward by EReward type', () => {
     expect(objectiveRewardLabel(def({ m_baseRewardType: 0, m_baseRewardAmount: 50 }))).toBe(
-      '50 Caps',
+      '50 瓶盖',
     );
     expect(objectiveRewardLabel(def({ m_baseRewardType: 1, m_baseRewardAmount: 1 }))).toBe(
-      '1 Lunchbox',
+      '1 午餐盒',
     );
     expect(objectiveRewardLabel(def({ m_baseRewardType: 4, m_baseRewardAmount: 2 }))).toBe(
-      '2 Nuka-Cola Quantum',
+      '2 量子核子可乐',
     );
   });
 });

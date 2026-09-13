@@ -455,8 +455,8 @@ export function DataTable<T>({
             type="search"
             value={globalFilter}
             onChange={(e) => onGlobalFilterChange(e.target.value)}
-            placeholder="Search…"
-            aria-label="Search"
+            placeholder="搜索…"
+            aria-label="搜索"
             className="mb-2 w-64 rounded border border-neutral-700 bg-neutral-900 px-2 py-1 text-sm text-neutral-100 placeholder-neutral-500"
           />
         ))}
@@ -525,7 +525,7 @@ export function DataTable<T>({
                         <div
                           role="separator"
                           aria-orientation="vertical"
-                          aria-label={`Resize ${header.column.columnDef.meta?.headerLabel ?? header.column.id} column`}
+                          aria-label={`调整 ${header.column.columnDef.meta?.headerLabel ?? header.column.id} 列宽`}
                           tabIndex={0}
                           onMouseDown={header.getResizeHandler()}
                           onTouchStart={header.getResizeHandler()}
@@ -555,7 +555,7 @@ export function DataTable<T>({
         </div>
 
         {rows.length === 0 ? (
-          <div className="p-6 text-sm text-neutral-400">{emptyState ?? 'No rows.'}</div>
+          <div className="p-6 text-sm text-neutral-400">{emptyState ?? '暂无数据。'}</div>
         ) : (
           <div
             ref={scrollRef}

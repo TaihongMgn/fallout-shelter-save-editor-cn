@@ -110,7 +110,7 @@ export function SeasonPassView() {
   const record = seasonSave.seasonsData?.[effectiveViewed];
 
   if (!record) {
-    return <div className="p-8 text-sm text-neutral-400">No season data for this season.</div>;
+    return <div className="p-8 text-sm text-neutral-400">该赛季没有数据。</div>;
   }
 
   const isViewedActive = effectiveViewed === activeSeason;
@@ -150,7 +150,7 @@ export function SeasonPassView() {
   // --- Edit helpers (each = one combined undo step) -----------------------------
   const needGameData = (): boolean => {
     if (gameDataReady) return true;
-    pushToast('Game data is still loading - try again in a moment.', 'info');
+    pushToast('游戏数据仍在加载，请稍后重试。', 'info');
     return false;
   };
 
@@ -159,7 +159,7 @@ export function SeasonPassView() {
     if (!needGameData() || !gameData) return;
     applySeasonEdit(
       (ws) => toggleReward(ws, gameData, effectiveViewed, track, rewardId, seasonClaimIndex),
-      `Toggle reward - ${viewedLabel}`,
+      `切换奖励 - ${viewedLabel}`,
     );
   };
 
@@ -167,47 +167,45 @@ export function SeasonPassView() {
     if (!needGameData() || !gameData) return;
     applySeasonEdit(
       (ws) => claimUnclaimed(ws, gameData, effectiveViewed, seasonClaimIndex),
-      `Claim unclaimed - ${viewedLabel}`,
+      `领取未领取奖励 - ${viewedLabel}`,
     );
-    pushToast(`Claimed unclaimed rewards - ${viewedLabel}`);
+    pushToast(`已领取未领取的奖励 - ${viewedLabel}`);
   };
 
   const onClaimAll = (): void => {
     if (!needGameData() || !gameData) return;
     applySeasonEdit(
       (ws) => claimAll(ws, gameData, effectiveViewed, seasonClaimIndex),
-      `Claim all - ${viewedLabel}`,
+      `领取全部奖励 - ${viewedLabel}`,
     );
-    pushToast(`Claimed all rewards - ${viewedLabel}`);
+    pushToast(`已领取全部奖励 - ${viewedLabel}`);
   };
 
   const onMaxSeason = (): void => {
     if (!needGameData() || !gameData) return;
     applySeasonEdit(
       (ws) => maxSeason(ws, gameData, effectiveViewed, seasonClaimIndex),
-      `Max season - ${viewedLabel}`,
+      `赛季满级 - ${viewedLabel}`,
     );
-    pushToast(`Maxed ${viewedLabel}`);
+    pushToast(`${viewedLabel} 已满级`);
   };
 
   const onMaxAllSeasons = (): void => {
     if (!needGameData() || !gameData) return;
-    applySeasonEdit((ws) => maxAllSeasons(ws, gameData, seasonClaimIndex), 'Max all seasons');
-    pushToast('Maxed all seasons');
+    applySeasonEdit((ws) => maxAllSeasons(ws, gameData, seasonClaimIndex), '全部赛季满级');
+    pushToast('所有赛季已满级');
   };
 
   return (
     <div className="h-full overflow-auto">
       <div className="mx-auto max-w-6xl p-6">
         <div className="flex items-baseline gap-3">
-          <h2 className="text-lg font-semibold">Season Pass</h2>
+          <h2 className="text-lg font-semibold">赛季通行证</h2>
           {gameDataStatus === 'loading' && (
-            <span className="text-xs text-neutral-400">loading game data…</span>
+            <span className="text-xs text-neutral-400">游戏数据加载中…</span>
           )}
           {gameDataStatus === 'error' && (
-            <span className="text-xs text-amber-500">
-              game data unavailable - claiming items is disabled
-            </span>
+            <span className="text-xs text-amber-500">游戏数据不可用 - 领取物品功能已禁用</span>
           )}
         </div>
 
@@ -244,7 +242,7 @@ export function SeasonPassView() {
             onSetPremium={(on) =>
               applySeasonEdit(
                 (ws) => setPremium(ws, effectiveViewed, on),
-                `Premium ${on ? 'unlocked' : 'locked'} - ${viewedLabel}`,
+                `精英轨道已${on ? '解锁' : '锁定'} - ${viewedLabel}`,
               )
             }
             onSetPremiumPlus={(on) => {
@@ -265,30 +263,30 @@ export function SeasonPassView() {
                   }
                   return next;
                 },
-                `Premium+ ${on ? 'unlocked' : 'locked'} - ${viewedLabel}`,
+                `尊享通行证已${on ? '解锁' : '锁定'} - ${viewedLabel}`,
               );
               if (on && !wasPlus && plusTokens > 0 && isViewedActive) {
                 pushToast(
-                  `Premium+ purchase applied: +${plusTokens} tokens (levels the pass to rank ${plusSkipRank}).`,
+                  `已应用尊享通行证购买：+${plusTokens} 代币（通行证直升至 ${plusSkipRank} 级）。`,
                 );
               }
             }}
             onSetMaxRank={(v) =>
               applySeasonEdit(
                 (ws) => setMaxRank(ws, effectiveViewed, v),
-                `Set max rank - ${viewedLabel}`,
+                `设置最高等级 - ${viewedLabel}`,
               )
             }
             onSetLevel={(v) =>
-              applySeasonEdit((ws) => setLevel(ws, v), `Set level - ${activeLabel}`)
+              applySeasonEdit((ws) => setLevel(ws, v), `设置等级 - ${activeLabel}`)
             }
             onSetTokens={(v) =>
-              applySeasonEdit((ws) => setTokens(ws, v), `Set tokens - ${activeLabel}`)
+              applySeasonEdit((ws) => setTokens(ws, v), `设置代币 - ${activeLabel}`)
             }
             onMakeActive={() =>
               applySeasonEdit(
                 (ws) => switchSeason(ws, effectiveViewed),
-                `Active season → ${viewedLabel}`,
+                `激活赛季 → ${viewedLabel}`,
               )
             }
           />
@@ -314,8 +312,8 @@ export function SeasonPassView() {
               activeLabel={activeLabel}
               endDate={catalog?.seasonById.get(activeSeason)?.endDate ?? null}
               onAdvanceDays={(days) => {
-                applySeasonEdit((ws) => advanceSeasonClock(ws, days), `Season clock +${days}d`);
-                pushToast(`Season clock moved ${days} day${days === 1 ? '' : 's'} ahead`);
+                applySeasonEdit((ws) => advanceSeasonClock(ws, days), `赛季时钟 +${days} 天`);
+                pushToast(`赛季时钟已快进 ${days} 天`);
               }}
               onSkipToEnd={() => {
                 const end = catalog?.seasonById.get(activeSeason)?.endDate;
@@ -325,13 +323,13 @@ export function SeasonPassView() {
                 const endMs = new Date(`${end}T00:00:00`).getTime() + 86_400_000;
                 applySeasonEdit(
                   (ws) => skipToSeasonEnd(ws, ticksFromUnixMs(endMs), ticksFromUnixMs(Date.now())),
-                  'Skip past end of season',
+                  '跳过赛季结束时间',
                 );
-                pushToast('Season clock jumped past the season end');
+                pushToast('赛季时钟已跳过赛季结束时间');
               }}
               onReset={() => {
-                applySeasonEdit((ws) => resetSeasonClock(ws), 'Season clock reset');
-                pushToast('Season clock back to real time');
+                applySeasonEdit((ws) => resetSeasonClock(ws), '重置赛季时钟');
+                pushToast('赛季时钟已恢复为真实时间');
               }}
             />
           </div>
@@ -339,15 +337,15 @@ export function SeasonPassView() {
 
         <div className="mt-5">
           <div className="mb-2 flex items-center justify-between gap-3">
-            <h3 className="text-sm font-semibold text-neutral-300">Rewards - {viewedLabel}</h3>
+            <h3 className="text-sm font-semibold text-neutral-300">奖励 - {viewedLabel}</h3>
             {/* Claim state is PER VAULT SLOT (v2.5.0 rerun seasons arrive pre-seeded with
                 the original seasons' Vault1 claims, while a seasonal vault claims as its
                 own slot). Auto-set from the loaded .sav name; overridable here. */}
             <label
               className="flex items-center gap-2 text-xs text-neutral-400"
-              title="The game records claims per vault (claimedList holds vault slot numbers). Pick the vault this season pass plays with - auto-set from the loaded .sav file name."
+              title="游戏按避难所分别记录领取状态（claimedList 中保存的是避难所槽位号）。请选择此赛季通行证对应的避难所 - 会根据已载入的 .sav 文件名自动设置。"
             >
-              Claims for
+              领取归属
               <select
                 value={seasonClaimIndex}
                 onChange={(e) => setSeasonClaimIndex(Number(e.target.value))}
@@ -357,7 +355,7 @@ export function SeasonPassView() {
                   .sort((a, b) => a - b)
                   .map((slot) => (
                     <option key={slot} value={slot}>
-                      Vault {slot + 1}
+                      避难所 {slot + 1}
                     </option>
                   ))}
               </select>
@@ -376,9 +374,7 @@ export function SeasonPassView() {
               setInspected({ season: effectiveViewed, track, rewardId })
             }
             onToggle={onToggle}
-            onLockedPremium={() =>
-              pushToast('Unlock the premium track to claim premium rewards.', 'info')
-            }
+            onLockedPremium={() => pushToast('请先解锁精英轨道，才能领取精英奖励。', 'info')}
           />
         </div>
 

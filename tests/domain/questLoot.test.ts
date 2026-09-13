@@ -151,7 +151,7 @@ describe('planQuestLoot - deterministic preview', () => {
     expect(lines).toEqual([
       { kind: 'resource', key: 'Nuka', qty: 2500, label: 'Nuka' },
       { kind: 'resource', key: 'NukaColaQuantum', qty: 2, label: 'NukaColaQuantum' },
-      { kind: 'consumable', code: 0, qty: 1, label: 'Consumable 12' },
+      { kind: 'consumable', code: 0, qty: 1, label: '消耗品 12' },
       {
         kind: 'item',
         itemType: 'Outfit',
@@ -160,7 +160,7 @@ describe('planQuestLoot - deterministic preview', () => {
         label: 'RaiderArmor_Sturdy',
         rolled: false,
       },
-      { kind: 'random', lootType: T.RandomRareWeapon, qty: 1, label: 'Rare Weapon' },
+      { kind: 'random', lootType: T.RandomRareWeapon, qty: 1, label: '稀有武器' },
     ]);
   });
 
@@ -183,9 +183,9 @@ describe('planQuestLoot - deterministic preview', () => {
     const g = makeGameData();
     const labelOf = (type: number): string =>
       planQuestLoot(makeQuest([{ m_questRoomType: 1, m_combatLoot: loot(type, 1) }]), g)[0].label;
-    expect(labelOf(T.RandomCommonWeapon)).toBe('Common Weapon');
-    expect(labelOf(T.RandomLegendaryOutfit)).toBe('Legendary Outfit');
-    expect(labelOf(T.RandomRareJunk)).toBe('Rare Junk');
+    expect(labelOf(T.RandomCommonWeapon)).toBe('常见武器');
+    expect(labelOf(T.RandomLegendaryOutfit)).toBe('传说服装');
+    expect(labelOf(T.RandomRareJunk)).toBe('稀有垃圾');
   });
 
   it('flags loot types with no grant path as unsupported', () => {
@@ -195,7 +195,7 @@ describe('planQuestLoot - deterministic preview', () => {
       kind: 'unsupported',
       lootType: T.Dweller,
       qty: 1,
-      label: 'Special Dweller',
+      label: '特殊居民',
     });
   });
 });
@@ -227,7 +227,7 @@ describe('planQuestLoot - recipe + clue draw pools', () => {
     const save = { survivalW: { recipes: [] } } as unknown as SaveData;
     const lines = planQuestLoot(questWith(T.RandomRareWeaponRecipe), g, rng(), pools(g, save));
     expect(lines).toEqual([
-      { kind: 'recipe', ids: ['LaserRifle'], label: 'LaserRifle Recipe', rolled: true },
+      { kind: 'recipe', ids: ['LaserRifle'], label: 'LaserRifle 配方', rolled: true },
     ]);
   });
 
@@ -249,7 +249,7 @@ describe('planQuestLoot - recipe + clue draw pools', () => {
     // Two quests, one shared pool: only ONE legendary weapon recipe exists.
     const first = planQuestLoot(questWith(T.RandomLegendaryWeaponRecipe), g, r, p);
     const second = planQuestLoot(questWith(T.RandomLegendaryWeaponRecipe), g, r, p);
-    expect(first).toEqual([{ kind: 'recipe', ids: ['MIRV'], label: 'MIRV Recipe', rolled: true }]);
+    expect(first).toEqual([{ kind: 'recipe', ids: ['MIRV'], label: 'MIRV 配方', rolled: true }]);
     expect(second).toEqual([]); // pool consumed by the first draw
   });
 
@@ -258,9 +258,7 @@ describe('planQuestLoot - recipe + clue draw pools', () => {
     const save = { completedQuestDataManager: { foundClues: ['ClueA'] } } as unknown as SaveData;
     const p = pools(g, save, ['ClueA', 'ClueB']);
     const lines = planQuestLoot(questWith(T.RandomClue), g, rng(), p);
-    expect(lines).toEqual([
-      { kind: 'clue', questName: 'ClueB', label: 'Quest Clue', rolled: true },
-    ]);
+    expect(lines).toEqual([{ kind: 'clue', questName: 'ClueB', label: '任务线索', rolled: true }]);
     const next = grantResolvedLoot(save, lines);
     expect(next.completedQuestDataManager!.foundClues).toEqual(['ClueA', 'ClueB']);
   });
@@ -276,7 +274,7 @@ describe('planQuestLoot - recipe + clue draw pools', () => {
   it('leaves recipe/clue rolls as descriptors when no pools are supplied', () => {
     const g = withRecipes();
     const [line] = planQuestLoot(questWith(T.RandomRareWeaponRecipe), g, rng());
-    expect(line).toMatchObject({ kind: 'random', label: 'Rare Weapon Recipe' });
+    expect(line).toMatchObject({ kind: 'random', label: '稀有武器配方' });
   });
 });
 

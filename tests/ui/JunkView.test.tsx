@@ -42,15 +42,15 @@ describe('JunkView', () => {
   it('renders the junk catalog with no equip action', () => {
     render(<JunkView virtualized={false} />);
     expect(screen.getByText('Bottle Caps')).toBeInTheDocument();
-    expect(screen.getByText('2 junk')).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Equip…' })).not.toBeInTheDocument();
+    expect(screen.getByText('2 个垃圾')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '装备…' })).not.toBeInTheDocument();
   });
 
   it('adds selected junk to storage', async () => {
     const user = userEvent.setup();
     render(<JunkView virtualized={false} />);
-    await user.click(screen.getByRole('checkbox', { name: 'Select Bottle Caps' }));
-    await user.click(screen.getByRole('button', { name: 'Add to storage (1)' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Bottle Caps' }));
+    await user.click(screen.getByRole('button', { name: '添加到仓库 (1)' }));
     expect(inventory().map((i) => i.id)).toContain('Caps');
   });
 });

@@ -58,64 +58,61 @@ export function SeasonStatusCard({
 }: SeasonStatusCardProps) {
   return (
     <VaultCard
-      title="Status"
-      description={`Premium, rank and level for ${viewedLabel}.`}
+      title="状态"
+      description={`${viewedLabel} 的精英轨道、级数与等级。`}
       action={
         !isViewedActive && (
           <button
             type="button"
             onClick={onMakeActive}
-            title="Point the save's active season (and nvf.dat) at this season"
+            title="将存档的当前赛季（以及 nvf.dat）指向该赛季"
             className="rounded border border-amber-700 px-2.5 py-1 text-xs text-amber-300 hover:bg-amber-900/30"
           >
-            Make active
+            设为当前
           </button>
         )
       }
     >
       <div className="flex flex-col gap-3">
         <Toggle
-          label="Premium track"
+          label="精英轨道"
           on={isPremium}
           onChange={onSetPremium}
-          onLabel="Unlocked"
-          offLabel="Locked"
+          onLabel="已解锁"
+          offLabel="未解锁"
         />
         <Toggle
-          label="Premium+ track"
+          label="精英+轨道"
           on={isPremiumPlus}
           onChange={onSetPremiumPlus}
-          onLabel="Unlocked"
-          offLabel="Locked"
+          onLabel="已解锁"
+          offLabel="未解锁"
         />
 
         {/* What each paid tier does, verified against the v2.4.1 game files (ShopWindow /
             SeasonPassTokenManager / Vault.GrantEligibleSeasonalLunchboxes). */}
         <div className="rounded border border-neutral-800 bg-neutral-950/50 px-2.5 py-2 text-[11px] leading-relaxed text-neutral-400">
           <p>
-            <span className="font-medium text-neutral-300">Premium</span> unlocks the premium reward
-            row on the board. In game the purchase also queues this season&apos;s goodie box; the
-            game delivers it to each vault the next time it loads. Toggling it on here records that
-            purchase in the save.
+            <span className="font-medium text-neutral-300">精英</span>
+            会解锁棋盘上的精英奖励行。在游戏中，该购买还会排队发放本赛季的礼包；游戏会在下次载入时把它送到每个避难所。在此打开该开关，等于在存档中记录这次购买。
           </p>
           <p className="mt-1.5">
-            <span className="font-medium text-neutral-300">Premium+</span> includes Premium and adds
-            the bigger goodie box (bonus caps, legendary gear and pets, a unique dweller)
+            <span className="font-medium text-neutral-300">精英+</span>
+            包含精英的全部内容，并追加更大的礼包（额外瓶盖、传说装备与宠物，以及一名独特居民）
             {plusTokens > 0 && plusSkipRank > 1 ? (
               <>
-                {' '}
-                plus {plusTokens} pass tokens, instantly leveling a fresh pass to rank{' '}
-                {plusSkipRank}. Toggling it on applies the token boost to the active season.
+                ，外加 {plusTokens} 个通行证代币，可让新建通行证立即升到 {plusSkipRank}{' '}
+                级。打开该开关会把代币加成应用到当前赛季。
               </>
             ) : (
-              '.'
+              '。'
             )}
           </p>
         </div>
 
         <div className="grid grid-cols-2 gap-3 border-t border-neutral-800 pt-3">
           <NumberField
-            label="Max rank achieved"
+            label="已达到的最高级"
             value={maxRankAchieved}
             min={0}
             max={rankCap}
@@ -127,11 +124,11 @@ export function SeasonStatusCard({
 
         <div className="border-t border-neutral-800 pt-3">
           <p className="text-[11px] uppercase tracking-wide text-neutral-500">
-            Active season - {activeLabel}
+            当前赛季 - {activeLabel}
           </p>
           <div className="mt-2 grid grid-cols-2 gap-3">
             <NumberField
-              label="Level"
+              label="等级"
               value={level}
               min={0}
               max={rankCap}
@@ -139,7 +136,7 @@ export function SeasonStatusCard({
               onCommit={onSetLevel}
             />
             <NumberField
-              label="Tokens"
+              label="代币"
               value={tokens}
               min={0}
               max={TOKENS_FALLBACK_MAX}
@@ -149,8 +146,8 @@ export function SeasonStatusCard({
           </div>
           {!isViewedActive && (
             <p className="mt-1.5 text-[11px] text-neutral-500">
-              Level and tokens apply to the active season ({activeLabel}). Make this season active
-              to edit them for {viewedLabel}.
+              等级与代币应用于当前赛季（{activeLabel}）。要把它们改作用于 {viewedLabel}
+              ，请先将该赛季设为当前赛季。
             </p>
           )}
         </div>

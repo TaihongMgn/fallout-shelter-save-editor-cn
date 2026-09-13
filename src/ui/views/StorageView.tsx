@@ -41,10 +41,10 @@ import {
 // unless out-of-range edits are enabled. Each edit is one applyEdit = one undo step.
 
 const SEGMENTS: ReadonlyArray<{ id: AddSegment; label: string }> = [
-  { id: 'Weapon', label: 'Weapons' },
-  { id: 'Outfit', label: 'Outfits' },
-  { id: 'Pet', label: 'Pets' },
-  { id: 'Junk', label: 'Junk' },
+  { id: 'Weapon', label: '武器' },
+  { id: 'Outfit', label: '服装' },
+  { id: 'Pet', label: '宠物' },
+  { id: 'Junk', label: '垃圾' },
 ];
 
 const tabClass = (active: boolean): string =>
@@ -175,8 +175,7 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
     const type = segment === 'Pet' ? 'Weapon' : segment;
     return storageGroupSchema({
       type,
-      onSetCount: (id, count) =>
-        applyEdit((s) => setItemCount(s, type, id, count), 'Set item count'),
+      onSetCount: (id, count) => applyEdit((s) => setItemCount(s, type, id, count), '设置物品数量'),
     });
   }, [segment, applyEdit]);
   const groupTrailing = useMemo<ColumnDef<StorageGroupRow>[]>(() => {
@@ -185,10 +184,10 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
       actionsColumn<StorageGroupRow>(
         [
           {
-            text: 'Remove',
+            text: '移除',
             tone: 'red',
-            ariaLabel: (r) => `Remove all ${r.name}`,
-            onClick: (r) => applyEdit((s) => setItemCount(s, type, r.id, 0), 'Remove items'),
+            ariaLabel: (r) => `移除全部 ${r.name}`,
+            onClick: (r) => applyEdit((s) => setItemCount(s, type, r.id, 0), '移除物品'),
           },
         ],
         { size: 110 },
@@ -202,10 +201,10 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
       actionsColumn<StoragePetRow>(
         [
           {
-            text: 'Remove',
+            text: '移除',
             tone: 'red',
-            ariaLabel: (r) => `Remove ${r.name}`,
-            onClick: (r) => applyEdit((s) => removeStoredItemAt(s, r.index), 'Remove stored item'),
+            ariaLabel: (r) => `移除 ${r.name}`,
+            onClick: (r) => applyEdit((s) => removeStoredItemAt(s, r.index), '移除仓库物品'),
           },
         ],
         { size: 110 },
@@ -230,18 +229,16 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
     const type = segment === 'Pet' ? 'Weapon' : segment;
     applyEdit(
       (s) => selectedKeys.reduce((acc, id) => setItemCount(acc, type, id, 0), s),
-      'Remove selected items',
+      '移除所选物品',
     );
     setRowSelection({});
-    pushToast(
-      `Removed ${selectedKeys.length} selected stack${selectedKeys.length === 1 ? '' : 's'}`,
-    );
+    pushToast(`已移除所选的 ${selectedKeys.length} 组物品`);
   };
   const removeSelectedPets = (): void => {
     const indices = selectedKeys.map(Number);
-    applyEdit((s) => removeStoredItemsAt(s, indices), 'Remove selected pets');
+    applyEdit((s) => removeStoredItemsAt(s, indices), '移除所选宠物');
     setRowSelection({});
-    pushToast(`Removed ${indices.length} pet${indices.length === 1 ? '' : 's'}`);
+    pushToast(`已移除 ${indices.length} 只宠物`);
   };
 
   const removeSelectedButton = (onRemove: () => void): ReactNode =>
@@ -251,7 +248,7 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
         onClick={onRemove}
         className="rounded border border-red-700 px-3 py-1.5 text-sm text-red-300 hover:bg-red-900/40"
       >
-        Remove selected ({selectedKeys.length})
+        移除所选（{selectedKeys.length}）
       </button>
     ) : null;
 
@@ -261,16 +258,16 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
     const total = picked.reduce((n, it) => n + it.count, 0);
     applyEdit(
       (s) => picked.reduce((acc, it) => grantItems(acc, segment, it.id, it.count), s),
-      `Add ${total} to storage`,
+      `向仓库添加 ${total} 件物品`,
     );
   };
-  const onAddPet = (pet: NewPet): void => applyEdit((s) => addPet(s, pet), 'Create pet');
+  const onAddPet = (pet: NewPet): void => applyEdit((s) => addPet(s, pet), '创建宠物');
 
   const meterParts: ReadonlyArray<{ label: string; n: number; className: string }> = [
-    { label: 'Weapons', n: totals.weapon, className: 'bg-sky-600' },
-    { label: 'Outfits', n: totals.outfit, className: 'bg-violet-600' },
-    { label: 'Junk', n: totals.junk, className: 'bg-amber-600' },
-    { label: 'Pets', n: totals.pet, className: 'bg-emerald-600' },
+    { label: '武器', n: totals.weapon, className: 'bg-sky-600' },
+    { label: '服装', n: totals.outfit, className: 'bg-violet-600' },
+    { label: '垃圾', n: totals.junk, className: 'bg-amber-600' },
+    { label: '宠物', n: totals.pet, className: 'bg-emerald-600' },
   ];
 
   // Bar spans the capacity; when over capacity the segments fill 100% (using `total`)
@@ -281,18 +278,18 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
   return (
     <div className="flex h-full min-h-0 flex-col p-4">
       <div className="flex items-baseline gap-3">
-        <h2 className="text-lg font-semibold">Storage</h2>
+        <h2 className="text-lg font-semibold">仓库</h2>
         <span className="flex items-center gap-1.5 text-sm text-neutral-400">
-          {totals.total}
-          {itemCapacity !== null && ` / ${itemCapacity}`} items stored
+          已存放 {totals.total}
+          {itemCapacity !== null && ` / ${itemCapacity}`} 件物品
           <InfoTooltip text={fieldHelp.storageCapacity} />
         </span>
-        {overCapacity && <span className="text-xs font-medium text-red-400">⚠ over capacity</span>}
+        {overCapacity && <span className="text-xs font-medium text-red-400">⚠ 超出容量</span>}
         {gameDataStatus === 'loading' && (
-          <span className="text-xs text-neutral-400">loading game data…</span>
+          <span className="text-xs text-neutral-400">游戏数据加载中…</span>
         )}
         {gameDataStatus === 'error' && (
-          <span className="text-xs text-amber-500">game data unavailable - showing raw ids</span>
+          <span className="text-xs text-amber-500">游戏数据不可用 - 显示原始 ID</span>
         )}
       </div>
 
@@ -330,8 +327,8 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
               className={`ml-auto tabular-nums ${overCapacity ? 'text-red-400' : 'text-neutral-400'}`}
             >
               {overCapacity
-                ? `${totals.total - itemCapacity} over capacity`
-                : `${itemCapacity - totals.total} slots free`}
+                ? `超出容量 ${totals.total - itemCapacity}`
+                : `剩余 ${itemCapacity - totals.total} 个空位`}
             </span>
           )}
         </div>
@@ -357,7 +354,7 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
           onClick={() => setAddOpen(true)}
           className="rounded border border-emerald-700 px-3 py-1.5 text-sm text-emerald-300 hover:bg-emerald-900/40"
         >
-          Add items
+          添加物品
         </button>
       </div>
 
@@ -377,7 +374,7 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
           onRowSelectionChange={setRowSelection}
           toolbarExtras={removeSelectedButton(removeSelectedPets)}
           initialSorting={[{ id: 'name', desc: false }]}
-          emptyState="No pets in storage. Use “Add items” to grant one."
+          emptyState="仓库中没有宠物。请使用「添加物品」来添加一只。"
         />
       ) : (
         <UnifiedTable<StorageGroupRow>
@@ -395,7 +392,7 @@ export function StorageView({ virtualized = true }: { virtualized?: boolean } = 
           onRowSelectionChange={setRowSelection}
           toolbarExtras={removeSelectedButton(removeSelectedGroups)}
           initialSorting={[{ id: 'name', desc: false }]}
-          emptyState="Nothing of this type in storage. Use “Add items” to grant some."
+          emptyState="仓库中没有该类型的物品。请使用「添加物品」来添加一些。"
         />
       )}
 

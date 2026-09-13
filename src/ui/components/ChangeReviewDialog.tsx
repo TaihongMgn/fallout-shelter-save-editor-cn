@@ -59,9 +59,7 @@ function SummaryBody({ summary }: { summary: ChangeSummary | null }) {
   const [expanded, setExpanded] = useState(false);
 
   if (!summary || !summary.hasChanges) {
-    return (
-      <p className="text-sm text-neutral-400">No changes since import - exporting a fresh copy.</p>
-    );
+    return <p className="text-sm text-neutral-400">导入后没有更改——将导出一份全新副本。</p>;
   }
 
   const {
@@ -89,21 +87,21 @@ function SummaryBody({ summary }: { summary: ChangeSummary | null }) {
       g.list,
       g.added > 0 ? `+${g.added}` : null,
       g.removed > 0 ? `−${g.removed}` : null,
-      g.stateFlipped > 0 ? `${g.stateFlipped} new/seen` : null,
+      g.stateFlipped > 0 ? `${g.stateFlipped} 个新收录` : null,
     ]
       .filter((s): s is string => s !== null)
       .join(' ');
 
   // Condensed headline: dweller/room counts, resources, storage delta, other sections.
   const dwellerCounts = [
-    dwellersAdded.length > 0 ? `${dwellersAdded.length} added` : null,
-    dwellersRemoved.length > 0 ? `${dwellersRemoved.length} removed` : null,
-    dwellersModified.length > 0 ? `${dwellersModified.length} edited` : null,
+    dwellersAdded.length > 0 ? `新增 ${dwellersAdded.length} 名居民` : null,
+    dwellersRemoved.length > 0 ? `移除 ${dwellersRemoved.length} 名居民` : null,
+    dwellersModified.length > 0 ? `编辑 ${dwellersModified.length} 名居民` : null,
   ].filter((s): s is string => s !== null);
   const roomCounts = [
-    roomsAdded.length > 0 ? `${roomsAdded.length} built` : null,
-    roomsRemoved.length > 0 ? `${roomsRemoved.length} removed` : null,
-    roomsModified.length > 0 ? `${roomsModified.length} edited` : null,
+    roomsAdded.length > 0 ? `新建 ${roomsAdded.length} 个房间` : null,
+    roomsRemoved.length > 0 ? `移除 ${roomsRemoved.length} 个房间` : null,
+    roomsModified.length > 0 ? `编辑 ${roomsModified.length} 个房间` : null,
   ].filter((s): s is string => s !== null);
 
   // Only the names + field changes are worth expanding for; counts already cover the headline.
@@ -125,57 +123,53 @@ function SummaryBody({ summary }: { summary: ChangeSummary | null }) {
   const CAP = 25;
   const capped = (ids: string[]): string =>
     ids.length <= CAP
-      ? ids.join(', ')
-      : `${ids.slice(0, CAP).join(', ')} … and ${ids.length - CAP} more`;
+      ? ids.join('、')
+      : `${ids.slice(0, CAP).join('、')} …以及另外 ${ids.length - CAP} 个`;
 
   return (
     <div className="text-sm">
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-0.5">
           {dwellerCounts.length > 0 && (
-            <p className="text-neutral-300">Dwellers: {dwellerCounts.join(', ')}</p>
+            <p className="text-neutral-300">居民：{dwellerCounts.join('、')}</p>
           )}
           {roomCounts.length > 0 && (
-            <p className="text-neutral-300">Rooms: {roomCounts.join(', ')}</p>
+            <p className="text-neutral-300">房间：{roomCounts.join('、')}</p>
           )}
           {resourcesChanged.length > 0 && (
             <p className="text-neutral-300">
-              Resources:{' '}
-              {resourcesChanged.map((f) => `${f.label} ${f.before} → ${f.after}`).join(', ')}
+              资源： {resourcesChanged.map((f) => `${f.label} ${f.before} → ${f.after}`).join('、')}
             </p>
           )}
           {(itemsChanged.length > 0 || boxesChanged.length > 0) && (
             <p className="text-neutral-300">
-              Items:{' '}
+              物品：{' '}
               {[...itemsChanged, ...boxesChanged]
                 .slice(0, 6)
                 .map((f) => `${f.label} ${f.before} → ${f.after}`)
-                .join(', ')}
+                .join('、')}
               {itemsChanged.length + boxesChanged.length > 6 &&
-                ` … and ${itemsChanged.length + boxesChanged.length - 6} more`}
+                ` …以及另外 ${itemsChanged.length + boxesChanged.length - 6} 个`}
             </p>
           )}
           {recipesAdded.length > 0 && (
-            <p className="text-neutral-300">Recipes unlocked: {recipesAdded.length}</p>
+            <p className="text-neutral-300">解锁配方：{recipesAdded.length}</p>
           )}
           {recipesRemoved.length > 0 && (
-            <p className="text-neutral-300">Recipes removed: {recipesRemoved.length}</p>
+            <p className="text-neutral-300">移除配方：{recipesRemoved.length}</p>
           )}
           {guideChanged.length > 0 && (
-            <p className="text-neutral-300">
-              Survival Guide: {guideChanged.map(guideLine).join(', ')}
-            </p>
+            <p className="text-neutral-300">生存指南：{guideChanged.map(guideLine).join('、')}</p>
           )}
           {inventoryDelta && (
             <p className="text-neutral-300">
-              Storage items: {inventoryDelta.before} → {inventoryDelta.after}
+              仓库物品：{inventoryDelta.before} → {inventoryDelta.after}
             </p>
           )}
           {otherChanges.length > 0 && (
             <p className="text-neutral-400">
-              Other data changed: {otherSectionsChanged.join(', ')} ({otherChanges.length}
-              {otherChangesTruncated > 0 ? '+' : ''} field
-              {otherChanges.length === 1 && otherChangesTruncated === 0 ? '' : 's'})
+              其他数据更改：{otherSectionsChanged.join('、')}（{otherChanges.length}
+              {otherChangesTruncated > 0 ? '+' : ''} 处字段）
             </p>
           )}
         </div>
@@ -186,7 +180,7 @@ function SummaryBody({ summary }: { summary: ChangeSummary | null }) {
             onClick={() => setExpanded((v) => !v)}
             className="shrink-0 rounded px-1.5 py-0.5 text-xs text-amber-300 hover:bg-neutral-800"
           >
-            {expanded ? 'Hide changes' : 'Show all changes'}
+            {expanded ? '收起更改' : '显示全部更改'}
           </button>
         )}
       </div>
@@ -194,40 +188,34 @@ function SummaryBody({ summary }: { summary: ChangeSummary | null }) {
       {hasDetail && expanded && (
         <div className="mt-2 flex flex-col gap-2 border-t border-neutral-800 pt-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
-            Changes you made
+            你所做的更改
           </p>
           {dwellersAdded.length > 0 && (
             <div>
-              <p className="font-medium text-emerald-300">
-                {dwellersAdded.length} dweller(s) added
-              </p>
+              <p className="font-medium text-emerald-300">新增 {dwellersAdded.length} 名居民</p>
               <p className="text-xs text-neutral-400">
-                {dwellersAdded.map((d) => d.name).join(', ')}
+                {dwellersAdded.map((d) => d.name).join('、')}
               </p>
             </div>
           )}
           {dwellersRemoved.length > 0 && (
             <div>
-              <p className="font-medium text-red-300">
-                {dwellersRemoved.length} dweller(s) removed
-              </p>
+              <p className="font-medium text-red-300">移除 {dwellersRemoved.length} 名居民</p>
               <p className="text-xs text-neutral-400">
-                {dwellersRemoved.map((d) => d.name).join(', ')}
+                {dwellersRemoved.map((d) => d.name).join('、')}
               </p>
             </div>
           )}
           {dwellersModified.length > 0 && (
             <div>
-              <p className="font-medium text-amber-300">
-                {dwellersModified.length} dweller(s) edited
-              </p>
+              <p className="font-medium text-amber-300">编辑 {dwellersModified.length} 名居民</p>
               <ul className="mt-1 flex flex-col gap-1.5">
                 {dwellersModified.map((d) => (
                   <li key={d.serializeId} className="rounded bg-neutral-950/60 px-2 py-1">
                     <span className="text-neutral-200">{d.name}</span>
-                    <span className="text-neutral-400"> - </span>
+                    <span className="text-neutral-400">：</span>
                     <span className="text-xs text-neutral-400">
-                      {d.fields.map((f) => `${f.label}: ${f.before} → ${f.after}`).join('; ')}
+                      {d.fields.map((f) => `${f.label} ${f.before} → ${f.after}`).join('；')}
                     </span>
                   </li>
                 ))}
@@ -236,26 +224,26 @@ function SummaryBody({ summary }: { summary: ChangeSummary | null }) {
           )}
           {roomsAdded.length > 0 && (
             <div>
-              <p className="font-medium text-emerald-300">{roomsAdded.length} room(s) built</p>
-              <p className="text-xs text-neutral-400">{roomsAdded.join(', ')}</p>
+              <p className="font-medium text-emerald-300">新建 {roomsAdded.length} 个房间</p>
+              <p className="text-xs text-neutral-400">{roomsAdded.join('、')}</p>
             </div>
           )}
           {roomsRemoved.length > 0 && (
             <div>
-              <p className="font-medium text-red-300">{roomsRemoved.length} room(s) removed</p>
-              <p className="text-xs text-neutral-400">{roomsRemoved.join(', ')}</p>
+              <p className="font-medium text-red-300">移除 {roomsRemoved.length} 个房间</p>
+              <p className="text-xs text-neutral-400">{roomsRemoved.join('、')}</p>
             </div>
           )}
           {roomsModified.length > 0 && (
             <div>
-              <p className="font-medium text-amber-300">{roomsModified.length} room(s) edited</p>
+              <p className="font-medium text-amber-300">编辑 {roomsModified.length} 个房间</p>
               <ul className="mt-1 flex flex-col gap-1.5">
                 {roomsModified.map((r) => (
                   <li key={r.label} className="rounded bg-neutral-950/60 px-2 py-1">
                     <span className="text-neutral-200">{r.label}</span>
-                    <span className="text-neutral-400"> - </span>
+                    <span className="text-neutral-400">：</span>
                     <span className="text-xs text-neutral-400">
-                      {r.fields.map((f) => `${f.label}: ${f.before} → ${f.after}`).join('; ')}
+                      {r.fields.map((f) => `${f.label} ${f.before} → ${f.after}`).join('；')}
                     </span>
                   </li>
                 ))}
@@ -264,46 +252,44 @@ function SummaryBody({ summary }: { summary: ChangeSummary | null }) {
           )}
           {(itemsChanged.length > 0 || boxesChanged.length > 0) && (
             <div>
-              <p className="font-medium text-amber-300">Item counts changed</p>
+              <p className="font-medium text-amber-300">物品数量变化</p>
               <p className="text-xs text-neutral-400">
                 {[...itemsChanged, ...boxesChanged]
-                  .map((f) => `${f.label}: ${f.before} → ${f.after}`)
-                  .join(', ')}
+                  .map((f) => `${f.label} ${f.before} → ${f.after}`)
+                  .join('、')}
               </p>
             </div>
           )}
           {recipesAdded.length > 0 && (
             <div>
-              <p className="font-medium text-emerald-300">
-                {recipesAdded.length} recipe(s) unlocked
-              </p>
+              <p className="font-medium text-emerald-300">解锁 {recipesAdded.length} 个配方</p>
               <p className="text-xs text-neutral-400">{capped(recipesAdded)}</p>
             </div>
           )}
           {recipesRemoved.length > 0 && (
             <div>
-              <p className="font-medium text-red-300">{recipesRemoved.length} recipe(s) removed</p>
+              <p className="font-medium text-red-300">移除 {recipesRemoved.length} 个配方</p>
               <p className="text-xs text-neutral-400">{capped(recipesRemoved)}</p>
             </div>
           )}
           {guideChanged.length > 0 && (
             <div>
-              <p className="font-medium text-amber-300">Survival Guide collections changed</p>
-              <p className="text-xs text-neutral-400">{guideChanged.map(guideLine).join(', ')}</p>
+              <p className="font-medium text-amber-300">生存指南收藏变化</p>
+              <p className="text-xs text-neutral-400">{guideChanged.map(guideLine).join('、')}</p>
             </div>
           )}
           {otherChanges.length > 0 && (
             <div>
-              <p className="font-medium text-amber-300">Other fields changed</p>
+              <p className="font-medium text-amber-300">其他字段更改</p>
               <ul className="mt-1 flex flex-col gap-0.5 text-xs text-neutral-400">
                 {otherChanges.map((c) => (
                   <li key={c.path}>
-                    <span className="font-mono text-neutral-300">{c.path}</span>: {c.before} →{' '}
+                    <span className="font-mono text-neutral-300">{c.path}</span>：{c.before} →{' '}
                     {c.after}
                   </li>
                 ))}
                 {otherChangesTruncated > 0 && (
-                  <li className="text-neutral-500">…and {otherChangesTruncated} more</li>
+                  <li className="text-neutral-500">…另外 {otherChangesTruncated} 处</li>
                 )}
               </ul>
             </div>
@@ -376,14 +362,13 @@ export function ChangeReviewDialog({
         <Dialog.Content className={`${MODAL_LARGE} p-5`}>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <Dialog.Title className="text-base font-semibold">Save your changes</Dialog.Title>
+              <Dialog.Title className="text-base font-semibold">保存你的更改</Dialog.Title>
               <Dialog.Description className="mt-0.5 text-xs text-neutral-400">
-                Here&apos;s what changed and which files we&apos;ll save. The defaults are safe -
-                most people can just press Export.
+                以下是更改内容以及将要保存的文件。默认选项是安全的——大多数人直接按“导出”即可。
               </Dialog.Description>
             </div>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
             >
               ✕
@@ -396,7 +381,7 @@ export function ChangeReviewDialog({
             {issues.length > 0 && (
               <div className="mt-4 border-t border-neutral-800 pt-3">
                 <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
-                  Save health
+                  存档健康状态
                 </p>
                 <ul className="mt-1 flex flex-col gap-1 text-sm">
                   {issues.map((issue, i) => (
@@ -414,7 +399,7 @@ export function ChangeReviewDialog({
 
             <div className="mt-4 border-t border-neutral-800 pt-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
-                What to save
+                要保存的文件
               </p>
 
               {availableCount > 1 && (
@@ -426,8 +411,8 @@ export function ChangeReviewDialog({
                     onChange={(e) => setAll(e.target.checked)}
                     className="accent-amber-500"
                   />
-                  <span className="text-neutral-200">Save everything</span>
-                  <span className="text-xs text-neutral-500">(recommended)</span>
+                  <span className="text-neutral-200">保存全部文件</span>
+                  <span className="text-xs text-neutral-500">（推荐）</span>
                 </label>
               )}
 
@@ -440,13 +425,11 @@ export function ChangeReviewDialog({
                     className={FILE_CHECKBOX}
                   />
                   <span className="text-sm">
-                    <span className="text-neutral-200">Your vault save</span>{' '}
+                    <span className="text-neutral-200">你的避难所存档</span>{' '}
                     <code className="text-neutral-400">{fileName}</code>
                     <span className="mt-0.5 block text-xs text-neutral-400">
-                      Everything in your shelter - dwellers, rooms, caps and items - with your edits
-                      applied.
-                      {saveInPlaceSupported &&
-                        ' Opens a “save” window so you can write it straight back over the original.'}
+                      避难所的全部内容——居民、房间、瓶盖和物品——已应用你的修改。
+                      {saveInPlaceSupported && ' 将打开一个“保存”窗口，可直接写回并覆盖原文件。'}
                     </span>
                   </span>
                 </label>
@@ -460,13 +443,12 @@ export function ChangeReviewDialog({
                       className={FILE_CHECKBOX}
                     />
                     <span className="text-sm">
-                      <span className="text-neutral-200">Your season-pass progress</span>{' '}
+                      <span className="text-neutral-200">你的赛季通行证进度</span>{' '}
                       <code className="text-neutral-400">spd.dat</code>
                       <span className="text-neutral-500"> + </span>
                       <code className="text-neutral-400">nvf.dat</code>
                       <span className="mt-0.5 block text-xs text-neutral-400">
-                        Your season level, claimed rewards and premium status. These two files work
-                        as a pair, so they&apos;re saved together to stay in sync.
+                        包含你的赛季等级、已领取的奖励和精英轨道状态。这两个文件成对使用，会一起保存以保持同步。
                       </span>
                     </span>
                   </label>
@@ -481,12 +463,10 @@ export function ChangeReviewDialog({
                       className={FILE_CHECKBOX}
                     />
                     <span className="text-sm">
-                      <span className="text-neutral-200">A safety backup</span>{' '}
+                      <span className="text-neutral-200">一份安全备份</span>{' '}
                       <code className="text-neutral-400">{base}.backup-…sav</code>
                       <span className="mt-0.5 block text-xs text-neutral-400">
-                        An untouched copy of your save from before these edits. Keep it - if
-                        anything looks wrong in the game, you can put this one back. Strongly
-                        recommended.
+                        编辑之前存档的原始副本，未做任何改动。请保留它——如果游戏里有什么不对劲，可以用它恢复原状。强烈建议保留。
                       </span>
                     </span>
                   </label>
@@ -494,22 +474,21 @@ export function ChangeReviewDialog({
 
                 {isSandbox && (
                   <p className="px-3 text-xs text-neutral-500">
-                    This is a practice save you started in the app - there&apos;s no original file
-                    to back up.
+                    这是你在本编辑器中创建的练习存档——没有可供备份的原始文件。
                   </p>
                 )}
               </div>
 
               {canBackup && includeBackup && (
                 <div className="mt-2 rounded border border-neutral-800 bg-neutral-950/60 px-3 py-2 text-xs text-neutral-400">
-                  <p className="font-medium text-neutral-300">If something goes wrong later</p>
+                  <p className="font-medium text-neutral-300">如果之后出现问题</p>
                   <p className="mt-0.5">
-                    In your save folder, delete the edited{' '}
-                    <code className="text-neutral-300">{fileName}</code>, then rename the backup
-                    file: remove the <code className="text-neutral-300">.backup-&lt;date&gt;</code>{' '}
-                    part of its name so it&apos;s called{' '}
-                    <code className="text-neutral-300">{fileName}</code> again. The game will load
-                    it as if the edits never happened.
+                    在存档文件夹中，删除已修改的{' '}
+                    <code className="text-neutral-300">{fileName}</code>
+                    ，然后重命名备份文件：去掉文件名中的{' '}
+                    <code className="text-neutral-300">.backup-&lt;date&gt;</code>{' '}
+                    部分，使其重新叫作 <code className="text-neutral-300">{fileName}</code>
+                    。游戏会照常载入它，就像这些修改从未发生过一样。
                   </p>
                 </div>
               )}
@@ -517,12 +496,10 @@ export function ChangeReviewDialog({
 
             <div className="mt-4 border-t border-neutral-800 pt-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
-                Where to put these files
+                文件放置位置
               </p>
               <p className="mt-1 text-xs text-neutral-400">
-                After saving, copy the file(s) into Fallout Shelter&apos;s save folder, replacing
-                the ones already there. Pick your device to see the folder - the same one holds the
-                vault save and both season files:
+                保存后，将文件复制到《辐射：避难所》的存档文件夹中，替换其中已有的文件。选择你的设备以查看文件夹——避难所存档和两个赛季文件都放在同一个文件夹里：
               </p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {PLATFORM_TARGETS.map((p) => (
@@ -544,20 +521,21 @@ export function ChangeReviewDialog({
               <div className="mt-2 rounded bg-neutral-950/60 px-3 py-2 text-xs">
                 <code className="break-all text-neutral-300">{target.basePath}</code>
                 <span className="mt-1 block text-neutral-500">
-                  This folder holds <code className="text-neutral-400">{fileName}</code>,{' '}
-                  <code className="text-neutral-400">spd.dat</code> and{' '}
-                  <code className="text-neutral-400">nvf.dat</code>.
+                  此文件夹中包含 <code className="text-neutral-400">{fileName}</code>、
+                  <code className="text-neutral-400">spd.dat</code> 和{' '}
+                  <code className="text-neutral-400">nvf.dat</code>。
                 </span>
                 {!target.verified && (
                   <span className="mt-1 block text-amber-400">
-                    Community-reported location - double-check it on your device. {target.note}
+                    来自社区报告的位置——请在你的设备上再次确认。{target.note}
                   </span>
                 )}
               </div>
               {(target.id === 'pc' || target.id === 'steamdeck') && (
                 <p className="mt-2 text-xs text-amber-400">
-                  Heads up: Steam Cloud can quietly put the old save back. Before you swap files,
-                  close the game and turn off Steam Cloud sync for Fallout Shelter.
+                  注意：Steam
+                  云存档可能会悄悄把旧存档还原。替换文件前，请先关闭游戏，并为《辐射：避难所》关闭
+                  Steam 云同步。
                 </p>
               )}
             </div>
@@ -565,11 +543,11 @@ export function ChangeReviewDialog({
 
           {saveInPlaceSupported && includeSav && (
             <p className="mt-3 text-xs text-neutral-400">
-              When you press Export, a “save” window opens for your{' '}
-              <code className="text-neutral-300">.sav</code> - go to the folder above and pick your
-              existing <code className="text-neutral-300">Vault&lt;N&gt;.sav</code> to overwrite it.
+              按下“导出”后，会为你的 <code className="text-neutral-300">.sav</code>{' '}
+              打开一个“保存”窗口——请前往上述文件夹，选择现有的{' '}
+              <code className="text-neutral-300">Vault&lt;N&gt;.sav</code> 进行覆盖。
               {(seasonEdited || canBackup) &&
-                ' The other files land in your Downloads folder; move them into that same save folder.'}
+                ' 其余文件会存到“下载”文件夹中，请将它们移动到同一个存档文件夹内。'}
             </p>
           )}
 
@@ -585,7 +563,7 @@ export function ChangeReviewDialog({
               onClick={onClose}
               className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-neutral-100"
             >
-              Cancel
+              取消
             </button>
             <button
               type="button"
@@ -593,7 +571,7 @@ export function ChangeReviewDialog({
               disabled={exporting || nothingSelected}
               className="rounded bg-amber-500 px-4 py-1.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-amber-400 disabled:opacity-50"
             >
-              {exporting ? 'Exporting…' : 'Export'}
+              {exporting ? '导出中…' : '导出'}
             </button>
           </div>
         </Dialog.Content>

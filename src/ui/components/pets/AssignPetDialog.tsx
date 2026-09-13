@@ -36,7 +36,7 @@ export function AssignPetDialog({
     () => [
       badgeColumn<DwellerRow>({
         id: '_current',
-        label: 'Wearing',
+        label: '穿戴中',
         size: 86,
         predicate: (d) => d.serializeId === currentOwnerId,
       }),
@@ -53,13 +53,13 @@ export function AssignPetDialog({
         <Dialog.Content className={`${MODAL_LARGE} p-5`}>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <Dialog.Title className="text-base font-semibold">Equip pet to dweller</Dialog.Title>
+              <Dialog.Title className="text-base font-semibold">为居民装备宠物</Dialog.Title>
               <Dialog.Description className="mt-0.5 text-xs text-neutral-400">
-                Their current pet, if any, returns to storage.
+                居民当前装备的宠物（如有）将放回仓库。
               </Dialog.Description>
             </div>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
             >
               ✕
@@ -81,7 +81,7 @@ export function AssignPetDialog({
               onAssign(d.serializeId);
               onClose();
             }}
-            emptyState="No dwellers."
+            emptyState="暂无居民。"
           />
         </Dialog.Content>
       </Dialog.Portal>

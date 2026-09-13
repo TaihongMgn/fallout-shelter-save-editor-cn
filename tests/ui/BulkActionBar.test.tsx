@@ -44,7 +44,7 @@ describe('BulkActionBar - heal / cure', () => {
     const user = userEvent.setup();
     render(<BulkActionBar selectedIds={[1, 2]} onClear={vi.fn()} />);
 
-    await user.click(screen.getByRole('button', { name: 'Cure' }));
+    await user.click(screen.getByRole('button', { name: '治辐射' }));
 
     expect(dwellerById(1)?.health?.radiationValue).toBe(0);
     expect(dwellerById(2)?.health?.radiationValue).toBe(0);
@@ -57,7 +57,7 @@ describe('BulkActionBar - heal / cure', () => {
     const user = userEvent.setup();
     render(<BulkActionBar selectedIds={[1]} onClear={vi.fn()} />);
 
-    await user.click(screen.getByRole('button', { name: 'Heal' }));
+    await user.click(screen.getByRole('button', { name: '治疗' }));
 
     expect(dwellerById(1)?.health?.healthValue).toBe(100);
     // Radiation untouched (heal is NOT cure).
@@ -70,8 +70,8 @@ describe('BulkActionBar - remove selected', () => {
     const user = userEvent.setup();
     render(<BulkActionBar selectedIds={[1, 2]} onClear={vi.fn()} />);
     // Viewport-clamped bubble, not a native `title` (which the page cannot keep on screen).
-    await user.hover(screen.getByRole('button', { name: 'Remove (2)' }));
-    expect(screen.getByRole('tooltip')).toHaveTextContent(/cleans up every trace/i);
+    await user.hover(screen.getByRole('button', { name: '移除（2）' }));
+    expect(screen.getByRole('tooltip')).toHaveTextContent(/清理所有痕迹/);
   });
 
   it('shows the count on the button and only removes after confirming', async () => {
@@ -80,10 +80,10 @@ describe('BulkActionBar - remove selected', () => {
     render(<BulkActionBar selectedIds={[1, 2]} onClear={onClear} />);
 
     // Count rendered on the red button; nothing removed before the dialog confirm.
-    await user.click(screen.getByRole('button', { name: 'Remove (2)' }));
+    await user.click(screen.getByRole('button', { name: '移除（2）' }));
     expect(useSaveStore.getState().save?.dwellers?.dwellers).toHaveLength(2);
 
-    await user.click(screen.getByRole('button', { name: 'Remove 2 dwellers' }));
+    await user.click(screen.getByRole('button', { name: '移除 2 名居民' }));
     expect(useSaveStore.getState().save?.dwellers?.dwellers).toHaveLength(0);
     expect(onClear).toHaveBeenCalled();
     // One undo step for the whole batch.
@@ -94,8 +94,8 @@ describe('BulkActionBar - remove selected', () => {
     const user = userEvent.setup();
     render(<BulkActionBar selectedIds={[1]} onClear={vi.fn()} />);
 
-    await user.click(screen.getByRole('button', { name: 'Remove (1)' }));
-    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    await user.click(screen.getByRole('button', { name: '移除（1）' }));
+    await user.click(screen.getByRole('button', { name: '取消' }));
 
     expect(useSaveStore.getState().save?.dwellers?.dwellers).toHaveLength(2);
     expect(useSaveStore.getState().past).toHaveLength(0);

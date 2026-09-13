@@ -1,5 +1,5 @@
 import type { Pet } from '../../../../domain/gamedata/schemas.ts';
-import { iconColumn, inSelectedSet, nameCell, prettyBonus } from '../columnKit.tsx';
+import { iconColumn, inSelectedSet, nameCell, prettyBonus, rarityLabel } from '../columnKit.tsx';
 import type { TableSchema } from '../tableSchema.ts';
 
 // Source-of-truth schema for the game-data PET CATALOG - the breed×rarity
@@ -12,12 +12,12 @@ export function petCatalogSchema(): TableSchema<Pet> {
   return {
     name: 'petCatalog',
     hideable: [
-      { id: 'name', label: 'Name' },
-      { id: 'breed', label: 'Breed' },
-      { id: 'type', label: 'Type' },
-      { id: 'rarity', label: 'Rarity' },
-      { id: 'ability', label: 'Ability' },
-      { id: 'bonus', label: 'Bonus' },
+      { id: 'name', label: '名称' },
+      { id: 'breed', label: '品种' },
+      { id: 'type', label: '类型' },
+      { id: 'rarity', label: '稀有度' },
+      { id: 'ability', label: '加成效果' },
+      { id: 'bonus', label: '加成值' },
     ],
     columns: [
       iconColumn<Pet>((p) => ({ type: 'pets', id: p.id })),
@@ -27,7 +27,7 @@ export function petCatalogSchema(): TableSchema<Pet> {
         // by either ("Mr. Pebbles" or "Persian"); the cell shows the special name primary.
         accessorFn: (p) =>
           p.baseName && p.baseName !== p.name ? `${p.baseName} ${p.name}` : p.name,
-        header: 'Name',
+        header: '名称',
         cell: ({ row }) => {
           const { name, baseName } = row.original;
           const special = baseName && baseName !== name ? baseName : null;
@@ -46,53 +46,53 @@ export function petCatalogSchema(): TableSchema<Pet> {
         },
         size: 180,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Name' },
+        meta: { filterVariant: 'text', headerLabel: '名称' },
       },
       {
         id: 'breed',
         accessorFn: (p) => p.breed,
-        header: 'Breed',
+        header: '品种',
         size: 140,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Breed' },
+        meta: { filterVariant: 'text', headerLabel: '品种' },
       },
       {
         id: 'type',
         accessorFn: (p) => p.type,
-        header: 'Type',
+        header: '类型',
         size: 120,
         filterFn: inSelectedSet<Pet>(),
-        meta: { filterVariant: 'select', headerLabel: 'Type' },
+        meta: { filterVariant: 'select', headerLabel: '类型' },
       },
       {
         id: 'rarity',
-        accessorFn: (p) => p.rarity,
-        header: 'Rarity',
+        accessorFn: (p) => rarityLabel(p.rarity),
+        header: '稀有度',
         size: 110,
         filterFn: inSelectedSet<Pet>(),
-        meta: { filterVariant: 'select', headerLabel: 'Rarity' },
+        meta: { filterVariant: 'select', headerLabel: '稀有度' },
       },
       {
         id: 'ability',
         accessorFn: (p) => prettyBonus(p.bonus),
-        header: 'Ability',
+        header: '加成效果',
         cell: ({ getValue }) => nameCell(getValue<string>()),
         size: 170,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Ability' },
+        meta: { filterVariant: 'text', headerLabel: '加成效果' },
       },
       {
         // The rolled-bonus magnitude range; sort by the strongest possible roll (max).
         id: 'bonus',
         accessorFn: (p) => p.bonusMax,
-        header: 'Bonus',
+        header: '加成值',
         cell: ({ row }) =>
           row.original.bonusMin === row.original.bonusMax
             ? `${row.original.bonusMax}`
             : `${row.original.bonusMin}–${row.original.bonusMax}`,
         size: 110,
         filterFn: 'inNumberRange',
-        meta: { filterVariant: 'range', headerLabel: 'Bonus' },
+        meta: { filterVariant: 'range', headerLabel: '加成值' },
       },
     ],
   };

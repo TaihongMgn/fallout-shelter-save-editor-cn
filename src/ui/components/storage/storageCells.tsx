@@ -56,7 +56,7 @@ export function CountCell({ value, onCommit, min = 0 }: CountCellProps) {
     <span className="flex items-stretch">
       <button
         type="button"
-        aria-label="Decrease count"
+        aria-label="减少数量"
         {...decrementHandlers}
         className="w-6 rounded-l border border-neutral-700 bg-neutral-800 text-neutral-300 hover:bg-neutral-700 pointer-coarse:w-9"
       >
@@ -65,7 +65,7 @@ export function CountCell({ value, onCommit, min = 0 }: CountCellProps) {
       <input
         type="number"
         inputMode="numeric"
-        aria-label="Count"
+        aria-label="数量"
         min={min}
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -75,7 +75,7 @@ export function CountCell({ value, onCommit, min = 0 }: CountCellProps) {
       />
       <button
         type="button"
-        aria-label="Increase count"
+        aria-label="增加数量"
         {...incrementHandlers}
         className="w-6 rounded-r border border-neutral-700 bg-neutral-800 text-neutral-300 hover:bg-neutral-700 pointer-coarse:w-9"
       >

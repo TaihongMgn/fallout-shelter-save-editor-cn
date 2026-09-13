@@ -18,12 +18,12 @@ const OGS: ReadonlyArray<{ name: string; url: string; blurb: string }> = [
   {
     name: 'rakion99/shelter-editor',
     url: 'https://github.com/rakion99/shelter-editor',
-    blurb: 'the original',
+    blurb: '开山之作',
   },
   {
     name: 'erayerm/fs-save-editor',
     url: 'https://github.com/erayerm/fs-save-editor',
-    blurb: 'which it inspired',
+    blurb: '受其启发的后继之作',
   },
 ];
 
@@ -100,18 +100,16 @@ export function CreditsDialog({ onClose }: { onClose: () => void }) {
           <div className="flex items-start justify-between gap-3">
             <span aria-hidden="true" className="w-6" />
             <Dialog.Title className="flex-1 text-center text-lg font-semibold">
-              Credits: the OGs
+              特别致谢
             </Dialog.Title>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
             >
               ✕
             </Dialog.Close>
           </div>
-          <Dialog.Description className="sr-only">
-            Acknowledgments for the projects that inspired this editor.
-          </Dialog.Description>
+          <Dialog.Description className="sr-only">向启发了本编辑器的项目致谢。</Dialog.Description>
 
           {/* The shrine row: dweller | crystal | OG links | crystal | dweller. */}
           <div className="mx-auto mt-6 flex items-stretch justify-center gap-4">
@@ -128,7 +126,7 @@ export function CreditsDialog({ onClose }: { onClose: () => void }) {
                   >
                     {og.name}
                   </a>
-                  <span className="text-xs text-neutral-400">({og.blurb})</span>
+                  <span className="text-xs text-neutral-400">（{og.blurb}）</span>
                 </span>
               ))}
             </div>
@@ -138,16 +136,13 @@ export function CreditsDialog({ onClose }: { onClose: () => void }) {
 
           <div className="mx-auto mt-6 max-w-xl space-y-2 text-center text-sm text-neutral-300">
             <p>
-              This project was inspired by those earlier community save editors. If it were not for
-              them, and for what their work revealed about the data inside these save files, there
-              would not have been enough inspiration to build this project.
+              本项目正是受这些早期社区存档编辑器的启发。如果没有它们，以及它们的成果所揭示的这些存档文件内部的种种数据，就不会有足够的灵感来构建这个项目。
             </p>
             <p>
-              This is an independent, from-scratch reimplementation; no code is copied from either,
-              but the trail they blazed is the reason it exists.
+              这是一个独立的、从零开始重写的实现；没有复制它们的任何代码，但正是它们开辟的道路让本项目得以存在。
             </p>
             <p className="text-xs text-neutral-400">
-              Source for this editor:{' '}
+              本编辑器的源代码：{' '}
               <a
                 href={REPO_URL}
                 target="_blank"

@@ -46,7 +46,7 @@ describe('ObjectivePickerDialog', () => {
     renderDialog();
     expect(screen.getByText('Collect 200 Food')).toBeInTheDocument();
     expect(screen.getByText('Collect 300 Water')).toBeInTheDocument();
-    expect(screen.getByText('Current')).toBeInTheDocument();
+    expect(screen.getByText('当前')).toBeInTheDocument();
   });
 
   it('picks the clicked row', async () => {
@@ -59,7 +59,7 @@ describe('ObjectivePickerDialog', () => {
   it('filters rows via the global search', async () => {
     const user = userEvent.setup();
     renderDialog();
-    await user.type(screen.getByRole('searchbox', { name: 'Search objectives' }), 'Water');
+    await user.type(screen.getByRole('searchbox', { name: '搜索目标' }), 'Water');
     expect(screen.queryByText('Collect 200 Food')).not.toBeInTheDocument();
     expect(screen.getByText('Collect 300 Water')).toBeInTheDocument();
   });

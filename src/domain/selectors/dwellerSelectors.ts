@@ -149,12 +149,12 @@ function resolveLocation(dweller: Dweller, ctx: ProjectionContext): DwellerLocat
     return { savedRoom, roomType: null, row: null, col: null, label: wasteland };
   }
   if (savedRoom === -1) {
-    const label = ctx.waitingIds?.has(dweller.serializeId) ? 'At Door' : 'Coffee Break';
+    const label = ctx.waitingIds?.has(dweller.serializeId) ? '在大门等待' : '空闲';
     return { savedRoom: -1, roomType: null, row: null, col: null, label };
   }
   const room = ctx.roomById?.get(savedRoom);
   if (!room) {
-    return { savedRoom, roomType: null, row: null, col: null, label: `Room ${savedRoom}` };
+    return { savedRoom, roomType: null, row: null, col: null, label: `房间 ${savedRoom}` };
   }
   return {
     savedRoom,
@@ -175,11 +175,11 @@ export function buildRoomIndex(save: SaveData): Map<number, Room> {
 // Known `team.status` values: 'Exploring', 'GoingToQuest'; the returning leg is
 // detected by its elapsed counter so an unrecognized status string still labels sanely.
 function wastelandTeamLabel(team: WastelandTeam): string {
-  if (team.isDoingQuest === true || team.status === 'GoingToQuest') return 'On Quest';
+  if (team.isDoingQuest === true || team.status === 'GoingToQuest') return '任务中';
   if ((team.elapsedReturningTime ?? 0) > 0 || team.status?.startsWith('Returning')) {
-    return 'Returning';
+    return '返回途中';
   }
-  return 'Exploring';
+  return '废土探索中';
 }
 
 /** Dweller serializeId → wasteland label, from `vault.wasteland.teams[].dwellers`. */

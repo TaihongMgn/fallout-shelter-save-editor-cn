@@ -47,7 +47,7 @@ export type SaveStatus = 'empty' | 'loading' | 'loaded' | 'error';
 export const HISTORY_LIMIT = 100;
 
 /** Label shown for the initial imported state in the history timeline. */
-export const IMPORT_LABEL = 'Imported save';
+export const IMPORT_LABEL = '导入的存档';
 
 /** Bundled new-game baseline save - fetched for the "Start fresh / sandbox" path. */
 const BASELINE_FILE_NAME = 'Vault2.sav';
@@ -269,14 +269,14 @@ export const useSaveStore = create<SaveState>((set, get) => ({
         // Lead with the issue-TYPE count so this matches the Vault sidebar badge and the Vault
         // overview health check (both count types); the affected-entity total is the aside.
         const affected = issues.reduce((n, d) => n + d.count, 0);
-        const types = `${issues.length} structural issue${issues.length === 1 ? '' : 's'}`;
-        pushToast(`${types} found (${affected} affected). Open the Vault tab to review.`, 'info');
+        const types = `${issues.length} 个结构问题`;
+        pushToast(`发现 ${types}（影响 ${affected} 处）。请打开“避难所”页签查看。`, 'info');
       }
     } catch (e) {
       set({
         ...initialState,
         status: 'error',
-        error: e instanceof Error ? e.message : 'Failed to read save file.',
+        error: e instanceof Error ? e.message : '存档文件读取失败。',
       });
     }
   },
@@ -292,9 +292,7 @@ export const useSaveStore = create<SaveState>((set, get) => ({
       set({
         ...initialState,
         status: 'error',
-        error: `Failed to load the bundled baseline save (${
-          e instanceof Error ? e.message : 'unknown error'
-        }).`,
+        error: `加载内置初始存档失败（${e instanceof Error ? e.message : '未知错误'}）。`,
       });
       return;
     }
@@ -305,11 +303,11 @@ export const useSaveStore = create<SaveState>((set, get) => ({
 
   exportSavText: async () => {
     const { save } = get();
-    if (!save) throw new Error('No save loaded.');
+    if (!save) throw new Error('未载入存档。');
     return encode(save);
   },
 
-  applyEdit: (recipe, label = 'Edit') => {
+  applyEdit: (recipe, label = '编辑') => {
     const s = get();
     if (!s.save) return;
     let next = recipe(s.save);
@@ -323,7 +321,7 @@ export const useSaveStore = create<SaveState>((set, get) => ({
     });
   },
 
-  applySeasonEdit: (recipe, label = 'Season edit') => {
+  applySeasonEdit: (recipe, label = '赛季编辑') => {
     const s = get();
     if (!s.save || !s.seasonSave || !s.nvf) return;
     const ws: SeasonWorkspace = {
@@ -387,13 +385,13 @@ export const useSaveStore = create<SaveState>((set, get) => ({
 
   exportSeasonText: async () => {
     const { seasonSave } = get();
-    if (!seasonSave) throw new Error('No season data loaded.');
+    if (!seasonSave) throw new Error('未载入赛季数据。');
     return encodeSeason(seasonSave);
   },
 
   exportNvfText: async () => {
     const { nvf } = get();
-    if (!nvf) throw new Error('No season data loaded.');
+    if (!nvf) throw new Error('未载入赛季数据。');
     return encodeNvf(nvf);
   },
 
@@ -436,7 +434,7 @@ export const useSaveStore = create<SaveState>((set, get) => ({
       future: s.future.slice(1),
       seasonFuture: s.seasonFuture.slice(1),
       futureLabels: s.futureLabels.slice(1),
-      currentLabel: s.futureLabels[0] ?? 'Edit',
+      currentLabel: s.futureLabels[0] ?? '编辑',
       health: checkSaveHealth(next),
     });
   },

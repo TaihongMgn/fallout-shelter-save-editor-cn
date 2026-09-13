@@ -95,7 +95,7 @@ export function TopBar() {
   return (
     <header className="flex flex-wrap items-center gap-x-4 gap-y-1.5 border-b border-neutral-800 px-4 py-2">
       <h1 className="flex items-end gap-1.5 text-base font-semibold text-neutral-100">
-        <span>Fallout Shelter Save Editor</span>
+        <span>辐射：避难所存档编辑器</span>
         <span className="text-xs font-normal text-neutral-500">v{__APP_VERSION__}</span>
       </h1>
 
@@ -104,11 +104,11 @@ export function TopBar() {
           <span className="hidden text-neutral-200 sm:inline">{fileName}</span>
           {metadata && (
             <span className="hidden text-neutral-400 lg:inline">
-              · Vault {metadata.vaultName} · {metadata.dwellerCount}
-              {populationCap !== null && `/${populationCap}`} dwellers
+              · 避难所 {metadata.vaultName} · 居民 {metadata.dwellerCount}
+              {populationCap !== null && `/${populationCap}`}
             </span>
           )}
-          {edited && <span className="text-amber-400">● unsaved changes</span>}
+          {edited && <span className="text-amber-400">● 未保存的更改</span>}
         </div>
       )}
 
@@ -117,8 +117,8 @@ export function TopBar() {
           href={REPO_URL}
           target="_blank"
           rel="noreferrer"
-          title="Source and README on GitHub"
-          aria-label="GitHub repository"
+          title="在 GitHub 查看源码与 README"
+          aria-label="GitHub 仓库"
           className={ICON_LINK}
         >
           <GitHubIcon />
@@ -126,20 +126,20 @@ export function TopBar() {
         <button
           type="button"
           onClick={() => setSupportOpen(true)}
-          title="Enjoying the editor? Support the developer"
-          aria-label="Support the developer"
+          title="喜欢这个编辑器？支持一下开发者"
+          aria-label="支持开发者"
           className="flex h-8 items-center gap-1.5 rounded px-2 text-sm text-neutral-400 hover:bg-neutral-800 hover:text-pink-400"
         >
           <HeartIcon />
-          <span>Support</span>
+          <span>支持</span>
         </button>
         <button
           type="button"
           onClick={() => setCreditsOpen(true)}
-          title="Credits: the projects that inspired this editor"
+          title="致谢：启发本编辑器的各个项目"
           className="rounded px-2 py-1 text-xs text-neutral-500 hover:bg-neutral-800 hover:text-neutral-200"
         >
-          Credits
+          致谢
         </button>
 
         {hasSave && (
@@ -149,36 +149,36 @@ export function TopBar() {
               className={BTN}
               onClick={undo}
               disabled={!canUndo}
-              title={canUndo ? `Undo: ${undoLabel} (Ctrl+Z)` : 'Nothing to undo'}
+              title={canUndo ? `撤销：${undoLabel} (Ctrl+Z)` : '没有可撤销的操作'}
             >
-              Undo
+              撤销
             </button>
             <button
               type="button"
               className={BTN}
               onClick={redo}
               disabled={!canRedo}
-              title={canRedo ? `Redo: ${redoLabel} (Ctrl+Y)` : 'Nothing to redo'}
+              title={canRedo ? `重做：${redoLabel} (Ctrl+Y)` : '没有可重做的操作'}
             >
-              Redo
+              重做
             </button>
             <button
               type="button"
               className={BTN}
               onClick={() => setHistoryOpen(true)}
-              title="Edit history - jump to any prior point"
+              title="编辑历史——跳转到任意之前的时点"
             >
-              History
+              历史
             </button>
             <button type="button" className={BTN} onClick={clear}>
-              Load file
+              载入存档
             </button>
             <button
               type="button"
               onClick={openExport}
               className="rounded bg-amber-500 px-4 py-1.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-amber-400 disabled:opacity-50"
             >
-              Export
+              导出
             </button>
           </>
         )}

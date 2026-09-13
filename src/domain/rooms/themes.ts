@@ -36,20 +36,20 @@ export const NO_THEME = 'None';
 
 /** ESpecialTheme enum name → display label. */
 const THEME_LABELS: Record<string, string> = {
-  None: 'None',
-  BrotherOfSteel: 'Brotherhood of Steel',
-  Institute: 'Institute',
-  Minutemen: 'Minutemen',
-  Railroad: 'Railroad',
-  AnniversaryParty: 'Anniversary',
-  Vault33: 'Vault 33',
-  Ultracite: 'Ultracite',
-  SunsetSarsaparilla: 'Sunset Sarsaparilla',
-  Enclave: 'Enclave',
-  NewVegas: 'New Vegas',
-  NewVegasNight: 'New Vegas (Night)',
-  Lucky38Penthouse: 'Lucky 38 Penthouse',
-  Concord: 'Concord',
+  None: '无',
+  BrotherOfSteel: '钢铁兄弟会',
+  Institute: '学院',
+  Minutemen: '民兵',
+  Railroad: '铁路',
+  AnniversaryParty: '周年纪念',
+  Vault33: '33 号避难所',
+  Ultracite: '超镭',
+  SunsetSarsaparilla: '日落沙士',
+  Enclave: '英克雷',
+  NewVegas: '新维加斯',
+  NewVegasNight: '新维加斯（夜晚）',
+  Lucky38Penthouse: '幸运 38 顶层公寓',
+  Concord: '康科德',
 };
 
 // ERoomType name → ordered { ESpecialTheme enum name: recipe codeId } valid for it (from

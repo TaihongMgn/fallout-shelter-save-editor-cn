@@ -54,9 +54,9 @@ const BTN =
   'rounded border border-neutral-700 px-3 py-1.5 text-sm text-neutral-200 hover:bg-neutral-800 disabled:opacity-40 disabled:hover:bg-transparent';
 
 const MAX_EVERYTHING_TOOLTIP =
-  'Resources → legal cap · every dweller → level 50, SPECIAL 10, 644 max HP, 0 rad, ' +
-  'happiness 100, dead revived · Mr. Handies → full health · every room → max level + ' +
-  'repaired. Never unlocks, adds, or removes anything.';
+  '资源 → 提升至合法上限 · 所有居民 → 等级 50、SPECIAL 全 10、最大生命值 644、辐射 0、' +
+  '幸福度 100、死亡居民复活 · 巧手先生 → 生命值全满 · 所有房间 → 最高等级并修复。' +
+  '不会解锁、添加或移除任何内容。';
 
 export function BulkView() {
   const save = useSaveStore((s) => s.save);
@@ -103,7 +103,7 @@ export function BulkView() {
       suggestedPetId: suggestPetForRoomType(gameData, rt.type)?.id ?? null,
     }));
   }, [save, gameData, weaponSuggestionId]);
-  if (!save) return <div className="p-6 text-sm text-neutral-400">No save loaded.</div>;
+  if (!save) return <div className="p-6 text-sm text-neutral-400">未载入存档。</div>;
 
   const applyRoomLoadout = (dwellerIds: number[], choice: LoadoutChoice): void => {
     const spec: LoadoutSpec = {
@@ -122,10 +122,8 @@ export function BulkView() {
         };
       }
     }
-    applyEdit((s) => applyLoadout(s, dwellerIds, spec), 'Apply loadout');
-    pushToast(
-      `Loadout applied to ${dwellerIds.length} dweller${dwellerIds.length === 1 ? '' : 's'}`,
-    );
+    applyEdit((s) => applyLoadout(s, dwellerIds, spec), '应用配置');
+    pushToast(`已将配置应用到 ${dwellerIds.length} 名居民`);
   };
 
   const run =
@@ -136,7 +134,7 @@ export function BulkView() {
         affected = countAffectedDwellers(s, next, scopedIds);
         return next;
       }, label);
-      pushToast(`${label}: ${affected} dweller${affected === 1 ? '' : 's'}`);
+      pushToast(`${label}：${affected} 名居民`);
     };
 
   const runMaxEverything = (): void => {
@@ -151,9 +149,9 @@ export function BulkView() {
           roomMaxLevel: (type) => gameData.roomMetadataByType.get(type)?.maxLevel ?? 3,
           ...(endBonusFor ? { enduranceBonusFor: endBonusFor } : {}),
         }),
-      'Max Everything',
+      '一键全满',
     );
-    pushToast('Max Everything applied');
+    pushToast('已应用一键全满');
   };
 
   // Vault / room bulk actions consolidated here (also surfaced inline in their own tabs). Each
@@ -176,51 +174,50 @@ export function BulkView() {
   const roomsTotal = gameData?.unlockables.roomUnlocks.length ?? 0;
 
   const repairAllRooms_ = (): void => {
-    applyEdit((s) => repairAllRooms(s), 'Repair all rooms');
-    pushToast(`Repaired ${damagedCount} room${damagedCount === 1 ? '' : 's'}`);
+    applyEdit((s) => repairAllRooms(s), '修复全部房间');
+    pushToast(`已修复 ${damagedCount} 个房间`);
   };
   const removeAllRocks = (): void => {
-    applyEdit((s) => removeRocks(s), 'Remove rocks');
-    pushToast(`Removed ${rocksCount} rock${rocksCount === 1 ? '' : 's'}`);
+    applyEdit((s) => removeRocks(s), '移除岩石');
+    pushToast(`已移除 ${rocksCount} 块岩石`);
   };
   const clearAllEmergencies = (): void => {
-    applyEdit((s) => clearEmergencies(s), 'Clear emergencies');
-    pushToast(`Cleared ${emergencyCount} emergenc${emergencyCount === 1 ? 'y' : 'ies'}`);
+    applyEdit((s) => clearEmergencies(s), '解除全部事故');
+    pushToast(`已解除 ${emergencyCount} 起事故`);
   };
   const acceptAllWaiting = (): void => {
-    applyEdit((s) => acceptWaiting(s), 'Accept waiting dwellers');
-    pushToast(`Accepted ${waitingCount} waiting dweller${waitingCount === 1 ? '' : 's'}`);
+    applyEdit((s) => acceptWaiting(s), '接收等待中的居民');
+    pushToast(`已接收 ${waitingCount} 名等待中的居民`);
   };
   const unlockAllThemes = (): void => {
-    applyEdit((s) => unlockThemes(s), 'Unlock all themes');
-    pushToast('Unlocked all themes');
+    applyEdit((s) => unlockThemes(s), '解锁全部主题');
+    pushToast('已解锁全部主题');
   };
   const unlockAllRecipes = (): void => {
     if (!gameData) return;
     const ids = gameData.unlockables.recipes;
-    applyEdit((s) => unlockRecipes(s, ids), 'Unlock all recipes');
-    pushToast(`Unlocked ${ids.length} recipes`);
+    applyEdit((s) => unlockRecipes(s, ids), '解锁全部配方');
+    pushToast(`已解锁 ${ids.length} 个配方`);
   };
   const unlockAllRooms = (): void => {
     if (!gameData) return;
     const ids = gameData.unlockables.roomUnlocks;
-    applyEdit((s) => unlockRooms(s, ids), 'Unlock all rooms');
-    pushToast('Unlocked all rooms');
+    applyEdit((s) => unlockRooms(s, ids), '解锁全部房间');
+    pushToast('已解锁全部房间');
   };
 
   return (
     <div className="h-full overflow-auto p-6">
-      <h2 className="text-lg font-semibold">Bulk operations</h2>
+      <h2 className="text-lg font-semibold">批量操作</h2>
       <p className="mt-1 text-sm text-neutral-400">
-        Every vault-wide action, grouped by category. Per-selection actions live in the Dwellers
-        table; room actions are also surfaced inline on the Rooms tab.
+        所有面向整个避难所的操作，按类别分组。针对所选居民的操作位于“居民”表格中；房间操作也会内嵌在“房间”页签中提供。
       </p>
 
       {/* Max Everything */}
       <section className="mt-5 rounded-lg border border-amber-700/60 bg-amber-950/20 p-4">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h3 className="text-base font-semibold text-amber-300">Max Everything</h3>
+            <h3 className="text-base font-semibold text-amber-300">一键全满</h3>
             <p className="mt-1 max-w-2xl text-xs leading-relaxed text-neutral-400">
               {MAX_EVERYTHING_TOOLTIP}
             </p>
@@ -229,15 +226,15 @@ export function BulkView() {
             type="button"
             onClick={runMaxEverything}
             disabled={!gameData}
-            title={gameData ? MAX_EVERYTHING_TOOLTIP : 'Loading game data…'}
+            title={gameData ? MAX_EVERYTHING_TOOLTIP : '正在加载游戏数据…'}
             className="shrink-0 rounded bg-amber-500 px-4 py-2 text-sm font-semibold text-neutral-900 hover:bg-amber-400 disabled:opacity-40"
           >
-            Max Everything
+            一键全满
           </button>
         </div>
         {gameDataStatus === 'error' && (
           <p className="mt-2 text-xs text-amber-500">
-            Game data unavailable - resource caps and room maxima can’t be computed.
+            游戏数据不可用——无法计算资源上限与房间最高等级。
           </p>
         )}
       </section>
@@ -245,44 +242,42 @@ export function BulkView() {
       {/* Dweller presets */}
       <section className="mt-6">
         <div className="flex items-center gap-3">
-          <h3 className="text-base font-semibold">Dweller presets</h3>
-          <span className="text-xs text-neutral-400">
-            applies to all {scopedIds.length} dweller{scopedIds.length === 1 ? '' : 's'}
-          </span>
+          <h3 className="text-base font-semibold">居民预设</h3>
+          <span className="text-xs text-neutral-400">作用于全部 {scopedIds.length} 名居民</span>
         </div>
 
         <div className="mt-3 flex flex-wrap gap-2">
-          <button type="button" className={BTN} onClick={run('Max SPECIAL', maxSpecialAll)}>
-            Max SPECIAL
+          <button type="button" className={BTN} onClick={run('SPECIAL 全满', maxSpecialAll)}>
+            SPECIAL 全满
           </button>
-          <button type="button" className={BTN} onClick={run('Max happiness', maxHappinessAll)}>
-            Max happiness
+          <button type="button" className={BTN} onClick={run('幸福度全满', maxHappinessAll)}>
+            幸福度全满
           </button>
-          <button type="button" className={BTN} onClick={run('Healed', healAll)}>
-            Heal &amp; cure radiation
+          <button type="button" className={BTN} onClick={run('已治疗并清除辐射', healAll)}>
+            治疗并清除辐射
           </button>
-          <button type="button" className={BTN} onClick={run('Maxed HP', maxHpAll)}>
-            Max HP (644)
+          <button type="button" className={BTN} onClick={run('生命值已拉满', maxHpAll)}>
+            生命值全满 (644)
           </button>
-          <button type="button" className={BTN} onClick={run('Revived', reviveAll)}>
-            Revive dead
+          <button type="button" className={BTN} onClick={run('已复活', reviveAll)}>
+            复活死亡居民
           </button>
-          <button type="button" className={BTN} onClick={run('Made legendary', makeLegendaryAll)}>
-            Make Legendary
-          </button>
-          <button
-            type="button"
-            className={BTN}
-            onClick={run('Made pregnant', (s, ids) => setPregnantAll(s, ids, true))}
-          >
-            Make pregnant
+          <button type="button" className={BTN} onClick={run('已变为传说', makeLegendaryAll)}>
+            变为传说
           </button>
           <button
             type="button"
             className={BTN}
-            onClick={run('Baby ready', (s, ids) => setBabyReadyAll(s, ids, true))}
+            onClick={run('已设为怀孕中', (s, ids) => setPregnantAll(s, ids, true))}
           >
-            Baby ready
+            设为怀孕
+          </button>
+          <button
+            type="button"
+            className={BTN}
+            onClick={run('婴儿已就绪', (s, ids) => setBabyReadyAll(s, ids, true))}
+          >
+            婴儿即将出生
           </button>
           <button
             type="button"
@@ -290,25 +285,23 @@ export function BulkView() {
             disabled={waitingCount === 0}
             onClick={acceptAllWaiting}
             title={
-              waitingCount === 0
-                ? 'No dwellers waiting at the door'
-                : `Accept ${waitingCount} waiting dweller${waitingCount === 1 ? '' : 's'}`
+              waitingCount === 0 ? '没有居民在大门等待' : `接收 ${waitingCount} 名等待中的居民`
             }
           >
-            Accept waiting{waitingCount > 0 ? ` (${waitingCount})` : ''}
+            接收等待居民{waitingCount > 0 ? `（${waitingCount}）` : ''}
           </button>
         </div>
 
         <div className="mt-3 flex items-center gap-2">
           <label className="flex items-center gap-1 text-xs text-neutral-400">
-            Level
+            等级
             <input
               type="number"
               min={1}
               max={50}
               value={level}
               onChange={(e) => setLevel(Number(e.target.value))}
-              aria-label="Bulk level value"
+              aria-label="批量设置等级数值"
               className="w-16 rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-neutral-100"
             />
           </label>
@@ -321,20 +314,20 @@ export function BulkView() {
                 const next = setLevelAll(s, scopedIds, level, endBonusFor);
                 affected = countAffectedDwellers(s, next, scopedIds);
                 return next;
-              }, `Set level ${level}`);
-              pushToast(`Set level ${level}: ${affected} dweller${affected === 1 ? '' : 's'}`);
+              }, `设置等级 ${level}`);
+              pushToast(`设置等级 ${level}：${affected} 名居民`);
             }}
           >
-            Set level
+            设置等级
           </button>
         </div>
       </section>
 
       {/* Rooms */}
       <section className="mt-8">
-        <h3 className="text-base font-semibold">Rooms</h3>
+        <h3 className="text-base font-semibold">房间</h3>
         <p className="mt-1 text-xs text-neutral-400">
-          Vault-wide room fixes - also available inline on the Rooms tab.
+          面向整个避难所的房间修复——也可在“房间”页签中直接使用。
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <button
@@ -344,41 +337,39 @@ export function BulkView() {
             onClick={repairAllRooms_}
             title={
               damagedCount === 0
-                ? 'No damaged rooms'
-                : `Clears accumulated incident (scorch) damage back to zero on all ${damagedCount} ` +
-                  `damaged room${damagedCount === 1 ? '' : 's'}. This damage is cosmetic in a saved ` +
-                  `game and does not stop production; mainly fixes saves captured mid-incident.`
+                ? '没有受损的房间'
+                : `将全部 ${damagedCount} 个受损房间的累计事故（灼烧）损伤清零。` +
+                  `这类损伤在存档游戏中仅为外观问题，不会影响生产；` +
+                  `主要用于修复在事故进行中截取的存档。`
             }
           >
-            Repair all{damagedCount > 0 ? ` (${damagedCount})` : ''}
+            全部修复{damagedCount > 0 ? `（${damagedCount}）` : ''}
           </button>
           <button
             type="button"
             className={BTN}
             disabled={rocksCount === 0}
             onClick={removeAllRocks}
-            title={rocksCount === 0 ? 'No rocks to remove' : `Remove ${rocksCount} rocks`}
+            title={rocksCount === 0 ? '没有可移除的岩石' : `移除 ${rocksCount} 块岩石`}
           >
-            Remove rocks{rocksCount > 0 ? ` (${rocksCount})` : ''}
+            移除岩石{rocksCount > 0 ? `（${rocksCount}）` : ''}
           </button>
           <button
             type="button"
             className={BTN}
             disabled={emergencyCount === 0}
             onClick={clearAllEmergencies}
-            title={emergencyCount === 0 ? 'No active emergencies' : `Clear ${emergencyCount}`}
+            title={emergencyCount === 0 ? '没有进行中的事故' : `解除 ${emergencyCount} 起事故`}
           >
-            Clear emergencies{emergencyCount > 0 ? ` (${emergencyCount})` : ''}
+            解除事故{emergencyCount > 0 ? `（${emergencyCount}）` : ''}
           </button>
         </div>
       </section>
 
       {/* Unlocks */}
       <section className="mt-8">
-        <h3 className="text-base font-semibold">Unlocks</h3>
-        <p className="mt-1 text-xs text-neutral-400">
-          Claim every theme, recipe, and buildable room in one edit.
-        </p>
+        <h3 className="text-base font-semibold">解锁</h3>
+        <p className="mt-1 text-xs text-neutral-400">一次编辑领取全部主题、配方和可建造房间。</p>
         <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
@@ -387,11 +378,11 @@ export function BulkView() {
             onClick={unlockAllThemes}
             title={
               themesTotal === 0
-                ? 'No themes owned'
-                : `Themes collected ${themesCollected} / ${themesTotal}`
+                ? '尚未拥有任何主题'
+                : `已收集主题 ${themesCollected} / ${themesTotal}`
             }
           >
-            Unlock all themes{themesTotal > 0 ? ` (${themesCollected} / ${themesTotal})` : ''}
+            解锁全部主题{themesTotal > 0 ? `（${themesCollected} / ${themesTotal}）` : ''}
           </button>
           <button
             type="button"
@@ -400,11 +391,11 @@ export function BulkView() {
             onClick={unlockAllRecipes}
             title={
               recipesTotal === 0
-                ? 'Loading game data…'
-                : `Recipes unlocked ${recipesUnlocked} / ${recipesTotal}`
+                ? '正在加载游戏数据…'
+                : `已解锁配方 ${recipesUnlocked} / ${recipesTotal}`
             }
           >
-            Unlock all recipes{recipesTotal > 0 ? ` (${recipesUnlocked} / ${recipesTotal})` : ''}
+            解锁全部配方{recipesTotal > 0 ? `（${recipesUnlocked} / ${recipesTotal}）` : ''}
           </button>
           <button
             type="button"
@@ -412,28 +403,24 @@ export function BulkView() {
             disabled={roomsTotal === 0 || roomsUnlocked >= roomsTotal}
             onClick={unlockAllRooms}
             title={
-              roomsTotal === 0
-                ? 'Loading game data…'
-                : `Rooms unlocked ${roomsUnlocked} / ${roomsTotal}`
+              roomsTotal === 0 ? '正在加载游戏数据…' : `已解锁房间 ${roomsUnlocked} / ${roomsTotal}`
             }
           >
-            Unlock all rooms{roomsTotal > 0 ? ` (${roomsUnlocked} / ${roomsTotal})` : ''}
+            解锁全部房间{roomsTotal > 0 ? `（${roomsUnlocked} / ${roomsTotal}）` : ''}
           </button>
         </div>
       </section>
 
       {/* Location loadouts */}
       <section ref={loadoutsRef} id="location-loadouts" className="mt-8 scroll-mt-4">
-        <h3 className="text-base font-semibold">Location loadouts</h3>
+        <h3 className="text-base font-semibold">场所装备配置</h3>
         <p className="mt-1 text-xs text-neutral-400">
-          Equip a default outfit + weapon (and optional pet) onto the dwellers in each room type.
-          Defaults are the strongest outfit for the room’s SPECIAL and the highest-damage weapon -
-          override per row. Equips ids directly (no storage used).
+          为每种房间内的居民装备一套默认服装 + 武器（可选宠物）。默认值为该房间 SPECIAL
+          对应的最强服装与伤害最高的武器——可在每行单独修改。直接按 ID 装备（不消耗仓库物品）。
         </p>
         <p className="mt-1 text-xs text-neutral-500">
-          Same feature as each room’s <span className="text-neutral-300">Apply loadout</span> button
-          in <span className="text-neutral-300">Rooms</span> - that applies the suggested defaults
-          to one room; here you tune them per room type and apply to all.
+          与“房间”页签中每个房间的 <span className="text-neutral-300">应用配置</span> 按钮是同一功能
+          ——那是将推荐默认值应用到单个房间；这里则可按房间类型调整后应用到全部。
         </p>
         <LoadoutPanel
           rows={loadoutRows}

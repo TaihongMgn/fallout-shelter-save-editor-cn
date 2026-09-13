@@ -39,45 +39,45 @@ export function SeasonQuickActions({
 }: SeasonQuickActionsProps) {
   return (
     <VaultCard
-      title="Quick actions"
-      description={ready ? `Batch claims for ${viewedLabel}.` : 'Loading game data…'}
+      title="快捷操作"
+      description={ready ? `为 ${viewedLabel} 批量领取。` : '游戏数据加载中…'}
     >
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
           className={ACTION}
           disabled={!ready || claimUnclaimedSpent}
-          title={ready && claimUnclaimedSpent ? 'Nothing left to claim.' : undefined}
+          title={ready && claimUnclaimedSpent ? '没有可领取的奖励了。' : undefined}
           onClick={onClaimUnclaimed}
         >
-          Claim unclaimed
+          领取未领奖励
         </button>
         <button
           type="button"
           className={ACTION}
           disabled={!ready || claimAllSpent}
-          title={ready && claimAllSpent ? 'Everything is already claimed.' : undefined}
+          title={ready && claimAllSpent ? '所有奖励均已领取。' : undefined}
           onClick={onClaimAll}
         >
-          Claim all
+          全部领取
         </button>
         <button
           type="button"
           className={ACTION_PRIMARY}
           disabled={!ready || maxSeasonSpent}
-          title={ready && maxSeasonSpent ? 'This season is already maxed.' : undefined}
+          title={ready && maxSeasonSpent ? '该赛季已达到满级。' : undefined}
           onClick={onMaxSeason}
         >
-          Max this season
+          本赛季满级
         </button>
         <button
           type="button"
           className={ACTION_PRIMARY}
           disabled={!ready || maxAllSeasonsSpent}
-          title={ready && maxAllSeasonsSpent ? 'All seasons are already maxed.' : undefined}
+          title={ready && maxAllSeasonsSpent ? '所有赛季均已满级。' : undefined}
           onClick={onMaxAllSeasons}
         >
-          Max all seasons
+          全部赛季满级
         </button>
       </div>
     </VaultCard>

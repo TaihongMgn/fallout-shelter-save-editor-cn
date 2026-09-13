@@ -12,11 +12,11 @@ import type { ObjectiveDef } from '../gamedata/schemas.ts';
 
 /** EReward (from enums.json), indexed by `m_baseRewardType`. */
 export const REWARD_LABEL: Record<number, string> = {
-  0: 'Caps',
-  1: 'Lunchbox',
-  2: 'Mr. Handy',
-  3: 'Pet Carrier',
-  4: 'Nuka-Cola Quantum',
+  0: '瓶盖',
+  1: '午餐盒',
+  2: '巧手先生',
+  3: '宠物箱',
+  4: '量子核子可乐',
 };
 
 // Requirement keys that are NOT the goal amount (bookkeeping / per-level scaling), excluded when
@@ -128,7 +128,7 @@ export function formatObjectiveDescription(def: ObjectiveDef, level = 0): string
 export function objectiveRewardLabel(def: ObjectiveDef, level = 0): string {
   const amount =
     (def.m_baseRewardAmount ?? 0) + objectiveScaling(def).rewardPerLevel * Math.max(0, level);
-  const label = REWARD_LABEL[def.m_baseRewardType ?? 0] ?? 'Reward';
+  const label = REWARD_LABEL[def.m_baseRewardType ?? 0] ?? '奖励';
   return `${amount} ${label}`;
 }
 
@@ -150,11 +150,39 @@ export interface RequirementProgressEntry {
 // Save requirement-row keys that are identity/status, not progress counters.
 const NON_PROGRESS_KEYS = new Set(['requirementID', 'satisfied']);
 
-// "numSpinsMade" → "Spins made", "currentBabies" → "Babies", "rushCount" → "Rush count".
+// 常见进度键的中文标签；未收录的键按 camelCase 拆分回退显示。
+const PROGRESS_KEY_LABELS: Record<string, string> = {
+  numSpinsMade: '已抽奖次数',
+  currentBabies: '当前婴儿数',
+  rushCount: '加速次数',
+  numDwellers: '居民数',
+  numDeaths: '死亡数',
+  numCollected: '已收集数',
+  numFood: '已收集食物',
+  numWater: '已收集水',
+  numPower: '已收集电力',
+  numStimpack: '已收集治疗针',
+  numRadaway: '已收集消辐宁',
+  numCaps: '已收集瓶盖',
+  numJunk: '已收集垃圾',
+  numWeapons: '武器数',
+  numOutfits: '服装数',
+  numPets: '宠物数',
+  numCraftedWeapons: '已制作武器数',
+  numCraftedOutfits: '已制作服装数',
+  numIncidentsResolved: '已处理事故数',
+  numBattlesWon: '已赢战斗数',
+  numCriticalHits: '暴击次数',
+  numFriends: '朋友数',
+  numLocations: '已探索地点数',
+  lastBreedGender: '上次出生性别',
+};
+
+// 进度键 → 显示标签：映射表优先，未收录的键按 camelCase 拆词回退。
 function humanizeProgressKey(key: string): string {
+  if (PROGRESS_KEY_LABELS[key]) return PROGRESS_KEY_LABELS[key];
   const stripped = key.replace(/^(current|num|last)(?=[A-Z])/, '');
-  const words = stripped.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
-  return words.charAt(0).toUpperCase() + words.slice(1).toLowerCase();
+  return stripped.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
 }
 
 /**
@@ -174,7 +202,7 @@ export function requirementProgressEntries(
       out.push({
         key,
         label: humanizeProgressKey(key),
-        value: value ? 'yes' : 'no',
+        value: value ? '是' : '否',
         numeric: null,
       });
   }
@@ -188,7 +216,7 @@ export function requirementProgressEntries(
 export function objectiveModeLabel(def: ObjectiveDef): string {
   const normal = def.m_isNormalMode === 1;
   const survival = def.m_isSurvivalMode === 1;
-  if (normal && survival) return 'Both';
-  if (survival) return 'Survival';
-  return 'Normal';
+  if (normal && survival) return '两者';
+  if (survival) return '生存模式';
+  return '普通模式';
 }

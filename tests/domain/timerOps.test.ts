@@ -216,14 +216,14 @@ describe('taskLookup', () => {
   });
 
   it('formats durations with the two largest units', () => {
-    expect(formatDuration(45)).toBe('45s');
-    expect(formatDuration(185)).toBe('3m 5s');
-    expect(formatDuration(3_660)).toBe('1h 1m');
-    expect(formatDuration(2 * 86_400 + 3 * 3_600)).toBe('2d 3h');
-    expect(formatDuration(-5)).toBe('0s');
+    expect(formatDuration(45)).toBe('45 秒');
+    expect(formatDuration(185)).toBe('3 分 5 秒');
+    expect(formatDuration(3_660)).toBe('1 小时 1 分');
+    expect(formatDuration(2 * 86_400 + 3 * 3_600)).toBe('2 天 3 小时');
+    expect(formatDuration(-5)).toBe('0 秒');
     // Countdown convention: fractional input ceils, "0s" means a true zero only.
-    expect(formatDuration(0.4)).toBe('1s');
-    expect(formatDuration(0)).toBe('0s');
+    expect(formatDuration(0.4)).toBe('1 秒');
+    expect(formatDuration(0)).toBe('0 秒');
   });
 
   it('converts ticks exactly (BigInt) and re-boxes by the containment rule', () => {

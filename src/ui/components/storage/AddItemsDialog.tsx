@@ -45,18 +45,25 @@ interface AddItemsDialogProps {
 }
 
 const SEGMENT_LABEL: Record<AddSegment, string> = {
-  Weapon: 'weapons',
-  Outfit: 'outfits',
-  Junk: 'junk',
-  Pet: 'pet',
+  Weapon: '武器',
+  Outfit: '服装',
+  Junk: '垃圾',
+  Pet: '宠物',
 };
 
 const RARITY_OPTIONS = ['All', 'Normal', 'Rare', 'Legendary'] as const;
 type RarityFilter = (typeof RARITY_OPTIONS)[number];
 
+/** Display labels for the rarity filter values (the logic values themselves stay English). */
+const RARITY_LABELS: Record<string, string> = {
+  All: '全部',
+  Normal: '普通',
+  Rare: '稀有',
+  Legendary: '传说',
+};
+
 // Tooltip on disabled per-row Add buttons (same wording as the catalog tabs).
-const ROW_ADD_BLOCKED_REASON =
-  'Storage is maxed. Tick the bypass checkbox in the notice above to add anyway.';
+const ROW_ADD_BLOCKED_REASON = '仓库已达上限。勾选上方提示中的绕过复选框即可继续添加。';
 
 interface PickerProps<T extends { id: string; name: string }> {
   data: T[];
@@ -96,7 +103,7 @@ function GrantPicker<T extends { id: string; name: string }>({
     () => [
       {
         id: 'addCount',
-        header: 'Qty',
+        header: '数量',
         cell: ({ row }) => (
           <CatalogCountCell
             initial={countsRef.current[row.original.id] ?? 1}
@@ -110,9 +117,9 @@ function GrantPicker<T extends { id: string; name: string }>({
       actionsColumn<T>(
         [
           {
-            text: 'Add',
+            text: '添加',
             tone: 'emerald',
-            ariaLabel: (r) => `Add ${r.name} to storage`,
+            ariaLabel: (r) => `将 ${r.name} 添加到仓库`,
             disabled: () => addDisabled,
             title: () => (addDisabled ? addDisabledReason : undefined),
             onClick: (r) => onAddRow(r.id),
@@ -139,7 +146,7 @@ function GrantPicker<T extends { id: string; name: string }>({
       rowSelection={rowSelection}
       onRowSelectionChange={onRowSelectionChange}
       initialSorting={[{ id: 'name', desc: false }]}
-      emptyState="No items match."
+      emptyState="没有匹配的物品。"
     />
   );
 }
@@ -215,11 +222,11 @@ export function AddItemsDialog({
       if (total === 0) return;
       if (slotsFree !== null && !bypass && total > Math.max(0, slotsFree)) {
         // Full is handled by the disabled buttons; this catches a partial overflow.
-        pushToast(`Not enough storage space (${Math.max(0, slotsFree)} free).`);
+        pushToast(`仓库空间不足（剩余 ${Math.max(0, slotsFree)}）。`);
         return;
       }
       onGrant(rows);
-      pushToast(`Added ${total} item${total === 1 ? '' : 's'} to storage.`);
+      pushToast(`已将 ${total} 件物品添加到仓库。`);
     },
     [onGrant, slotsFree, bypass],
   );
@@ -237,9 +244,7 @@ export function AddItemsDialog({
 
   const slotsNote =
     slotsFree !== null && !notice ? (
-      <span className="text-xs text-neutral-400">
-        {Math.max(0, slotsFree)} slot{slotsFree === 1 ? '' : 's'} free
-      </span>
+      <span className="text-xs text-neutral-400">{Math.max(0, slotsFree)} 个空闲槽位</span>
     ) : null;
 
   return (
@@ -249,12 +254,12 @@ export function AddItemsDialog({
         <Dialog.Content className={`${MODAL_LARGE} p-5`}>
           <div className="flex items-start justify-between gap-3">
             <Dialog.Title className="text-base font-semibold">
-              Add {SEGMENT_LABEL[segment]}
+              添加{SEGMENT_LABEL[segment]}
             </Dialog.Title>
             <div className="flex items-center gap-3">
               {segment !== 'Pet' && (
                 <label className="flex items-center gap-2 text-xs text-neutral-400">
-                  Rarity
+                  稀有度
                   <select
                     value={rarity}
                     onChange={(e) => setRarity(e.target.value as RarityFilter)}
@@ -262,14 +267,14 @@ export function AddItemsDialog({
                   >
                     {RARITY_OPTIONS.map((r) => (
                       <option key={r} value={r}>
-                        {r}
+                        {RARITY_LABELS[r] ?? r}
                       </option>
                     ))}
                   </select>
                 </label>
               )}
               <Dialog.Close
-                aria-label="Close"
+                aria-label="关闭"
                 className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
               >
                 ✕
@@ -277,7 +282,7 @@ export function AddItemsDialog({
             </div>
           </div>
           <Dialog.Description className="sr-only">
-            Select items and quantities to grant into storage.
+            选择要添加到仓库的物品和数量。
           </Dialog.Description>
 
           {notice && <div className="mt-3">{notice}</div>}
@@ -287,11 +292,11 @@ export function AddItemsDialog({
               <CreatePetForm
                 gameData={gameData}
                 allowOutOfRange={allowOutOfRange}
-                submitLabel="Grant pet → storage"
+                submitLabel="添加宠物 → 仓库"
                 submitDisabled={blocked}
                 onCreate={(pet) => {
                   onAddPet(pet);
-                  pushToast('Pet added to storage.');
+                  pushToast('宠物已添加到仓库。');
                 }}
               />
             </div>
@@ -346,8 +351,8 @@ export function AddItemsDialog({
               <div className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
                 <span className="text-sm text-neutral-400">
                   {selectedIds.length === 0
-                    ? 'Select items above (checkboxes); set a quantity per row.'
-                    : `${totalToAdd} item${totalToAdd === 1 ? '' : 's'} across ${selectedIds.length} type${selectedIds.length === 1 ? '' : 's'} selected`}
+                    ? '请先在上方勾选物品，并在每行设置数量。'
+                    : `已选择 ${totalToAdd} 件物品，共 ${selectedIds.length} 种类型`}
                 </span>
                 <div className="flex items-center gap-3">
                   {slotsNote}
@@ -357,7 +362,7 @@ export function AddItemsDialog({
                     onClick={grantSelected}
                     className="rounded border border-emerald-700 px-3 py-1.5 text-sm text-emerald-300 hover:bg-emerald-900/40 disabled:opacity-40"
                   >
-                    Add {totalToAdd > 0 ? totalToAdd : ''} → storage
+                    添加 {totalToAdd > 0 ? totalToAdd : ''} → 仓库
                   </button>
                 </div>
               </div>

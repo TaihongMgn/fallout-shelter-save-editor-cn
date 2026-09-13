@@ -36,21 +36,21 @@ import { diffJson, type DiffSummary } from '../components/advanced/jsonDiff.ts';
 /** The three entry-gate dialogs, shown in sequence before the editor unlocks. */
 const GATES = [
   {
-    title: 'Advanced raw editor',
+    title: '高级原始编辑器',
     message:
-      'You are about to hand-edit the raw save JSON. This bypasses every safety rail the editor provides. A single wrong value can make the save fail to load in Fallout Shelter.',
-    confirmLabel: 'I understand',
+      '您即将手动编辑存档的原始 JSON。这将绕过编辑器提供的所有安全防护。一个错误的值就可能导致存档在《辐射：避难所》中无法加载。',
+    confirmLabel: '我已了解',
   },
   {
-    title: 'Are you sure?',
+    title: '确定要继续吗？',
     message:
-      'There is no validation beyond a structural check - wrong ids, out-of-range numbers, and broken room layouts will be written exactly as typed. Always keep the auto-backup the editor made on first export.',
-    confirmLabel: 'Yes, continue',
+      '除结构检查外没有其他校验——错误的 ID、超范围的数值和损坏的房间布局都会按输入原样写入存档。请务必保留编辑器首次导出时生成的自动备份。',
+    confirmLabel: '是，继续',
   },
   {
-    title: 'Last warning',
-    message: 'Only proceed if you know the save format. Good luck.',
-    confirmLabel: 'Enter the raw editor',
+    title: '最后一次警告',
+    message: '只有在您了解存档格式的情况下才请继续。祝你好运。',
+    confirmLabel: '进入原始编辑器',
   },
 ] as const;
 
@@ -244,22 +244,22 @@ export function AdvancedView() {
     try {
       parsed = parseLossless(raw);
     } catch (e) {
-      setError(`JSON parse error: ${e instanceof Error ? e.message : String(e)}`);
+      setError(`JSON 解析错误：${e instanceof Error ? e.message : String(e)}`);
       return;
     }
     const result = saveSchema.safeParse(parsed);
     if (!result.success) {
       const issues = result.error.issues
         .slice(0, 8)
-        .map((i) => `• ${i.path.join('.') || '(root)'}: ${i.message}`)
+        .map((i) => `• ${i.path.join('.') || '(根)'}: ${i.message}`)
         .join('\n');
-      setError(`Validation failed:\n${issues}`);
+      setError(`校验失败：\n${issues}`);
       return;
     }
     setError(null);
     // Apply the literal parsed object so unknown/untouched managers round-trip exactly.
     const next = parsed as SaveData;
-    applyEdit(() => next, 'Raw JSON edit');
+    applyEdit(() => next, '原始 JSON 编辑');
     // Commit IN PLACE - do NOT remount the editor. The buffer already holds the applied text,
     // so reloading would only throw the user to the top and wipe their caret/scroll/folds.
     // Advance the base to the new save so the resync effect treats this as our own edit (not
@@ -270,13 +270,13 @@ export function AdvancedView() {
     const found = diagnose(next);
     if (found.length > 0) {
       const affected = found.reduce((n, d) => n + d.count, 0);
-      const types = `${found.length} structural issue${found.length === 1 ? '' : 's'}`;
+      const types = `${found.length} 项结构问题`;
       pushToast(
-        `Raw edit applied. ${types} found (${affected} affected). See the Vault tab.`,
+        `已应用原始编辑。发现 ${types}（涉及 ${affected} 处）。请查看“避难所”页签。`,
         'info',
       );
     } else {
-      pushToast('Raw edit applied');
+      pushToast('已应用原始编辑');
     }
   }, [applyEdit]);
 
@@ -317,7 +317,7 @@ export function AdvancedView() {
         from: span.from,
         to: span.to,
         severity: 'error' as const,
-        message: `${path.join('.') || '(root)'}: ${issue.message}`,
+        message: `${path.join('.') || '(根)'}: ${issue.message}`,
       };
     });
   }, []);
@@ -364,7 +364,7 @@ export function AdvancedView() {
   };
 
   if (!save) {
-    return <div className="p-6 text-sm text-neutral-400">No save loaded.</div>;
+    return <div className="p-6 text-sm text-neutral-400">未载入存档。</div>;
   }
 
   const startGate = (): void => {
@@ -397,12 +397,12 @@ export function AdvancedView() {
 
   const onFormat = (): void => {
     if (editorRef.current?.format() === false) {
-      pushToast('Cannot format - the document is not valid JSON', 'info');
+      pushToast('无法格式化——文档不是有效的 JSON', 'info');
     }
   };
   const onMinify = (): void => {
     if (editorRef.current?.minify() === false) {
-      pushToast('Cannot minify - the document is not valid JSON', 'info');
+      pushToast('无法压缩——文档不是有效的 JSON', 'info');
     }
   };
 
@@ -412,23 +412,22 @@ export function AdvancedView() {
     // below md (mirrors the Rooms grid pane fix).
     <div className="flex h-full min-h-0 flex-col overflow-y-auto p-4 md:overflow-y-visible md:p-6">
       <div className="mb-3 flex items-baseline gap-3">
-        <h2 className="text-lg font-semibold">Advanced</h2>
-        <span className="text-sm text-neutral-400">raw JSON editor</span>
+        <h2 className="text-lg font-semibold">高级</h2>
+        <span className="text-sm text-neutral-400">原始 JSON 编辑器</span>
       </div>
 
       {!unlocked ? (
         <div className="max-w-xl space-y-4 rounded border border-red-900/50 bg-red-950/20 p-5">
           <p className="text-sm text-neutral-300">
-            The raw editor lets you change any field in the save directly - managers, season and
-            shop state, quests, and anything else without a dedicated screen. It is unguarded and
-            can corrupt the save.
+            原始编辑器允许您直接修改存档中的任意字段——管理器数据、赛季与商店状态、任务，以及
+            其他任何没有专属编辑界面的事项。它没有任何安全防护，可能导致存档损坏。
           </p>
           <button
             type="button"
             onClick={startGate}
             className="rounded border border-red-700 bg-red-900/30 px-4 py-2 text-sm font-medium text-red-200 hover:bg-red-900/50"
           >
-            Enter the raw editor…
+            进入原始编辑器…
           </button>
         </div>
       ) : (
@@ -439,27 +438,26 @@ export function AdvancedView() {
               onClick={onApply}
               className="rounded bg-amber-500 px-4 py-1.5 text-sm font-medium text-neutral-900 hover:bg-amber-400"
             >
-              Apply (validate &amp; write)
+              应用（校验并写入）
             </button>
             <button type="button" onClick={onFormat} className={TOOLBAR_BTN}>
-              Prettify
+              格式化
             </button>
             <button type="button" onClick={onMinify} className={TOOLBAR_BTN}>
-              Minify
+              压缩
             </button>
             <button
               type="button"
               onClick={() => editorRef.current?.toggleSearch()}
               className={TOOLBAR_BTN}
             >
-              Find…
+              查找…
             </button>
             <button type="button" onClick={onRevert} className={TOOLBAR_BTN}>
-              Revert
+              还原
             </button>
             <span className="text-xs text-neutral-400">
-              Validated against the typed-permissive model; unknown managers round-trip unchanged.
-              One Apply = one undo step.
+              基于类型宽容模型进行校验；未知管理器数据将原样保留、不做改动。 一次“应用”即一步撤销。
             </span>
           </div>
 
@@ -475,7 +473,7 @@ export function AdvancedView() {
                 </span>
               ))
             ) : (
-              <span className="text-neutral-700">root</span>
+              <span className="text-neutral-700">根</span>
             )}
           </div>
 
@@ -500,15 +498,15 @@ export function AdvancedView() {
                 className={`${previewExpanded ? 'max-h-48 overflow-auto' : ''} shrink-0 rounded border border-neutral-700 bg-neutral-900/60 p-3 text-xs`}
               >
                 <div className="mb-2 flex items-center gap-3 text-neutral-300">
-                  <span className="font-medium">Changes vs current save:</span>
+                  <span className="font-medium">与当前存档的差异：</span>
                   {livePreview ? (
                     <>
-                      <span className="text-green-400">+{livePreview.added} added</span>
-                      <span className="text-amber-300">~{livePreview.changed} changed</span>
-                      <span className="text-red-400">-{livePreview.removed} removed</span>
+                      <span className="text-green-400">+{livePreview.added} 新增</span>
+                      <span className="text-amber-300">~{livePreview.changed} 修改</span>
+                      <span className="text-red-400">-{livePreview.removed} 删除</span>
                     </>
                   ) : (
-                    <span className="text-neutral-500">preview resumes when the JSON is valid</span>
+                    <span className="text-neutral-500">JSON 有效后将恢复差异预览</span>
                   )}
                   {(previewExpanded || hidden > 0) && (
                     <button
@@ -516,14 +514,12 @@ export function AdvancedView() {
                       onClick={() => setPreviewExpanded((v) => !v)}
                       className="ml-auto rounded px-2 py-0.5 text-neutral-400 hover:bg-neutral-800"
                     >
-                      {previewExpanded ? 'Show less' : `Show all (${hidden} more)`}
+                      {previewExpanded ? '收起' : `展开全部（还有 ${hidden} 项）`}
                     </button>
                   )}
                 </div>
                 {livePreview && changes.length === 0 ? (
-                  <p className="text-neutral-500">
-                    No changes - the document matches the loaded save.
-                  </p>
+                  <p className="text-neutral-500">无更改——文档与已载入的存档一致。</p>
                 ) : (
                   <ul className="space-y-0.5 font-mono">
                     {visible.map((c, i) => (
@@ -548,7 +544,7 @@ export function AdvancedView() {
                       </li>
                     ))}
                     {previewExpanded && (livePreview?.truncated ?? 0) > 0 && (
-                      <li className="text-neutral-600">…and {livePreview?.truncated} more</li>
+                      <li className="text-neutral-600">…另有 {livePreview?.truncated} 项未显示</li>
                     )}
                   </ul>
                 )}
@@ -557,7 +553,7 @@ export function AdvancedView() {
           })()}
 
           {/* Phone-only pane switch: the split below shows one pane at a time under md. */}
-          <div className="flex gap-1 md:hidden" role="tablist" aria-label="Editor pane">
+          <div className="flex gap-1 md:hidden" role="tablist" aria-label="编辑器窗格">
             {(['editor', 'tree'] as const).map((p) => (
               <button
                 key={p}
@@ -571,7 +567,7 @@ export function AdvancedView() {
                     : 'text-neutral-400 hover:text-neutral-100'
                 }`}
               >
-                {p === 'editor' ? 'JSON editor' : 'Explorer tree'}
+                {p === 'editor' ? 'JSON 编辑器' : '浏览树'}
               </button>
             ))}
           </div>
@@ -628,15 +624,15 @@ export function AdvancedView() {
                     className="h-1 shrink-0 cursor-row-resize touch-none bg-neutral-800 hover:bg-amber-500/50"
                   />
                   <div className="flex shrink-0 items-center gap-2 border-b border-neutral-800 px-2 py-1 text-neutral-300">
-                    <span className="font-medium">Find all:</span>
+                    <span className="font-medium">全部查找：</span>
                     <span className="truncate font-mono text-neutral-400">{findQuery}</span>
                     <span className="shrink-0 tabular-nums text-[11px] text-neutral-400">
-                      {findResults.length} {findResults.length === 1 ? 'match' : 'matches'}
+                      {findResults.length} 个匹配
                     </span>
                   </div>
                   <div className="min-h-0 flex-1 overflow-auto">
                     {findResults.length === 0 ? (
-                      <p className="p-2 text-neutral-500">No matches.</p>
+                      <p className="p-2 text-neutral-500">无匹配。</p>
                     ) : (
                       <ul className="font-mono">
                         {findResults.map((m, i) => (
@@ -649,7 +645,7 @@ export function AdvancedView() {
                               }`}
                             >
                               <span className="w-12 shrink-0 tabular-nums text-neutral-500">
-                                L{m.line}
+                                {m.line} 行
                               </span>
                               <span className="truncate text-neutral-300">{m.lineText.trim()}</span>
                             </button>
@@ -672,7 +668,7 @@ export function AdvancedView() {
           title={GATES[gateStep - 1].title}
           message={GATES[gateStep - 1].message}
           confirmLabel={GATES[gateStep - 1].confirmLabel}
-          cancelLabel="Back to safety"
+          cancelLabel="返回安全区"
           onConfirm={advanceGate}
           onCancel={() => setGateStep(0)}
         />

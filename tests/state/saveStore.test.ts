@@ -247,10 +247,10 @@ describe('saveStore history timeline', () => {
     expect(selectUndoLabel(useSaveStore.getState())).toBe(IMPORT_LABEL);
   });
 
-  it('defaults an unlabeled edit to "Edit"', async () => {
+  it('defaults an unlabeled edit to "编辑"', async () => {
     await importTwo();
     useSaveStore.getState().applyEdit((s) => setName(s, 1, 'B'));
-    expect(selectUndoLabel(useSaveStore.getState())).toBe('Edit');
+    expect(selectUndoLabel(useSaveStore.getState())).toBe('编辑');
   });
 
   it('selectHistory lists the labeled timeline with the current index', async () => {

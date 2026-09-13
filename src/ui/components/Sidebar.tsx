@@ -34,14 +34,14 @@ export function Sidebar() {
       return {
         count: diagCount,
         tone: 'bg-red-500/80 text-neutral-950',
-        aria: `${diagCount} structural issues`,
+        aria: `${diagCount} 个结构性问题`,
       };
     }
     if (id === 'rooms' && advisorCount > 0) {
       return {
         count: advisorCount,
         tone: 'bg-amber-500/80 text-neutral-950',
-        aria: `${advisorCount} advisor recommendations`,
+        aria: `${advisorCount} 条顾问建议`,
       };
     }
     return null;
@@ -51,7 +51,7 @@ export function Sidebar() {
   // the top, so every section stays one tap away on phones without a hamburger detour.
   return (
     <nav
-      aria-label="Sections"
+      aria-label="分区"
       className="w-full shrink-0 border-b border-neutral-800 p-2 md:min-h-0 md:w-44 md:overflow-y-auto md:border-b-0 md:border-r"
     >
       <ul className="flex gap-1 overflow-x-auto md:flex-col md:space-y-1 md:overflow-visible">

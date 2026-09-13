@@ -106,7 +106,7 @@ describe('PetAttachDialog - catalog', () => {
         virtualized={false}
       />,
     );
-    await user.click(screen.getByRole('button', { name: 'Catalog' }));
+    await user.click(screen.getByRole('button', { name: '图鉴' }));
     // Two breed×rarity rows both named "Husky"; the first is the Normal (husky_c) entry.
     await user.click(screen.getAllByText('Husky')[0]);
     expect(onCreate).toHaveBeenCalledWith({
@@ -169,12 +169,12 @@ describe('PetAttachDialog - edit equipped', () => {
         virtualized={false}
       />,
     );
-    const value = screen.getByRole('spinbutton', { name: 'Bonus value' });
+    const value = screen.getByRole('spinbutton', { name: '加成数值' });
     await user.clear(value);
     await user.type(value, '20');
     await user.tab();
     expect(onEdit).toHaveBeenCalledWith({ bonusValue: 20 });
-    await user.click(screen.getByRole('button', { name: /Detach pet/ }));
+    await user.click(screen.getByRole('button', { name: '卸下宠物（存入仓库）' }));
     expect(onDetach).toHaveBeenCalled();
   });
 
@@ -202,7 +202,7 @@ describe('PetAttachDialog - edit equipped', () => {
         virtualized={false}
       />,
     );
-    await user.click(screen.getByRole('button', { name: 'Delete pet' }));
+    await user.click(screen.getByRole('button', { name: '删除宠物' }));
     expect(onDelete).toHaveBeenCalled();
   });
 });

@@ -30,15 +30,15 @@ export function specialDwellerSchema(): TableSchema<SpecialRow> {
   return {
     name: 'specialDweller',
     hideable: [
-      { id: 'fullName', label: 'Name' },
-      { id: 'genderLabel', label: 'Gender' },
+      { id: 'fullName', label: '名称' },
+      { id: 'genderLabel', label: '性别' },
       { id: 'special', label: 'SPECIAL' },
-      { id: 'outfit', label: 'Outfit' },
-      { id: 'weapon', label: 'Weapon' },
+      { id: 'outfit', label: '服装' },
+      { id: 'weapon', label: '武器' },
     ],
     columns: [
-      { id: 'fullName', accessorKey: 'fullName', header: 'Name' },
-      { id: 'genderLabel', accessorKey: 'genderLabel', header: 'Gender', size: 90 },
+      { id: 'fullName', accessorKey: 'fullName', header: '名称' },
+      { id: 'genderLabel', accessorKey: 'genderLabel', header: '性别', size: 90 },
       {
         id: 'special',
         header: 'SPECIAL',
@@ -58,7 +58,7 @@ export function specialDwellerSchema(): TableSchema<SpecialRow> {
       {
         id: 'outfit',
         accessorKey: 'outfit',
-        header: 'Outfit',
+        header: '服装',
         cell: ({ row }) => {
           const { outfitId, outfit, outfitBonus } = row.original;
           return (
@@ -75,7 +75,7 @@ export function specialDwellerSchema(): TableSchema<SpecialRow> {
       {
         id: 'weapon',
         accessorKey: 'weapon',
-        header: 'Weapon',
+        header: '武器',
         cell: ({ row }) => {
           const { weaponId, weapon, weaponDamage } = row.original;
           const dmg = weaponDamage ? ` (${weaponDamage})` : '';

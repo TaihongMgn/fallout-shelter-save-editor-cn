@@ -41,11 +41,11 @@ export interface BuildableRoom {
 type SortKey = 'name' | 'special' | 'price' | 'type' | 'size';
 
 const SORT_OPTIONS: ReadonlyArray<{ value: SortKey; label: string }> = [
-  { value: 'name', label: 'Name' },
+  { value: 'name', label: '名称' },
   { value: 'special', label: 'SPECIAL' },
-  { value: 'price', label: 'Price' },
-  { value: 'type', label: 'Type' },
-  { value: 'size', label: 'Size' },
+  { value: 'price', label: '价格' },
+  { value: 'type', label: '类型' },
+  { value: 'size', label: '占地' },
 ];
 
 const SPECIAL_STATS = [
@@ -58,15 +58,36 @@ const SPECIAL_STATS = [
   'Luck',
 ] as const;
 
+/** Display label for SPECIAL stat names (the logic values themselves stay English). */
+const STAT_LABEL: Record<string, string> = {
+  Strength: '力量',
+  Perception: '感知',
+  Endurance: '耐力',
+  Charisma: '魅力',
+  Intelligence: '智力',
+  Agility: '敏捷',
+  Luck: '幸运',
+};
+
+/** Display label for produced-resource keys (the logic values themselves stay English). */
+const RES_LABEL: Record<string, string> = {
+  Food: '食物',
+  Water: '水',
+  Energy: '电力',
+};
+
 /** Filter select entries: state flags, production, and per-SPECIAL groups. */
 const FILTER_OPTIONS: ReadonlyArray<{ value: string; label: string }> = [
-  { value: 'all', label: 'All rooms' },
-  { value: 'unlocked', label: 'Unlocked' },
-  { value: 'locked', label: 'Locked' },
-  { value: 'produces:Food', label: 'Produces food' },
-  { value: 'produces:Water', label: 'Produces water' },
-  { value: 'produces:Energy', label: 'Produces power' },
-  ...SPECIAL_STATS.map((s) => ({ value: `stat:${s}`, label: `${s} (${s.charAt(0)})` })),
+  { value: 'all', label: '全部房间' },
+  { value: 'unlocked', label: '已解锁' },
+  { value: 'locked', label: '未解锁' },
+  { value: 'produces:Food', label: '生产食物' },
+  { value: 'produces:Water', label: '生产水' },
+  { value: 'produces:Energy', label: '生产电力' },
+  ...SPECIAL_STATS.map((s) => ({
+    value: `stat:${s}`,
+    label: `${STAT_LABEL[s] ?? s} (${s.charAt(0)})`,
+  })),
 ];
 
 const byName = (a: BuildableRoom, b: BuildableRoom): number => a.name.localeCompare(b.name);
@@ -196,18 +217,18 @@ export function BuildPalette({
           Collapsed, the box shrinks to just this header line (+ Cancel if mid-build). */}
       <div className={`flex flex-wrap items-center gap-2 ${collapsed ? '' : 'mb-2'}`}>
         {onToggleCollapsed ? (
-          <SectionToggle label="Build" collapsed={collapsed} onToggle={onToggleCollapsed} />
+          <SectionToggle label="建造" collapsed={collapsed} onToggle={onToggleCollapsed} />
         ) : (
           <span className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
-            Build
+            建造
           </span>
         )}
         {!collapsed && (
           <>
             <label className="flex items-center gap-1 text-xs text-neutral-400">
-              Sort by
+              排序
               <select
-                aria-label="Sort rooms by"
+                aria-label="房间排序"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortKey)}
                 className="rounded border border-neutral-700 bg-neutral-950 px-1.5 py-0.5 text-xs text-neutral-100"
@@ -220,9 +241,9 @@ export function BuildPalette({
               </select>
             </label>
             <label className="flex items-center gap-1 text-xs text-neutral-400">
-              Filter
+              筛选
               <select
-                aria-label="Filter rooms"
+                aria-label="筛选房间"
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
                 className="rounded border border-neutral-700 bg-neutral-950 px-1.5 py-0.5 text-xs text-neutral-100"
@@ -242,14 +263,14 @@ export function BuildPalette({
             onClick={() => onPick(null)}
             className="rounded px-2 py-0.5 text-xs text-neutral-400 hover:text-neutral-100"
           >
-            Cancel
+            取消
           </button>
         )}
       </div>
       {collapsed ? null : (
         <div className="flex flex-wrap gap-1.5">
           {visibleRooms.length === 0 && (
-            <span className="px-1 py-2 text-xs text-neutral-500">No rooms match the filter.</span>
+            <span className="px-1 py-2 text-xs text-neutral-500">没有符合筛选条件的房间。</span>
           )}
           {visibleRooms.map((room) => {
             const active = room.type === activeType;
@@ -260,12 +281,14 @@ export function BuildPalette({
             const statLetter = hasStat ? room.primaryStat.charAt(0) : null;
             const tooltip = [
               room.name,
-              hasStat ? room.primaryStat : null,
-              room.cost > 0 ? `${room.cost.toLocaleString()} caps` : null,
-              room.capacity > 0 ? `${room.capacity} dwellers` : null,
-              `${room.size}× wide`,
-              room.produces.length > 0 ? `produces ${room.produces.join(' + ')}` : null,
-              room.locked ? 'locked (building it claims the unlock)' : null,
+              hasStat ? (STAT_LABEL[room.primaryStat] ?? room.primaryStat) : null,
+              room.cost > 0 ? `${room.cost.toLocaleString()} 瓶盖` : null,
+              room.capacity > 0 ? `${room.capacity} 名居民` : null,
+              `${room.size} 格宽`,
+              room.produces.length > 0
+                ? `生产 ${room.produces.map((res) => RES_LABEL[res] ?? res).join(' + ')}`
+                : null,
+              room.locked ? '未解锁（建造即解锁）' : null,
               room.note ?? null,
             ]
               .filter((s) => s !== null)
@@ -294,25 +317,25 @@ export function BuildPalette({
                   <span className="truncate font-medium">{room.name}</span>
                   {statLetter && <span className="shrink-0 text-current/70">({statLetter})</span>}
                   {room.locked && (
-                    <span aria-label="Locked" className="shrink-0 text-[10px]">
+                    <span aria-label="未解锁" className="shrink-0 text-[10px]">
                       🔒
                     </span>
                   )}
                   {room.note && (
-                    <span aria-label="Season-only room" className="shrink-0 text-[10px]">
+                    <span aria-label="赛季限定房间" className="shrink-0 text-[10px]">
                       ⚠️
                     </span>
                   )}
                 </span>
                 <span className="flex items-center gap-2 whitespace-nowrap text-[10px] leading-tight text-current/70">
-                  <span>{room.cost > 0 ? `${room.cost.toLocaleString()} caps` : 'free'}</span>
+                  <span>{room.cost > 0 ? `${room.cost.toLocaleString()} 瓶盖` : '免费'}</span>
                   {room.capacity > 0 && <span>👥 {room.capacity}</span>}
-                  <span>{room.size}× wide</span>
+                  <span>{room.size} 格宽</span>
                 </span>
                 {room.produces.length > 0 && (
                   <span className="flex items-center gap-1.5 whitespace-nowrap text-[10px] leading-tight text-emerald-300/90">
                     {room.produces.map((res) => (
-                      <span key={res}>+{res === 'Energy' ? 'Power' : res}</span>
+                      <span key={res}>+{RES_LABEL[res] ?? res}</span>
                     ))}
                   </span>
                 )}

@@ -24,7 +24,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: number)
       <span>{toast.message}</span>
       <button
         type="button"
-        aria-label="Dismiss notification"
+        aria-label="关闭通知"
         onClick={() => onDismiss(toast.id)}
         className="ml-auto text-neutral-400 hover:text-neutral-100"
       >

@@ -43,7 +43,7 @@ export function useGameData(): UseGameDataResult {
       .catch((e: unknown) => {
         inflight = null; // allow a later retry
         if (active) {
-          setError(e instanceof Error ? e.message : 'Failed to load game data.');
+          setError(e instanceof Error ? e.message : '游戏数据加载失败。');
           setStatus('error');
         }
       });

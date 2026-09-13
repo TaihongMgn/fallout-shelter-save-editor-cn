@@ -13,10 +13,10 @@ import type { DailyRewardStatus } from '../../../domain/ops/timerOps.ts';
 // imported save, so repeated clicks visibly add up (and undo visibly rolls back).
 
 const PRESETS: ReadonlyArray<{ label: string; seconds: number }> = [
-  { label: '+1 h', seconds: 3_600 },
-  { label: '+8 h', seconds: 8 * 3_600 },
-  { label: '+1 d', seconds: 86_400 },
-  { label: '+1 w', seconds: 7 * 86_400 },
+  { label: '+1 小时', seconds: 3_600 },
+  { label: '+8 小时', seconds: 8 * 3_600 },
+  { label: '+1 天', seconds: 86_400 },
+  { label: '+1 周', seconds: 7 * 86_400 },
 ];
 
 const MAX_CUSTOM_HOURS = 87_600; // 10 years, the op's own cap
@@ -43,18 +43,18 @@ export function VaultTimeCard({
 
   return (
     <VaultCard
-      title="Vault time"
+      title="避难所时间"
       help={fieldHelp.vaultTime}
-      description="Fast-forward every timer in the vault at once."
+      description="一次性快进避难所内的所有计时器。"
     >
       <p className="text-sm text-neutral-300">
-        Vault clock is{' '}
+        避难所时钟{' '}
         <span className="text-neutral-100">
           {clockAheadSeconds === null
-            ? 'not readable in this save'
+            ? '无法从此存档读取'
             : clockAheadSeconds > 0
-              ? `${formatDuration(clockAheadSeconds)} ahead of the imported save`
-              : 'unchanged from the imported save'}
+              ? `比导入存档快 ${formatDuration(clockAheadSeconds)}`
+              : '与导入存档一致'}
         </span>
       </p>
 
@@ -64,7 +64,7 @@ export function VaultTimeCard({
             key={label}
             type="button"
             disabled={!canFastForward}
-            onClick={() => onFastForward(seconds, `Fast-forward ${label.replace('+', '+ ')}`)}
+            onClick={() => onFastForward(seconds, `快进 ${label.replace('+', '+ ')}`)}
             className={`${BUTTON} disabled:cursor-not-allowed disabled:opacity-50`}
           >
             {label}
@@ -74,7 +74,7 @@ export function VaultTimeCard({
 
       <div className="mt-3 flex flex-wrap items-end gap-2">
         <NumberField
-          label="Custom (hours)"
+          label="自定义（小时）"
           value={customHours}
           min={1}
           max={MAX_CUSTOM_HOURS}
@@ -84,44 +84,39 @@ export function VaultTimeCard({
         <button
           type="button"
           disabled={!canFastForward}
-          onClick={() => onFastForward(customHours * 3_600, `Fast-forward +${customHours}h`)}
+          onClick={() => onFastForward(customHours * 3_600, `快进 +${customHours} 小时`)}
           className={`${BUTTON} disabled:cursor-not-allowed disabled:opacity-50`}
         >
-          Apply
+          应用
         </button>
       </div>
 
       <p className="mt-1.5 text-[11px] text-neutral-400">
-        Clicks add up; undo steps back one click at a time. Takes effect the next time the save is
-        loaded in the game: it catches up as if you had been away that long - production and
-        crafting finish, pregnancies come due, training and exploration advance, cooldowns expire.
-        Repeating timers complete one cycle and continue at their normal pace. This clock is
-        independent of the Season clock on the Season Pass tab - vault time lives in this save,
-        season timing in the season file, and moving one never moves the other.
+        多次点击会累加；撤销每次只回退一步。效果在下次于游戏中载入存档时生效：游戏会视同你离开了这么久并统一赶上进度——生产与制作完成、怀孕到期、训练与探索推进、冷却结束。循环型计时器只完成一轮，然后照常节奏继续。此时钟与赛季通行证页的赛季时钟相互独立——避难所时间存于此存档，赛季时间存于赛季文件，移动其中一个绝不会移动另一个。
       </p>
 
       <div className="mt-3 border-t border-neutral-800 pt-3">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-1.5 text-sm text-neutral-300">
-            Daily reward timer
+            每日奖励计时器
             <InfoTooltip text={fieldHelp.dailyRewards} />
           </div>
           {dailyRewards.pending > 0 && (
             <button type="button" onClick={onMakeDailyRewardsClaimable} className={BUTTON}>
-              Make claimable now
+              立即设为可领取
             </button>
           )}
         </div>
         <p className="mt-1 text-[11px] text-neutral-500">
           {dailyRewards.pending > 0
-            ? `Next reward in ${
+            ? `下一个奖励 ${
                 dailyRewards.soonestSeconds !== null && Number.isFinite(dailyRewards.soonestSeconds)
                   ? formatDuration(dailyRewards.soonestSeconds)
-                  : 'a long time'
-              } (real-world clock).`
+                  : '很久之后'
+              } 可领取（按现实世界时钟计）。`
             : dailyRewards.total > 0
-              ? 'Already claimable - the game grants it the next time this save loads.'
-              : 'No timer recorded - the game creates it already claimable when this save loads (season vaults get a daily Spin-to-Win poker chip).'}
+              ? '已可领取——下次载入此存档时游戏即会发放。'
+              : '未记录计时器——载入此存档时，游戏会将其创建为已可领取（赛季避难所每日获得一枚 Spin-to-Win 扑克筹码）。'}
         </p>
       </div>
     </VaultCard>

@@ -36,9 +36,9 @@ export function SeasonSwitcher({ seasonIds, viewed, active, onSelect }: SeasonSw
             {isActive && (
               <span
                 className="rounded bg-emerald-500/20 px-1 py-0.5 text-[10px] uppercase tracking-wide text-emerald-300"
-                title="The save's active season"
+                title="存档的当前赛季"
               >
-                active
+                当前
               </span>
             )}
           </button>

@@ -43,7 +43,7 @@ function buildRows(
 ): SpecialRow[] {
   const outfitName = (id: string): string => gameData?.outfitById.get(id)?.name ?? id;
   const weaponName = (id: string): string =>
-    id ? (gameData?.weaponById.get(id)?.name ?? id) : 'Fist';
+    id ? (gameData?.weaponById.get(id)?.name ?? id) : '拳头';
   const weaponDamage = (id: string): string => {
     const w = id ? gameData?.weaponById.get(id) : undefined;
     return w ? `${w.damageMin}–${w.damageMax}` : '';
@@ -52,7 +52,7 @@ function buildRows(
     .map(([uniqueId, e]) => ({
       uniqueId,
       fullName: `${e.name} ${e.lastName}`.trim() || uniqueId,
-      genderLabel: e.gender === 1 ? 'Female' : 'Male',
+      genderLabel: e.gender === 1 ? '女' : '男',
       stats: e.stats,
       outfitId: e.outfitId,
       outfit: outfitName(e.outfitId),
@@ -96,17 +96,15 @@ export function AddSpecialDwellerDialog({
         <Dialog.Content className={`${MODAL_LARGE} p-5`}>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <Dialog.Title className="text-base font-semibold">
-                Add special / legendary dwellers
-              </Dialog.Title>
+              <Dialog.Title className="text-base font-semibold">添加特殊 / 传说居民</Dialog.Title>
               <Dialog.Description className="mt-0.5 text-xs text-neutral-400">
-                {rows.length} named characters. Select any number (click a row or its checkbox),
-                then add them all at once - each arrives with its outfit, weapon, SPECIAL, and look.
-                Edit the rest in the character sheet.
+                共 {rows.length}{' '}
+                名具名角色。可选择任意数量（点击行或其复选框），然后一次性全部添加——每位角色都自带服装、武器、SPECIAL
+                属性和外观。其余可在居民详情页中编辑。
               </Dialog.Description>
             </div>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
             >
               ✕
@@ -129,21 +127,22 @@ export function AddSpecialDwellerDialog({
             onRowClick={(r) =>
               setRowSelection((prev) => ({ ...prev, [r.uniqueId]: !prev[r.uniqueId] }))
             }
-            emptyState="No special characters in the catalog."
+            emptyState="名录中没有特殊角色。"
           />
 
           <div className="mt-4 flex items-center justify-between">
             <span className="text-xs text-neutral-400">
-              {selectedIds.length} selected
+              已选 {selectedIds.length} 项
               {overCap && (
                 <span className="ml-2 text-amber-400">
-                  only {maxAdd} slot{maxAdd === 1 ? '' : 's'} free (vault + door queue)
+                  仅剩 {maxAdd} 个空位（避难所 + 大门队列）
                 </span>
               )}
               {!overCap && toDoorCount > 0 && (
                 <span className="ml-2 text-amber-400">
-                  vault at capacity - {toDoorCount === selectedIds.length ? 'all' : toDoorCount}{' '}
-                  will wait at the door
+                  避难所已满——
+                  {toDoorCount === selectedIds.length ? '全部居民' : `${toDoorCount} 名居民`}{' '}
+                  将在大门等待
                 </span>
               )}
             </span>
@@ -153,19 +152,19 @@ export function AddSpecialDwellerDialog({
                 onClick={onClose}
                 className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-neutral-100"
               >
-                Cancel
+                取消
               </button>
               <button
                 type="button"
                 disabled={selectedIds.length === 0 || overCap}
-                title={overCap ? `Only ${maxAdd} can be added - deselect some first` : undefined}
+                title={overCap ? `最多只能添加 ${maxAdd} 名——请先取消部分选择` : undefined}
                 onClick={() => {
                   onAdd(selectedIds);
                   onClose();
                 }}
                 className="rounded border border-emerald-700 px-3 py-1.5 text-sm text-emerald-300 hover:bg-emerald-900/40 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                Add {selectedIds.length === 1 ? '1 dweller' : `${selectedIds.length} dwellers`}
+                添加 {selectedIds.length} 名居民
               </button>
             </div>
           </div>

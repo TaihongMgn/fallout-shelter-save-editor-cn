@@ -19,7 +19,7 @@ export function SectionToggle({
       type="button"
       onClick={onToggle}
       aria-expanded={!collapsed}
-      title={collapsed ? `Expand ${label}` : `Collapse ${label}`}
+      title={collapsed ? `展开 ${label}` : `折叠 ${label}`}
       className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-400 transition-colors hover:text-neutral-200"
     >
       <span aria-hidden className="inline-block w-3 text-center text-[10px] leading-none">

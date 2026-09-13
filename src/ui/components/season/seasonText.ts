@@ -14,35 +14,44 @@ export function cellKey(track: SeasonTrack, rewardId: number): string {
 // graceful degradation when game data is absent).
 
 /** "NewVegasA" → "New Vegas A", "UltraciteFever" → "Ultracite Fever". */
+const SEASON_NAMES: Record<string, string> = {
+  NewVegasA: '新维加斯A',
+  NewVegasB: '新维加斯B',
+  UltraciteFever: '超镭狂热',
+};
+
 export function seasonLabel(id: string): string {
-  return id.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Za-z])([0-9])/g, '$1 $2');
+  return (
+    SEASON_NAMES[id] ??
+    id.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Za-z])([0-9])/g, '$1 $2')
+  );
 }
 
 const LUNCHBOX_LABELS: Record<string, string> = {
-  regular: 'Lunchbox',
-  mrhandy: 'Mr. Handy Lunchbox',
-  petcarrier: 'Pet Carrier',
+  regular: '午餐盒',
+  mrhandy: '巧手先生午餐盒',
+  petcarrier: '宠物箱',
 };
 
 /** Friendly label for a reward type (the inert "[Type]" placeholder → "–"). */
 export function rewardTypeLabel(rewardType: string): string {
   switch (rewardType) {
     case 'caps':
-      return 'Caps';
+      return '瓶盖';
     case 'stimpack':
-      return 'Stimpaks';
+      return '治疗针';
     case 'lunchbox':
-      return 'Lunchbox';
+      return '午餐盒';
     case 'weapon':
-      return 'Weapon';
+      return '武器';
     case 'outfit':
-      return 'Outfit';
+      return '服装';
     case 'pet':
-      return 'Pet';
+      return '宠物';
     case 'dweller':
-      return 'Dweller';
+      return '居民';
     case 'theme':
-      return 'Theme';
+      return '主题';
     default:
       return '–';
   }
@@ -85,11 +94,11 @@ export function rewardTitle(reward: SeasonReward, gameData: GameData | null): st
   const qty = Math.trunc(reward.dataValInt);
   switch (reward.rewardType) {
     case 'caps':
-      return `${qty.toLocaleString()} Caps`;
+      return `${qty.toLocaleString()} 瓶盖`;
     case 'stimpack':
-      return `${qty.toLocaleString()} Stimpak${qty === 1 ? '' : 's'}`;
+      return `${qty.toLocaleString()} 治疗针`;
     case 'lunchbox': {
-      const name = LUNCHBOX_LABELS[reward.dataValString] ?? 'Lunchbox';
+      const name = LUNCHBOX_LABELS[reward.dataValString] ?? '午餐盒';
       return qty > 1 ? `${qty}× ${name}` : name;
     }
     case 'weapon':

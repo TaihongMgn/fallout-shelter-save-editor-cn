@@ -75,7 +75,7 @@ function resolveAscendant(
   // Not in the vault: a special character (negative id) we can still name, or an unknown.
   const uniqueName = uniqueNames.get(value);
   if (uniqueName) return { id: null, name: uniqueName, inVault: false, special: true };
-  return { id: null, name: 'Unknown', inVault: false, special: value < 0 };
+  return { id: null, name: '未知', inVault: false, special: value < 0 };
 }
 
 /**

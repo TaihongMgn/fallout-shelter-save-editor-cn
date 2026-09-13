@@ -61,19 +61,19 @@ export function ObjectiveSlotCard({
 
   const goalTitle =
     scaling && baseGoal != null
-      ? `Base ${baseGoal.toLocaleString()}` +
-        (scaling.goalPerLevel > 0 ? ` + ${scaling.goalPerLevel} per escalation level` : '') +
-        (scaling.goalCap != null ? `, capped at ${scaling.goalCap.toLocaleString()}` : '')
+      ? `基础 ${baseGoal.toLocaleString()}` +
+        (scaling.goalPerLevel > 0 ? `，每递增一级 +${scaling.goalPerLevel}` : '') +
+        (scaling.goalCap != null ? `，上限 ${scaling.goalCap.toLocaleString()}` : '')
       : undefined;
   const rewardTitle =
     def && scaling
-      ? `Base ${objectiveRewardLabel(def)}` +
-        (scaling.rewardPerLevel > 0 ? ` + ${scaling.rewardPerLevel} per escalation level` : '')
+      ? `基础 ${objectiveRewardLabel(def)}` +
+        (scaling.rewardPerLevel > 0 ? `，每递增一级 +${scaling.rewardPerLevel}` : '')
       : undefined;
 
   const description = def
     ? formatObjectiveDescription(def, escalation)
-    : objectiveID || '(empty slot)';
+    : objectiveID || '（空槽位）';
   // The lottery is always 5 booleans in-game; pad/truncate a malformed save so the toggles render.
   const lottery = Array.from({ length: 5 }, (_, i) => slot.lottery?.[i] ?? true);
 
@@ -87,7 +87,7 @@ export function ObjectiveSlotCard({
     <section className="flex flex-col rounded-lg border border-neutral-800 bg-neutral-900/40 p-4">
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-wider text-amber-400/80">Slot {index + 1}</p>
+          <p className="text-[11px] uppercase tracking-wider text-amber-400/80">槽位 {index + 1}</p>
           <h3 className="text-sm font-semibold text-neutral-100" title={objectiveID}>
             {description}
           </h3>
@@ -95,7 +95,7 @@ export function ObjectiveSlotCard({
         <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
           {level != null && (
             <span className="rounded bg-neutral-800 px-2 py-0.5 text-xs text-neutral-300">
-              Tier {level}
+              {level} 级
             </span>
           )}
           <span
@@ -103,14 +103,14 @@ export function ObjectiveSlotCard({
               completed ? 'bg-emerald-900/50 text-emerald-300' : 'bg-amber-900/40 text-amber-200'
             }`}
           >
-            {completed ? 'Completed' : 'In progress'}
+            {completed ? '已完成' : '进行中'}
           </span>
         </div>
       </div>
 
       {!def && objectiveID && (
         <p className="mt-2 text-xs text-amber-500">
-          Unknown objective id - not in the catalog; the game will reassign this slot on load.
+          未知的目标 ID——不在目录中；游戏加载存档时会重新分配此槽位。
         </p>
       )}
 
@@ -118,14 +118,14 @@ export function ObjectiveSlotCard({
       <div className={`${BOX} mt-3 space-y-1 text-sm`}>
         {goal != null && (
           <div className="flex items-center justify-between gap-3">
-            <span className="text-neutral-400">Goal</span>
+            <span className="text-neutral-400">进度目标</span>
             <span className="cursor-help font-medium text-neutral-100" title={goalTitle}>
               {goal.toLocaleString()}
             </span>
           </div>
         )}
         <div className="flex items-center justify-between gap-3">
-          <span className="text-neutral-400">Reward</span>
+          <span className="text-neutral-400">奖励</span>
           <span className="cursor-help font-medium text-neutral-100" title={rewardTitle}>
             {def ? objectiveRewardLabel(def, escalation) : '-'}
           </span>
@@ -139,7 +139,7 @@ export function ObjectiveSlotCard({
           placeholder rather than vanishing. */}
       {objective && (
         <div className={`${BOX} mt-2 text-xs`}>
-          <p className="mb-1 text-[11px] uppercase tracking-wide text-neutral-400">Progress</p>
+          <p className="mb-1 text-[11px] uppercase tracking-wide text-neutral-400">进度</p>
           <div className="space-y-2">
             {objective.requirements && objective.requirements.length > 0 ? (
               objective.requirements.map((r, i) => {
@@ -167,13 +167,13 @@ export function ObjectiveSlotCard({
                         </span>
                       )}
                       {entries.length === 0 && (
-                        <span className="text-neutral-400">Tracked by the game</span>
+                        <span className="text-neutral-400">由游戏内部跟踪</span>
                       )}
                     </div>
                     <span
                       className={`pb-1 ${r.satisfied ? 'text-emerald-400' : 'text-neutral-500'}`}
                     >
-                      {r.satisfied ? 'Goal met' : 'In progress'}
+                      {r.satisfied ? '已达标' : '进行中'}
                     </span>
                   </div>
                 );
@@ -181,9 +181,9 @@ export function ObjectiveSlotCard({
             ) : (
               <div className="flex items-center justify-between gap-3">
                 <span className="min-w-0 truncate text-neutral-400">
-                  Starts at 0 - the game re-creates the counters on load
+                  从 0 开始——游戏加载时会重建这些计数器
                 </span>
-                <span className="text-neutral-500">In progress</span>
+                <span className="text-neutral-500">进行中</span>
               </div>
             )}
           </div>
@@ -196,10 +196,10 @@ export function ObjectiveSlotCard({
           type="button"
           disabled={!canEdit}
           onClick={onReplace}
-          title={canEdit ? undefined : 'Load a save to edit objectives'}
+          title={canEdit ? undefined : '请先载入存档才能编辑目标'}
           className="rounded border border-sky-800 bg-sky-950/30 px-3 py-1.5 text-sm text-sky-300 hover:bg-sky-900/40 disabled:opacity-40 disabled:hover:bg-sky-950/30"
         >
-          Replace…
+          替换…
         </button>
         <label className="flex items-center gap-2 text-sm text-neutral-300">
           <input
@@ -209,10 +209,10 @@ export function ObjectiveSlotCard({
             onChange={(e) => onToggleCompleted(e.target.checked)}
             className="h-4 w-4 accent-emerald-500 disabled:opacity-40"
           />
-          Completed
+          已完成
         </label>
         <NumberField
-          label="Escalation level"
+          label="递增等级"
           value={slot.incLevel ?? 0}
           onCommit={onIncLevelChange}
           min={0}
@@ -221,28 +221,25 @@ export function ObjectiveSlotCard({
         />
       </div>
       <p className="mt-1.5 text-[11px] text-neutral-500">
-        The game raises this by 1 each time the slot&apos;s objective completes, scaling up the goal
-        and reward above
+        每当该槽位的目标完成一次，游戏都会将此值加 1，并随之提升上方的进度目标与奖励
         {scaling && (scaling.goalPerLevel > 0 || scaling.rewardPerLevel > 0)
-          ? ` (here: ${[
-              scaling.goalPerLevel > 0 ? `+${scaling.goalPerLevel} goal` : null,
-              scaling.rewardPerLevel > 0 ? `+${scaling.rewardPerLevel} reward` : null,
+          ? `（此处每级：${[
+              scaling.goalPerLevel > 0 ? `目标 +${scaling.goalPerLevel}` : null,
+              scaling.rewardPerLevel > 0 ? `奖励 +${scaling.rewardPerLevel}` : null,
             ]
               .filter(Boolean)
-              .join(', ')} per level)`
+              .join('、')}）`
           : ''}
-        . Set 0 to reset to the base objective.
+        。设为 0 可重置为基础目标。
       </p>
 
       <div className="mt-3">
         <p className="mb-1 text-[11px] uppercase tracking-wide text-neutral-400">
-          Next objective difficulty
+          下一个目标的难度
         </p>
         <p className="mb-1.5 text-[11px] text-neutral-500">
-          When this objective is done, the game replaces it with a random one from the difficulty
-          tiers checked here (1 = easiest, 5 = hardest - the same Tier badge shown above). The game
-          unchecks each tier after using it, so every difficulty comes up once before all five
-          reset. Leave only one checked to force that difficulty next.
+          当前目标完成后，游戏会从此处勾选的难度档位中随机抽取一个作为替换（1 = 最简单，5 = 最难，
+          即上方显示的等级徽章）。每档用过后游戏会取消勾选，五种难度各出现一次后才会全部重置。只勾选一档可强制下一个目标使用该难度。
         </p>
         <div className="flex flex-wrap gap-1.5">
           {lottery.map((on, i) => (

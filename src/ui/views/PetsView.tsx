@@ -104,11 +104,8 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
   const onDeleteSelected = (): void => {
     const locations = selectedRowIds.map(parseRowId).filter((l): l is PetLocation => l !== null);
     if (locations.length === 0) return;
-    applyEdit(
-      (s) => deletePets(s, locations),
-      `Delete ${locations.length} pet${locations.length === 1 ? '' : 's'}`,
-    );
-    pushToast(`Deleted ${locations.length} pet${locations.length === 1 ? '' : 's'}.`);
+    applyEdit((s) => deletePets(s, locations), `删除 ${locations.length} 只宠物`);
+    pushToast(`已删除 ${locations.length} 只宠物。`);
     afterDelete();
   };
 
@@ -122,17 +119,14 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
   const onMaxAllStats = (): void => {
     if (!gameData || maxableCount === 0) return;
     const maxFor = (id: string): number | null => petBonusRange(gameData, id)?.max ?? null;
-    applyEdit(
-      (s) => maxPetStats(s, maxFor),
-      `Max ${maxableCount} pet stat${maxableCount === 1 ? '' : 's'}`,
-    );
-    pushToast(`Maxed ${maxableCount} pet stat${maxableCount === 1 ? '' : 's'} to the legal limit.`);
+    applyEdit((s) => maxPetStats(s, maxFor), `最大化 ${maxableCount} 条宠物加成`);
+    pushToast(`已将 ${maxableCount} 条宠物加成提升至合法上限。`);
   };
 
   const onDeleteRow = (row: PetRow): void => {
     const label = row.uniqueName || row.breed;
-    applyEdit((s) => deletePet(s, row.location), `Delete pet ${label}`);
-    pushToast(`Deleted ${label}.`);
+    applyEdit((s) => deletePet(s, row.location), `删除宠物 ${label}`);
+    pushToast(`已删除 ${label}。`);
     afterDelete();
   };
 
@@ -143,9 +137,9 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
       actionsColumn<PetRow>(
         [
           {
-            text: 'Delete',
+            text: '删除',
             tone: 'red',
-            ariaLabel: (r) => `Delete ${r.uniqueName || r.breed}`,
+            ariaLabel: (r) => `删除 ${r.uniqueName || r.breed}`,
             onClick: (r) => onDeleteRow(r),
           },
         ],
@@ -161,7 +155,7 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
     <div className="flex h-full min-h-0 flex-col">
       <div
         role="tablist"
-        aria-label="Pets view"
+        aria-label="宠物页面"
         className="flex gap-1 border-b border-neutral-800 px-4 pt-3"
       >
         {(['owned', 'catalog'] as const).map((t) => (
@@ -177,7 +171,7 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
                 : 'text-neutral-400 hover:text-neutral-100'
             }`}
           >
-            {t === 'owned' ? 'Owned' : 'Catalog'}
+            {t === 'owned' ? '已拥有' : '图鉴'}
           </button>
         ))}
       </div>
@@ -189,21 +183,19 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
       ) : (
         <div className="flex min-h-0 flex-1">
           <ResizableSplit
-            ariaLabel="Resize pet detail panel"
+            ariaLabel="调整宠物详情面板宽度"
             width={panelWidth}
             onWidthChange={setPanelWidth}
             left={
               <div className="flex min-w-0 flex-1 flex-col p-4">
                 <div className="flex items-baseline gap-3">
-                  <h2 className="text-lg font-semibold">Pets</h2>
-                  <span className="text-sm text-neutral-400">{rows.length} owned</span>
+                  <h2 className="text-lg font-semibold">宠物</h2>
+                  <span className="text-sm text-neutral-400">已拥有 {rows.length} 只</span>
                   {gameDataStatus === 'loading' && (
-                    <span className="text-xs text-neutral-400">loading game data…</span>
+                    <span className="text-xs text-neutral-400">游戏数据加载中…</span>
                   )}
                   {gameDataStatus === 'error' && (
-                    <span className="text-xs text-amber-500">
-                      game data unavailable - showing raw ids
-                    </span>
+                    <span className="text-xs text-amber-500">游戏数据不可用——显示原始 ID</span>
                   )}
                 </div>
 
@@ -222,18 +214,18 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
                         type="search"
                         value={globalFilter}
                         onChange={(e) => setGlobalFilter(e.target.value)}
-                        placeholder="Search pets…"
-                        aria-label="Search pets"
+                        placeholder="搜索宠物…"
+                        aria-label="搜索宠物"
                         className="w-64 rounded border border-neutral-700 bg-neutral-900 px-2 py-1 text-sm text-neutral-100 placeholder-neutral-500"
                       />
                       <button
                         type="button"
                         onClick={onMaxAllStats}
                         disabled={maxableCount === 0}
-                        title="Set every owned pet's bonus value to its legal maximum"
+                        title="将所有已拥有宠物的加成值设为其合法上限"
                         className="rounded border border-amber-800 px-3 py-1 text-xs text-amber-300 hover:bg-amber-900/30 disabled:cursor-not-allowed disabled:opacity-40"
                       >
-                        Max all stats
+                        加成全满
                       </button>
                       {selectedRowIds.length > 0 && (
                         <div className="flex items-center gap-2">
@@ -242,14 +234,14 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
                             onClick={onDeleteSelected}
                             className="rounded border border-red-800 px-3 py-1 text-xs text-red-300 hover:bg-red-900/40"
                           >
-                            Delete ({selectedRowIds.length})
+                            删除 ({selectedRowIds.length})
                           </button>
                           <button
                             type="button"
                             onClick={() => setRowSelection({})}
                             className="rounded px-2 py-1 text-xs text-neutral-400 hover:text-neutral-100"
                           >
-                            Clear
+                            清空
                           </button>
                         </div>
                       )}
@@ -266,7 +258,7 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
                   onRowSelectionChange={setRowSelection}
                   onRowClick={(r) => setSelectedPetRowId(r.rowId)}
                   {...(selectedPetRowId ? { activeRowId: selectedPetRowId } : {})}
-                  emptyState="No pets owned. Add one from the Catalog tab."
+                  emptyState="尚未拥有宠物。可在「图鉴」标签页添加。"
                 />
               </div>
             }
@@ -280,17 +272,17 @@ export function PetsView({ virtualized = true }: { virtualized?: boolean } = {})
                   allowOutOfRange={allowOutOfRange}
                   dwellers={dwellerRows}
                   onClose={() => setSelectedPetRowId(null)}
-                  onEdit={(changes) => applyEdit((s) => editPet(s, location, changes), 'Edit pet')}
+                  onEdit={(changes) => applyEdit((s) => editPet(s, location, changes), '编辑宠物')}
                   onAssign={(dwellerId) => {
-                    applyEdit((s) => assignPet(s, location, dwellerId), 'Assign pet');
+                    applyEdit((s) => assignPet(s, location, dwellerId), '装备宠物');
                     setSelectedPetRowId(`e:${dwellerId}`);
                   }}
                   onSendToStorage={() => {
-                    applyEdit((s) => sendPetToStorage(s, location), 'Send pet to storage');
+                    applyEdit((s) => sendPetToStorage(s, location), '将宠物送入仓库');
                     setSelectedPetRowId(`s:${lastInventoryIndex()}`);
                   }}
                   onDelete={() => {
-                    applyEdit((s) => deletePet(s, location), 'Delete pet');
+                    applyEdit((s) => deletePet(s, location), '删除宠物');
                     setSelectedPetRowId(null);
                   }}
                 />

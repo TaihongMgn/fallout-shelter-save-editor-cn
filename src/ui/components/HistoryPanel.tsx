@@ -44,94 +44,92 @@ function StepDetail({
   onNavigate: (id: number) => void;
 }) {
   if (!summary.hasChanges) {
-    return <p className="px-2 py-1 text-xs text-neutral-500">No visible field changes.</p>;
+    return <p className="px-2 py-1 text-xs text-neutral-500">没有可见的字段改动。</p>;
   }
   const fieldList = (fields: { label: string; before: string; after: string }[]): string =>
-    fields.map((f) => `${f.label}: ${f.before} → ${f.after}`).join('; ');
+    fields.map((f) => `${f.label}：${f.before} → ${f.after}`).join('；');
   // Long id lists (e.g. "Unlock all recipes" adds 200+) show the first chunk + a count.
   const CAP = 25;
   const capped = (ids: string[]): string =>
     ids.length <= CAP
-      ? ids.join(', ')
-      : `${ids.slice(0, CAP).join(', ')} … and ${ids.length - CAP} more`;
+      ? ids.join('、')
+      : `${ids.slice(0, CAP).join('、')} …等 ${ids.length - CAP} 项`;
   return (
     <ul className="flex flex-col gap-0.5 px-2 pb-1.5 text-xs text-neutral-400">
       {summary.dwellersAdded.map((d) => (
         <li key={`da-${d.serializeId}`}>
-          <span className="text-emerald-400">+ Added dweller </span>
+          <span className="text-emerald-400">+ 新增居民 </span>
           <DwellerLink id={d.serializeId} name={d.name} onNavigate={onNavigate} />
         </li>
       ))}
       {summary.dwellersRemoved.map((d) => (
         <li key={`dr-${d.serializeId}`} className="text-red-400">
-          − Removed dweller {d.name}
+          − 移除居民 {d.name}
         </li>
       ))}
       {summary.dwellersModified.map((d) => (
         <li key={`dm-${d.serializeId}`}>
           <DwellerLink id={d.serializeId} name={d.name} onNavigate={onNavigate} />
-          <span>: {fieldList(d.fields)}</span>
+          <span>：{fieldList(d.fields)}</span>
         </li>
       ))}
       {summary.roomsAdded.map((label) => (
         <li key={`ra-${label}`} className="text-emerald-400">
-          + Built {label}
+          + 建造 {label}
         </li>
       ))}
       {summary.roomsRemoved.map((label) => (
         <li key={`rr-${label}`} className="text-red-400">
-          − Removed {label}
+          − 移除 {label}
         </li>
       ))}
       {summary.roomsModified.map((r) => (
         <li key={`rm-${r.label}`}>
           <span className="text-neutral-300">{r.label}</span>
-          <span>: {fieldList(r.fields)}</span>
+          <span>：{fieldList(r.fields)}</span>
         </li>
       ))}
       {summary.resourcesChanged.map((f) => (
         <li key={`res-${f.label}`}>
-          <span className="text-neutral-300">{f.label}</span>: {f.before} → {f.after}
+          <span className="text-neutral-300">{f.label}</span>：{f.before} → {f.after}
         </li>
       ))}
       {summary.itemsChanged.map((f) => (
         <li key={`item-${f.label}`}>
-          <span className="text-neutral-300">{f.label}</span>: {f.before} → {f.after}
+          <span className="text-neutral-300">{f.label}</span>：{f.before} → {f.after}
         </li>
       ))}
       {summary.boxesChanged.map((f) => (
         <li key={`box-${f.label}`}>
-          <span className="text-neutral-300">{f.label}</span>: {f.before} → {f.after}
+          <span className="text-neutral-300">{f.label}</span>：{f.before} → {f.after}
         </li>
       ))}
       {summary.recipesAdded.length > 0 && (
         <li>
           <span className="text-emerald-400">
-            + Recipes unlocked ({summary.recipesAdded.length}):{' '}
+            + 解锁配方（{summary.recipesAdded.length} 个）：{' '}
           </span>
           <span className="break-words">{capped(summary.recipesAdded)}</span>
         </li>
       )}
       {summary.recipesRemoved.length > 0 && (
         <li>
-          <span className="text-red-400">
-            − Recipes removed ({summary.recipesRemoved.length}):{' '}
-          </span>
+          <span className="text-red-400">− 移除配方（{summary.recipesRemoved.length} 个）： </span>
           <span className="break-words">{capped(summary.recipesRemoved)}</span>
         </li>
       )}
       {summary.inventoryDelta && (
         <li>
-          Storage items: {summary.inventoryDelta.before} → {summary.inventoryDelta.after}
+          仓库物品：{summary.inventoryDelta.before} → {summary.inventoryDelta.after}
         </li>
       )}
       {summary.otherChanges.map((c) => (
         <li key={`oc-${c.path}`}>
-          <span className="font-mono text-neutral-300">{c.path}</span>: {c.before} → {c.after}
+          <span className="font-mono text-neutral-300">{c.path}</span>：{c.before} → {c.after}
         </li>
       ))}
       {summary.otherChangesTruncated > 0 && (
-        <li className="text-neutral-500">…and {summary.otherChangesTruncated} more changes</li>
+        <li className="text-neutral-500">…另有 {summary.otherChangesTruncated} 处更改</li>
       )}
     </ul>
   );
@@ -194,15 +192,15 @@ export function HistoryPanel({ open, onClose }: { open: boolean; onClose: () => 
       <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden />
       <aside
         role="dialog"
-        aria-label="Edit history"
+        aria-label="编辑历史"
         className="absolute right-0 top-0 flex h-full w-max min-w-80 max-w-[90vw] flex-col border-l border-neutral-800 bg-neutral-900 shadow-xl"
       >
         <header className="flex items-center justify-between gap-6 border-b border-neutral-800 px-4 py-3">
-          <h2 className="text-sm font-semibold text-neutral-100">History</h2>
+          <h2 className="text-sm font-semibold text-neutral-100">历史</h2>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close history"
+            aria-label="关闭历史"
             className="rounded px-2 py-0.5 text-neutral-400 hover:text-neutral-100"
           >
             ✕
@@ -224,7 +222,7 @@ export function HistoryPanel({ open, onClose }: { open: boolean; onClose: () => 
                   {/* Expand the step's granular breakdown (step 0 is the import - no diff). */}
                   <button
                     type="button"
-                    aria-label={isExpanded ? 'Hide step details' : 'Show step details'}
+                    aria-label={isExpanded ? '隐藏步骤详情' : '显示步骤详情'}
                     aria-expanded={isExpanded}
                     disabled={entry.index === 0}
                     onClick={() => setExpandedIndex(isExpanded ? null : entry.index)}
@@ -249,7 +247,7 @@ export function HistoryPanel({ open, onClose }: { open: boolean; onClose: () => 
                     </span>
                     <span className="min-w-0 flex-1 whitespace-nowrap pr-2">{entry.label}</span>
                     {isCurrent && (
-                      <span className="pr-1 text-[10px] uppercase text-amber-400">current</span>
+                      <span className="pr-1 text-[10px] uppercase text-amber-400">当前</span>
                     )}
                   </button>
                 </div>
@@ -264,8 +262,8 @@ export function HistoryPanel({ open, onClose }: { open: boolean; onClose: () => 
         </ol>
 
         <p className="border-t border-neutral-800 px-4 py-2 text-[11px] text-neutral-400">
-          Click ▸ on a step to see exactly what it changed. Click a step to jump there; editing from
-          an earlier point discards the steps after it.
+          点击步骤旁的 ▸
+          可查看该步骤改动的详细内容。点击步骤可跳转到该时间点；从较早的时间点继续编辑将丢弃其后的所有步骤。
         </p>
       </aside>
     </div>

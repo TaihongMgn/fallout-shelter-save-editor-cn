@@ -118,21 +118,19 @@ export function AppearanceGridDialog({
                 type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search…"
-                aria-label={`Search ${title.toLowerCase()}`}
+                placeholder="搜索…"
+                aria-label={`搜索 ${title.toLowerCase()}`}
                 className="w-48 rounded border border-neutral-700 bg-neutral-900 px-2 py-1 text-sm text-neutral-100 placeholder-neutral-500"
               />
               <Dialog.Close
-                aria-label="Close"
+                aria-label="关闭"
                 className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
               >
                 ✕
               </Dialog.Close>
             </div>
           </div>
-          <Dialog.Description className="sr-only">
-            Pick a piece from the grid to apply it.
-          </Dialog.Description>
+          <Dialog.Description className="sr-only">点击网格中的部件即可应用。</Dialog.Description>
 
           <div className="mt-4 min-h-0 flex-1 overflow-y-auto">
             <div className="grid grid-cols-[repeat(auto-fill,minmax(104px,1fr))] gap-2">
@@ -149,7 +147,7 @@ export function AppearanceGridDialog({
                   <span className="flex h-[72px] w-[72px] items-center justify-center rounded bg-neutral-900 text-2xl text-neutral-600">
                     ∅
                   </span>
-                  <span className="text-[11px] leading-tight text-neutral-300">None</span>
+                  <span className="text-[11px] leading-tight text-neutral-300">无</span>
                 </button>
               )}
               {options.map((o) => (
@@ -172,7 +170,7 @@ export function AppearanceGridDialog({
               ))}
               {options.length === 0 && (
                 <p className="col-span-full py-8 text-center text-sm text-neutral-500">
-                  No pieces match the search.
+                  没有符合搜索条件的部件。
                 </p>
               )}
             </div>

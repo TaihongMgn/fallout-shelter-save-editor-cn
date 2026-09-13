@@ -84,25 +84,17 @@ export interface ChangeSummary {
   hasChanges: boolean;
 }
 
-const GENDER: Record<number, string> = { 1: 'Female', 2: 'Male' };
-const SPECIAL_NAMES = [
-  'Strength',
-  'Perception',
-  'Endurance',
-  'Charisma',
-  'Intelligence',
-  'Agility',
-  'Luck',
-];
+const GENDER: Record<number, string> = { 1: '女', 2: '男' };
+const SPECIAL_NAMES = ['力量', '感知', '耐力', '魅力', '智力', '敏捷', '幸运'];
 
 const num = (n: number | undefined): string => (n === undefined ? '–' : String(Math.round(n)));
-const bool = (b: boolean | undefined): string => (b ? 'yes' : 'no');
+const bool = (b: boolean | undefined): string => (b ? '是' : '否');
 const hex = (n: number | undefined): string =>
   n === undefined ? '–' : `#${(n >>> 0).toString(16).toUpperCase().padStart(8, '0')}`;
 
 /** Display label for an equipped item slot ("none" when absent). */
 function itemLabel(item: Dweller['equippedPet']): string {
-  if (!item) return 'none';
+  if (!item) return '无';
   const unique = item.extraData?.uniqueName;
   return unique ? `${item.id} (${unique})` : item.id;
 }
@@ -113,29 +105,29 @@ const displayName = (d: Dweller): string =>
 // Each extractor renders one comparable field of a dweller to a display string. A field
 // is reported only when its rendered value differs between the two snapshots.
 const FIELD_EXTRACTORS: ReadonlyArray<{ label: string; get: (d: Dweller) => string }> = [
-  { label: 'First name', get: (d) => d.name ?? '' },
-  { label: 'Last name', get: (d) => d.lastName ?? '' },
-  { label: 'Gender', get: (d) => GENDER[d.gender ?? 0] ?? '–' },
-  { label: 'Rarity', get: (d) => d.rarity ?? '–' },
+  { label: '名', get: (d) => d.name ?? '' },
+  { label: '姓', get: (d) => d.lastName ?? '' },
+  { label: '性别', get: (d) => GENDER[d.gender ?? 0] ?? '–' },
+  { label: '稀有度', get: (d) => d.rarity ?? '–' },
   ...SPECIAL_NAMES.map((name, i) => ({
     label: name,
     get: (d: Dweller) => num(d.stats?.stats?.[i + 1]?.value),
   })),
-  { label: 'Level', get: (d) => num(d.experience?.currentLevel) },
-  { label: 'Health', get: (d) => num(d.health?.healthValue) },
-  { label: 'Max HP', get: (d) => num(d.health?.maxHealth) },
-  { label: 'Radiation', get: (d) => num(d.health?.radiationValue) },
-  { label: 'Happiness', get: (d) => num(d.happiness?.happinessValue) },
-  { label: 'Skin color', get: (d) => hex(d.skinColor) },
-  { label: 'Hair color', get: (d) => hex(d.hairColor) },
-  { label: 'Outfit color', get: (d) => hex(d.outfitColor) },
-  { label: 'Hair', get: (d) => d.hair ?? '–' },
-  { label: 'Facial hair', get: (d) => d.faceMask ?? 'none' },
-  { label: 'Pregnant', get: (d) => bool(d.pregnant) },
-  { label: 'Baby ready', get: (d) => bool(d.babyReady) },
-  { label: 'Weapon', get: (d) => d.equipedWeapon?.id ?? 'none' },
-  { label: 'Outfit', get: (d) => d.equipedOutfit?.id ?? 'none' },
-  { label: 'Pet', get: (d) => itemLabel(d.equippedPet) },
+  { label: '等级', get: (d) => num(d.experience?.currentLevel) },
+  { label: '生命值', get: (d) => num(d.health?.healthValue) },
+  { label: '最大生命值', get: (d) => num(d.health?.maxHealth) },
+  { label: '辐射', get: (d) => num(d.health?.radiationValue) },
+  { label: '幸福度', get: (d) => num(d.happiness?.happinessValue) },
+  { label: '肤色', get: (d) => hex(d.skinColor) },
+  { label: '发色', get: (d) => hex(d.hairColor) },
+  { label: '服装颜色', get: (d) => hex(d.outfitColor) },
+  { label: '发型', get: (d) => d.hair ?? '–' },
+  { label: '胡须', get: (d) => d.faceMask ?? '无' },
+  { label: '怀孕中', get: (d) => bool(d.pregnant) },
+  { label: '婴儿即将出生', get: (d) => bool(d.babyReady) },
+  { label: '武器', get: (d) => d.equipedWeapon?.id ?? '无' },
+  { label: '服装', get: (d) => d.equipedOutfit?.id ?? '无' },
+  { label: '宠物', get: (d) => itemLabel(d.equippedPet) },
 ];
 
 function diffDweller(
@@ -153,7 +145,7 @@ function diffDweller(
   // so an assignment reads "Vault door → Diner #26" instead of raw ids.
   if (before.savedRoom !== after.savedRoom) {
     fields.push({
-      label: 'Location',
+      label: '位置',
       before: roomLabel(before.savedRoom),
       after: roomLabel(after.savedRoom),
     });
@@ -167,26 +159,26 @@ const ROOM_EXTRACTORS: ReadonlyArray<{
   label: string;
   get: (r: Room, nameOf: (id: number) => string) => string;
 }> = [
-  { label: 'Level', get: (r) => num(r.level) },
-  { label: 'Powered', get: (r) => bool(r.power) },
+  { label: '等级', get: (r) => num(r.level) },
+  { label: '供电', get: (r) => bool(r.power) },
   {
-    label: 'Workers',
-    get: (r, nameOf) => (r.dwellers ?? []).map(nameOf).join(', ') || 'none',
+    label: '工作人员',
+    get: (r, nameOf) => (r.dwellers ?? []).map(nameOf).join(', ') || '无',
   },
-  { label: 'Mr. Handies', get: (r) => String((r.mrHandyList ?? []).length) },
-  { label: 'Damage', get: (r) => num(r.roomHealth?.damageValue) },
-  { label: 'Merged width', get: (r) => num(r.mergeLevel) },
-  { label: 'Theme', get: (r) => r.assignedDecoration ?? 'none' },
-  { label: 'State', get: (r) => r.currentStateName ?? '–' },
+  { label: '巧手先生', get: (r) => String((r.mrHandyList ?? []).length) },
+  { label: '伤害', get: (r) => num(r.roomHealth?.damageValue) },
+  { label: '合并宽度', get: (r) => num(r.mergeLevel) },
+  { label: '主题', get: (r) => r.assignedDecoration ?? '无' },
+  { label: '状态', get: (r) => r.currentStateName ?? '–' },
   {
-    label: 'Position',
-    get: (r) => (r.row !== undefined || r.col !== undefined ? `row ${r.row}, col ${r.col}` : '–'),
+    label: '坐标',
+    get: (r) => (r.row !== undefined || r.col !== undefined ? `行 ${r.row} 列 ${r.col}` : '–'),
   },
   // Room-side timer fields (timerOps). The timers themselves live in taskMgr.tasks
   // (auto-surfaced by the generic walker); these are the two fields kept in sync on
   // the room: crafting's elapsed-seconds progress and the radio's display countdown.
-  { label: 'Crafting progress (s)', get: (r) => num(r.CompletedTime) },
-  { label: 'Radio countdown (s)', get: (r) => num(r.currentState?.remainingTime) },
+  { label: '制作进度（秒）', get: (r) => num(r.CompletedTime) },
+  { label: '广播倒计时（秒）', get: (r) => num(r.currentState?.remainingTime) },
 ];
 
 const roomKey = (r: Room): string => `${r.type} #${r.deserializeID}`;
@@ -218,14 +210,14 @@ function itemCountsById(save: SaveData): Map<string, number> {
 
 /** ELunchBoxType code → display name (vault.LunchBoxesByType entries). */
 const BOX_NAMES: Record<number, string> = {
-  0: 'Lunchbox',
-  1: 'Mr. Handy box',
-  2: 'Pet carrier',
-  3: 'Starter pack',
-  4: 'Nuka-Cola Quantum',
-  5: 'Predefined pack',
-  6: 'Victor',
-  7: 'Curie',
+  0: '午餐盒',
+  1: '巧手先生午餐盒',
+  2: '宠物箱',
+  3: '新手礼包',
+  4: '量子核子可乐',
+  5: '预设礼包',
+  6: '维克托',
+  7: '居里',
 };
 
 /** Openable-box counts by type code (vault.LunchBoxesByType is an array of codes). */
@@ -321,9 +313,9 @@ export function summarizeChanges(original: SaveData, current: SaveData): ChangeS
   // to the pre-edit rooms for ids that no longer exist), and a worker id → dweller name.
   const roomLabel = (id: number | undefined): string => {
     if (id === undefined) return '–';
-    if (id === -1) return 'Vault door (unassigned)';
+    if (id === -1) return '避难所大门（未分配）';
     const room = roomsAfter.get(id) ?? roomsBefore.get(id);
-    return room ? roomKey(room) : `room #${id}`;
+    return room ? roomKey(room) : `房间 #${id}`;
   };
   const nameOf = (id: number): string => {
     const d = after.get(id) ?? before.get(id);
@@ -412,7 +404,7 @@ export function summarizeChanges(original: SaveData, current: SaveData): ChangeS
       const a = ba.get(code) ?? 0;
       if (b !== a) {
         boxesChanged.push({
-          label: BOX_NAMES[code] ?? `box type ${code}`,
+          label: BOX_NAMES[code] ?? `礼盒类型 ${code}`,
           before: `×${b}`,
           after: `×${a}`,
         });

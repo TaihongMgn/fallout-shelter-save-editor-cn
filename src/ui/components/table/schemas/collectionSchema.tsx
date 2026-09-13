@@ -3,7 +3,7 @@ import {
   type CollectionRow,
 } from '../../../../domain/items/collectionCatalog.ts';
 import type { CollectionStatus } from '../../../../domain/ops/collectionOps.ts';
-import { iconColumn, inSelectedSet, nameCell } from '../columnKit.tsx';
+import { iconColumn, inSelectedSet, nameCell, rarityLabel } from '../columnKit.tsx';
 import type { TableSchema } from '../tableSchema.ts';
 
 // Source-of-truth schema for the SURVIVAL GUIDE catalog: icon · name · asset id · category
@@ -22,19 +22,29 @@ export interface CollectionViewRow extends CollectionRow {
 
 /** Filterable status label (also the sort key) for the status column. */
 const STATUS_LABELS: Record<CollectionStatus, string> = {
-  missing: 'Missing',
-  new: 'Collected (new)',
-  seen: 'Collected',
+  missing: '未收集',
+  new: '已收集（新）',
+  seen: '已收集',
+};
+
+/** Chinese category labels (glossary); falls back to the domain map, never blank. */
+const CATEGORY_LABELS: Record<string, string> = {
+  weapons: '武器',
+  outfits: '服装',
+  dwellers: '居民',
+  pets: '宠物',
+  breeds: '宠物品种',
+  junk: '垃圾',
 };
 
 function statusCell(status: CollectionStatus) {
-  if (status === 'missing') return <span className="text-neutral-500">Missing</span>;
+  if (status === 'missing') return <span className="text-neutral-500">未收集</span>;
   return (
     <span className="flex items-center gap-1.5 text-emerald-300">
-      Collected
+      已收集
       {status === 'new' && (
         <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-300">
-          New
+          新
         </span>
       )}
     </span>
@@ -45,11 +55,11 @@ export function collectionSchema(): TableSchema<CollectionViewRow> {
   return {
     name: 'collection',
     hideable: [
-      { id: 'name', label: 'Name' },
-      { id: 'id', label: 'Asset ID' },
-      { id: 'category', label: 'Category' },
-      { id: 'rarity', label: 'Rarity' },
-      { id: 'status', label: 'Status' },
+      { id: 'name', label: '名称' },
+      { id: 'id', label: '资源 ID' },
+      { id: 'category', label: '类别' },
+      { id: 'rarity', label: '稀有度' },
+      { id: 'status', label: '状态' },
     ],
     columns: [
       iconColumn<CollectionViewRow>(
@@ -62,16 +72,16 @@ export function collectionSchema(): TableSchema<CollectionViewRow> {
       {
         id: 'name',
         accessorFn: (r) => r.name,
-        header: 'Name',
+        header: '名称',
         cell: ({ getValue }) => nameCell(getValue<string>()),
         size: 240,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Name' },
+        meta: { filterVariant: 'text', headerLabel: '名称' },
       },
       {
         id: 'id',
         accessorFn: (r) => r.id,
-        header: 'Asset ID',
+        header: '资源 ID',
         cell: ({ getValue }) => {
           const id = getValue<string>();
           return (
@@ -82,32 +92,32 @@ export function collectionSchema(): TableSchema<CollectionViewRow> {
         },
         size: 220,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Asset ID' },
+        meta: { filterVariant: 'text', headerLabel: '资源 ID' },
       },
       {
         id: 'category',
-        accessorFn: (r) => COLLECTION_CATEGORY_LABELS[r.category],
-        header: 'Category',
+        accessorFn: (r) => CATEGORY_LABELS[r.category] ?? COLLECTION_CATEGORY_LABELS[r.category],
+        header: '类别',
         size: 110,
         filterFn: inSelectedSet<CollectionViewRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Category' },
+        meta: { filterVariant: 'select', headerLabel: '类别' },
       },
       {
         id: 'rarity',
-        accessorFn: (r) => r.rarity ?? '–',
-        header: 'Rarity',
+        accessorFn: (r) => (r.rarity ? rarityLabel(r.rarity) : '–'),
+        header: '稀有度',
         size: 110,
         filterFn: inSelectedSet<CollectionViewRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Rarity' },
+        meta: { filterVariant: 'select', headerLabel: '稀有度' },
       },
       {
         id: 'status',
         accessorFn: (r) => STATUS_LABELS[r.status],
-        header: 'Status',
+        header: '状态',
         cell: ({ row }) => statusCell(row.original.status),
         size: 150,
         filterFn: inSelectedSet<CollectionViewRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Status' },
+        meta: { filterVariant: 'select', headerLabel: '状态' },
       },
     ],
   };

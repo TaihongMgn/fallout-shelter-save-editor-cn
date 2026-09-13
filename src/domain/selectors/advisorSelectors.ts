@@ -296,9 +296,9 @@ function computeResourceLines(
 }
 
 const RESOURCE_ROOM_HINT: Record<string, string> = {
-  Food: 'food rooms (Diner/Garden)',
-  Water: 'water rooms (Water Treatment)',
-  Energy: 'power rooms (Power Generator/Reactor)',
+  Food: '餐厅或花园等食物房间',
+  Water: '净水站等水处理房间',
+  Energy: '发电机组或核反应堆等电力房间',
 };
 
 /** Build the advisory recommendation list (advisory + deep-link, never auto-fix). */
@@ -317,16 +317,16 @@ function buildRecommendations(
       recs.push({
         id: `deficit-${line.resource}`,
         severity: 'high',
-        title: `${line.resource} deficit (${line.net.toFixed(1)}/min)`,
-        detail: `Consumption (${line.consumption.toFixed(1)}/min) outpaces production (${line.production.toFixed(1)}/min). Build or staff more ${RESOURCE_ROOM_HINT[line.resource] ?? `${line.resource} rooms`}.`,
+        title: `${line.resource} 赤字（${line.net.toFixed(1)}/分钟）`,
+        detail: `消耗（${line.consumption.toFixed(1)}/分钟）超过产量（${line.production.toFixed(1)}/分钟）。请建造更多${RESOURCE_ROOM_HINT[line.resource] ?? `${line.resource} 房间`}，或为其安排更多居民。`,
         link: { section: 'rooms' },
       });
     } else if (line.status === 'warn') {
       recs.push({
         id: `thin-${line.resource}`,
         severity: 'low',
-        title: `${line.resource} margin is thin`,
-        detail: `Production barely exceeds consumption (net ${line.net.toFixed(1)}/min). Consider more capacity before adding dwellers.`,
+        title: `${line.resource} 余量偏紧`,
+        detail: `产量仅略高于消耗（净 ${line.net.toFixed(1)}/分钟）。在新增居民之前，建议先扩充产能。`,
         link: { section: 'rooms' },
       });
     }
@@ -338,8 +338,8 @@ function buildRecommendations(
       recs.push({
         id: `broken-${r.deserializeID}`,
         severity: 'medium',
-        title: `${r.name} is broken`,
-        detail: `${r.name}${r.row !== null ? ` (floor ${r.row})` : ''} is damaged and produces nothing until repaired.`,
+        title: `${r.name} 已损坏`,
+        detail: `${r.name}${r.row !== null ? `（${r.row} 层）` : ''}已损坏，在修复之前不会产出。`,
         link: { section: 'rooms', roomId: r.deserializeID },
       });
     }
@@ -351,8 +351,8 @@ function buildRecommendations(
       recs.push({
         id: `understaffed-${r.deserializeID}`,
         severity: 'medium',
-        title: `${r.name} is understaffed (${r.assigned}/${r.maxDwellers})`,
-        detail: `Assign ${r.maxDwellers - r.assigned} more dweller${r.maxDwellers - r.assigned > 1 ? 's' : ''}${r.statKey ? ` with high ${r.statKey}` : ''} to raise output.`,
+        title: `${r.name} 人手不足（${r.assigned}/${r.maxDwellers}）`,
+        detail: `请再派驻 ${r.maxDwellers - r.assigned} 名${r.statKey ? `高 ${r.statKey} 属性的` : ''}居民以提高产量。`,
         link: { section: 'rooms', roomId: r.deserializeID },
       });
     }
@@ -369,8 +369,8 @@ function buildRecommendations(
     recs.push({
       id: 'idle-dwellers',
       severity: 'medium',
-      title: `${idle} dweller${idle > 1 ? 's' : ''} unassigned`,
-      detail: `${idle} alive dweller${idle > 1 ? 's are' : ' is'} standing at the vault door doing no work. Assign them to rooms.`,
+      title: `${idle} 名居民未分配`,
+      detail: `${idle} 名在世居民站在避难所大门处无所事事。请将他们派驻到房间。`,
       link: { section: 'dwellers' },
     });
   }
@@ -380,8 +380,8 @@ function buildRecommendations(
     recs.push({
       id: 'low-happiness',
       severity: 'low',
-      title: `Average happiness is ${avgHappiness.toFixed(0)}%`,
-      detail: `The vault-wide production bonus is only +${(happyBonus * 100).toFixed(0)}%. Raise happiness (radio room, partners, fed/hydrated) for up to +${10}% output.`,
+      title: `平均幸福度为 ${avgHappiness.toFixed(0)}%`,
+      detail: `全避难所的产量加成仅为 +${(happyBonus * 100).toFixed(0)}%。提升幸福度（广播室、伴侣、充足的食物与水）最多可获得 +${10}% 的产量。`,
       link: { section: 'dwellers' },
     });
   }

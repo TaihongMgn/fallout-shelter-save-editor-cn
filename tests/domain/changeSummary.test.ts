@@ -67,8 +67,8 @@ describe('summarizeChanges', () => {
     expect(mod.serializeId).toBe(1);
     expect(mod.fields).toEqual(
       expect.arrayContaining([
-        { label: 'Strength', before: '3', after: '10' },
-        { label: 'Level', before: '5', after: '50' },
+        { label: '力量', before: '3', after: '10' },
+        { label: '等级', before: '5', after: '50' },
       ]),
     );
   });
@@ -147,7 +147,7 @@ describe('timer edits in the change review', () => {
     const summary = summarizeChanges(original, edited);
     const room = summary.roomsModified.find((r) => r.label === 'WeaponFactory #12');
     expect(room?.fields).toContainEqual({
-      label: 'Crafting progress (s)',
+      label: '制作进度（秒）',
       before: '120',
       after: '1000000000',
     });

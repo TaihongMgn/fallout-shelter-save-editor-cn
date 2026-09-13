@@ -104,11 +104,7 @@ const QuestNodeCard = memo(({ data }: NodeProps<QuestNode>) => {
       : highlight
         ? 'bg-amber-400'
         : 'bg-amber-500';
-  const suffix = context
-    ? ' (chain context, not a filter match)'
-    : highlight
-      ? ' (filter match)'
-      : '';
+  const suffix = context ? '（链上下文，非筛选命中）' : highlight ? '（筛选命中）' : '';
   return (
     <div
       title={`${title}${suffix}`}
@@ -419,7 +415,7 @@ function QuestMapInner({
           onClick={() => setShowMiniMap((v) => !v)}
           className="rounded border border-neutral-700 bg-neutral-900/90 px-2 py-1 text-xs text-neutral-300 hover:border-amber-500 hover:text-amber-300"
         >
-          {showMiniMap ? 'Hide minimap' : 'Show minimap'}
+          {showMiniMap ? '隐藏小地图' : '显示小地图'}
         </button>
       </Panel>
       <CenterOnSelect

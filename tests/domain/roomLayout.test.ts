@@ -176,7 +176,7 @@ describe('canBuildRoom', () => {
     // so no build zone would exist there in-game. It fails because it touches nothing.
     const res = canBuildRoom(layout, { type: 'Storage', row: 4, col: 11, mergeLevel: 1 });
     expect(res.ok).toBe(false);
-    if (!res.ok) expect(res.reason).toMatch(/connect/i);
+    if (!res.ok) expect(res.reason).toMatch(/连接/);
   });
 
   it('blocks a room overlapping an elevator cell on the same floor', () => {
@@ -197,7 +197,7 @@ describe('canBuildRoom', () => {
     // A cell that doesn't touch the shaft must fail on CONNECTIVITY, not alignment.
     const mid = canBuildRoom(layout, { type: 'Storage', row: 18, col: 10, mergeLevel: 1 });
     expect(mid.ok).toBe(false);
-    if (!mid.ok) expect(mid.reason).toMatch(/connect/i);
+    if (!mid.ok) expect(mid.reason).toMatch(/连接/);
   });
 
   it('allows building at the right edge of a young vault (fixed-grid regression)', () => {
@@ -243,7 +243,7 @@ describe('canBuildRoom', () => {
     );
     const res = canBuildRoom(layout, { type: 'Storage', row: 0, col: 4, mergeLevel: 1 });
     expect(res.ok).toBe(false);
-    if (!res.ok) expect(res.reason).toMatch(/ultracite/i);
+    if (!res.ok) expect(res.reason).toMatch(/超镭/);
   });
 
   it('blocks building on an unexcavated rock cell (excavate first)', () => {
@@ -263,7 +263,7 @@ describe('canBuildRoom', () => {
     );
     const res = canBuildRoom(rocky, { type: 'Storage', row: 1, col: 4, mergeLevel: 1 });
     expect(res.ok).toBe(false);
-    if (!res.ok) expect(res.reason).toMatch(/rock/i);
+    if (!res.ok) expect(res.reason).toMatch(/岩石/);
   });
 });
 
@@ -368,7 +368,7 @@ describe('canMoveRoom', () => {
     );
     const res = canMoveRoom(rocky, 4, 1, 4);
     expect(res.ok).toBe(false);
-    if (!res.ok) expect(res.reason).toMatch(/rock/i);
+    if (!res.ok) expect(res.reason).toMatch(/岩石/);
   });
 });
 
@@ -398,7 +398,7 @@ describe('FakeWasteland is a locked structural tile', () => {
   it('refuses to move the wasteland tile', () => {
     const res = canMoveRoom(fwLayout, 1, 1, 7);
     expect(res.ok).toBe(false);
-    if (!res.ok) expect(res.reason).toMatch(/wasteland/i);
+    if (!res.ok) expect(res.reason).toMatch(/废土/);
   });
 
   it('offers no move targets for the wasteland tile', () => {
@@ -408,7 +408,7 @@ describe('FakeWasteland is a locked structural tile', () => {
   it('refuses to remove the wasteland tile', () => {
     const res = canRemoveRoom(fwLayout, 1);
     expect(res.ok).toBe(false);
-    if (!res.ok) expect(res.reason).toMatch(/wasteland/i);
+    if (!res.ok) expect(res.reason).toMatch(/废土/);
   });
 });
 

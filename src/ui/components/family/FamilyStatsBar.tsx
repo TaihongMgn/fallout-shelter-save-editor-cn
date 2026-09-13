@@ -25,56 +25,56 @@ const CHIPS: ReadonlyArray<{
   help: string;
 }> = [
   {
-    label: 'Dwellers',
+    label: '居民',
     field: 'dwellers',
-    help: 'Total dwellers in the tree (special characters included).',
+    help: '家族树中的居民总数（含特殊角色）。',
   },
   {
-    label: 'Families',
+    label: '家庭',
     field: 'familyGroups',
     key: 'familyGroups',
-    help: 'Groups of two or more related dwellers (connected by parent, child, or partner links).',
+    help: '由两名及以上有亲属关系的居民组成的群体（通过父母、子女或伴侣关系相连）。',
   },
   {
-    label: 'Lone wolves',
+    label: '独行侠',
     field: 'loneWolves',
     key: 'loneWolves',
-    help: 'Dwellers with no recorded family at all - no parents, partner, or children.',
+    help: '没有任何亲属记录的居民——无父母、伴侣或子女。',
   },
   {
-    label: 'Biggest clan',
+    label: '最大家族',
     field: 'largestFamily',
     key: 'largestFamily',
-    help: 'Number of dwellers in the single largest connected family.',
+    help: '单个最大家族中的居民数量。',
   },
   {
-    label: 'Generations',
+    label: '世代',
     field: 'generations',
-    help: 'How many generations deep the deepest bloodline runs (grandparent → parent → child = 3).',
+    help: '最深血脉延续的世代数（祖父母 → 父母 → 子女 = 3 代）。',
   },
   {
-    label: 'Couples',
+    label: '伴侣',
     field: 'couples',
     key: 'couples',
-    help: 'Pairs who are partners or share at least one child.',
+    help: '互为伴侣或至少育有一名子女的配对。',
   },
   {
-    label: 'Founders',
+    label: '始祖',
     field: 'founders',
     key: 'founders',
-    help: 'Dwellers with no recorded parents - the start of each bloodline.',
+    help: '没有父母记录的居民——各血脉的起点。',
   },
   {
-    label: 'Specials',
+    label: '特殊角色',
     field: 'specials',
     key: 'specials',
-    help: 'Unique / named characters (e.g. legendary or quest dwellers) currently in the vault.',
+    help: '当前避难所中的特殊/有名有姓的角色（如传说居民或任务居民）。',
   },
   {
-    label: 'Inbred unions',
+    label: '近亲结合',
     field: 'inbredUnions',
     key: 'inbredUnions',
-    help: 'Children whose two parents share a common ancestor (the cause of the genetics status).',
+    help: '父母双方拥有共同祖先的子女（基因状态即由此统计）。',
   },
 ];
 
@@ -110,7 +110,7 @@ function StatChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      title={`${help}\n\nClick to highlight these dwellers.`}
+      title={`${help}\n\n点击可高亮这些居民。`}
       className={`${base} ${
         active
           ? 'border-amber-500 bg-amber-500/15'
@@ -144,7 +144,7 @@ export function FamilyStatsBar({
       >
         <span aria-hidden="true">{status.emoji}</span>
         {status.label}
-        <InfoTooltip label="Vault genetics status" text={status.blurb} />
+        <InfoTooltip label="避难所基因状态" text={status.blurb} />
       </span>
       <div className="flex flex-wrap items-center gap-1.5">
         {CHIPS.map((c) => (
@@ -160,9 +160,9 @@ export function FamilyStatsBar({
       </div>
       <span
         className="cursor-help text-[11px] text-neutral-500"
-        title="Share of children (with two known parents) whose parents share a common ancestor."
+        title="在父母已知的子女中，父母双方拥有共同祖先的比例。"
       >
-        {pct}% of births kept it in the family
+        {pct}% 的出生属于近亲结合
       </span>
     </div>
   );

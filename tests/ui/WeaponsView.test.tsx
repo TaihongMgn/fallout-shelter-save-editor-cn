@@ -110,15 +110,15 @@ describe('WeaponsView', () => {
     renderView();
     expect(screen.getByText('Laser Pistol')).toBeInTheDocument();
     expect(screen.getByText('Plasma Rifle')).toBeInTheDocument();
-    expect(screen.getByText('2 weapons')).toBeInTheDocument();
+    expect(screen.getByText('2 个武器')).toBeInTheDocument();
   });
 
   it('multi-select + Add to storage grants the selected weapons to the vault', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('checkbox', { name: 'Select Laser Pistol' }));
-    await user.click(screen.getByRole('checkbox', { name: 'Select Plasma Rifle' }));
-    await user.click(screen.getByRole('button', { name: 'Add to storage (2)' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Laser Pistol' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Plasma Rifle' }));
+    await user.click(screen.getByRole('button', { name: '添加到仓库 (2)' }));
     const ids = inventory().map((i) => i.id);
     expect(ids).toContain('Laser');
     expect(ids).toContain('Plasma');
@@ -128,11 +128,11 @@ describe('WeaponsView', () => {
     const user = userEvent.setup();
     renderView();
     const laserRow = bodyRows().find((r) => within(r).queryByText('Laser Pistol'));
-    await user.click(within(laserRow as HTMLElement).getByRole('button', { name: 'Equip…' }));
+    await user.click(within(laserRow as HTMLElement).getByRole('button', { name: '装备…' }));
 
     const dialog = screen.getByRole('dialog');
-    await user.click(within(dialog).getByRole('checkbox', { name: 'Select all' }));
-    await user.click(within(dialog).getByRole('button', { name: 'Equip on 2 dwellers' }));
+    await user.click(within(dialog).getByRole('checkbox', { name: '全选' }));
+    await user.click(within(dialog).getByRole('button', { name: '装备到 2 名居民' }));
 
     expect(dwellerById(1)?.equipedWeapon?.id).toBe('Laser');
     expect(dwellerById(2)?.equipedWeapon?.id).toBe('Laser');
@@ -144,12 +144,10 @@ describe('WeaponsView', () => {
 
     it('shows a Craftable link on craftable items and none on the rest', () => {
       renderView();
-      // Laser has a recipe; the save doesn't own it yet -> plain "Craftable".
-      expect(within(laserRow()).getByRole('button', { name: 'Craftable' })).toBeInTheDocument();
+      // Laser has a recipe; the save doesn't own it yet -> plain "可制作".
+      expect(within(laserRow()).getByRole('button', { name: '可制作' })).toBeInTheDocument();
       // Plasma has no recipe -> no craftable control at all.
-      expect(
-        within(plasmaRow()).queryByRole('button', { name: /Craftable|In collection/ }),
-      ).toBeNull();
+      expect(within(plasmaRow()).queryByRole('button', { name: /可制作|已拥有配方/ })).toBeNull();
     });
 
     it('reflects collection status when the save owns the recipe', () => {
@@ -157,13 +155,13 @@ describe('WeaponsView', () => {
         save: { ...(makeSave() as SaveData), survivalW: { recipes: ['Laser'] } } as SaveData,
       });
       renderView();
-      expect(within(laserRow()).getByRole('button', { name: /In collection/ })).toBeInTheDocument();
+      expect(within(laserRow()).getByRole('button', { name: /已拥有配方/ })).toBeInTheDocument();
     });
 
     it('clicking Craftable jumps to that recipe in the Recipes tab', async () => {
       const user = userEvent.setup();
       renderView();
-      await user.click(within(laserRow()).getByRole('button', { name: 'Craftable' }));
+      await user.click(within(laserRow()).getByRole('button', { name: '可制作' }));
       expect(screen.getByTestId('location')).toHaveTextContent('/recipes/Laser');
     });
   });

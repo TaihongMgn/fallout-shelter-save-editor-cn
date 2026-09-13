@@ -47,18 +47,18 @@ export function storageGroupSchema({
   return {
     name: 'storageGroup',
     hideable: [
-      { id: 'name', label: 'Name' },
-      { id: 'rarity', label: 'Rarity' },
-      { id: 'count', label: 'Count' },
+      { id: 'name', label: '名称' },
+      { id: 'rarity', label: '稀有度' },
+      { id: 'count', label: '数量' },
     ],
     columns: [
       iconColumn<StorageGroupRow>((r) => ({ type: iconType, id: r.id })),
-      { id: 'name', accessorFn: (r) => r.name, header: 'Name', size: 240 },
-      { id: 'rarity', accessorFn: (r) => r.rarity, header: 'Rarity', size: 120 },
+      { id: 'name', accessorFn: (r) => r.name, header: '名称', size: 240 },
+      { id: 'rarity', accessorFn: (r) => r.rarity, header: '稀有度', size: 120 },
       {
         id: 'count',
         accessorFn: (r) => r.count,
-        header: 'Count',
+        header: '数量',
         cell: ({ row }) => (
           <CountCell
             value={row.original.count}
@@ -76,20 +76,20 @@ export function storedPetSchema(): TableSchema<StoragePetRow> {
   return {
     name: 'storedPet',
     hideable: [
-      { id: 'name', label: 'Name' },
-      { id: 'breed', label: 'Breed' },
-      { id: 'rarity', label: 'Rarity' },
-      { id: 'bonus', label: 'Bonus' },
+      { id: 'name', label: '名称' },
+      { id: 'breed', label: '品种' },
+      { id: 'rarity', label: '稀有度' },
+      { id: 'bonus', label: '加成' },
     ],
     columns: [
       iconColumn<StoragePetRow>((p) => ({ type: 'pets', id: p.id })),
-      { id: 'name', accessorFn: (p) => p.name, header: 'Name', size: 160 },
-      { id: 'breed', accessorFn: (p) => p.breed, header: 'Breed', size: 140 },
-      { id: 'rarity', accessorFn: (p) => p.rarity, header: 'Rarity', size: 110 },
+      { id: 'name', accessorFn: (p) => p.name, header: '名称', size: 160 },
+      { id: 'breed', accessorFn: (p) => p.breed, header: '品种', size: 140 },
+      { id: 'rarity', accessorFn: (p) => p.rarity, header: '稀有度', size: 110 },
       {
         id: 'bonus',
         accessorFn: (p) => p.bonus,
-        header: 'Bonus',
+        header: '加成',
         cell: ({ row }) => `${prettyBonus(row.original.bonus)} (${row.original.value})`,
         size: 220,
       },

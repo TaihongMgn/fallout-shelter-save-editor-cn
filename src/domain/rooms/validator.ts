@@ -66,13 +66,13 @@ function checkPlacement(
   others: readonly CellBox[],
 ): ValidationResult {
   if (box.row < 0 || box.row >= layout.rows) {
-    return fail(`Floor ${box.row} is outside the vault (0–${layout.rows - 1}).`);
+    return fail(`楼层 ${box.row} 超出避难所范围（0–${layout.rows - 1}）。`);
   }
   if (box.col < 0 || box.colEnd > layout.cols) {
-    return fail(`That position runs past the vault edge (columns 0–${layout.cols - 1}).`);
+    return fail(`该位置超出避难所边缘（列 0–${layout.cols - 1}）。`);
   }
   if (findOverlap([...others, box])) {
-    return fail('That space is already occupied by another room.');
+    return fail('该位置已被其他房间占用。');
   }
   // A room cannot occupy an unexcavated rock or ultracite cell - the game requires clear
   // dirt before construction (ConstructionGrid.CanGetSpace). Without this, once elevators
@@ -81,10 +81,10 @@ function checkPlacement(
   // conservative and blocks all types.)
   for (let c = box.col; c < box.colEnd; c++) {
     if (layout.rocks.has(`${box.row},${c}`)) {
-      return fail('That space contains rock. Excavate it first.');
+      return fail('该位置有岩石，请先挖掘。');
     }
     if (layout.ultracite.has(`${box.row},${c}`)) {
-      return fail('That space contains an ultracite deposit.');
+      return fail('该位置有超镭矿床。');
     }
   }
   return OK;
@@ -94,7 +94,7 @@ function checkPlacement(
 export function canBuildRoom(layout: Layout, spec: PlacementSpec): ValidationResult {
   const merge = spec.type === ELEVATOR_TYPE ? 1 : spec.mergeLevel;
   if (merge < 1 || merge > MAX_MERGE_LEVEL) {
-    return fail(`Merge level must be 1–${MAX_MERGE_LEVEL}.`);
+    return fail(`合并宽度必须为 1–${MAX_MERGE_LEVEL}。`);
   }
   const box = candidateBox(spec);
   const placement = checkPlacement(layout, box, layout.nodes);
@@ -103,9 +103,7 @@ export function canBuildRoom(layout: Layout, spec: PlacementSpec): ValidationRes
   // The new room must reach the Entrance through the resulting layout (no floaters).
   const all = [...layout.nodes, box];
   if (box.type !== ENTRANCE_TYPE && !reachesEntrance(all, box)) {
-    return fail(
-      'A new room must connect to an elevator or an existing room reaching the entrance.',
-    );
+    return fail('新房间必须连接到电梯，或连接到可通往入口的现有房间。');
   }
   return OK;
 }
@@ -113,15 +111,15 @@ export function canBuildRoom(layout: Layout, spec: PlacementSpec): ValidationRes
 /** Whether `id` can be removed without stranding any remaining room from the entrance. */
 export function canRemoveRoom(layout: Layout, id: number): ValidationResult {
   const node = layout.byId.get(id);
-  if (!node) return fail('Room not found.');
-  if (node.type === ENTRANCE_TYPE) return fail('The vault entrance cannot be removed.');
-  if (node.type === FAKE_WASTELAND_TYPE) return fail('The wasteland tile cannot be removed.');
+  if (!node) return fail('未找到该房间。');
+  if (node.type === ENTRANCE_TYPE) return fail('避难所入口无法移除。');
+  if (node.type === FAKE_WASTELAND_TYPE) return fail('废土地块无法移除。');
 
   const remaining = layout.nodes.filter((n) => n.deserializeID !== id);
   const cells = occupancy(remaining);
   const stranded = remaining.find((n) => !reachesEntrance(remaining, n, cells));
   if (stranded) {
-    return fail('Removing this room would cut off other rooms from the entrance.');
+    return fail('移除此房间会导致其他房间与入口断开连接。');
   }
   return OK;
 }
@@ -134,8 +132,8 @@ export function canMoveRoom(
   col: number,
 ): ValidationResult {
   const node = layout.byId.get(id);
-  if (!node) return fail('Room not found.');
-  if (node.type === FAKE_WASTELAND_TYPE) return fail('The wasteland tile cannot be moved.');
+  if (!node) return fail('未找到该房间。');
+  if (node.type === FAKE_WASTELAND_TYPE) return fail('废土地块无法移动。');
 
   const others = layout.nodes.filter((n) => n.deserializeID !== id);
   const box = candidateBox({ type: node.type, row, col, mergeLevel: node.mergeLevel });
@@ -147,7 +145,7 @@ export function canMoveRoom(
   // per candidate cell across the whole grid, so the quadratic version froze drag start.
   const all = [...others, box];
   if (!allReachEntrance(all)) {
-    return fail('That move would cut a room off from the entrance.');
+    return fail('该移动会导致某个房间与入口断开连接。');
   }
   return OK;
 }
@@ -184,9 +182,9 @@ export function canMergeRoom(
   id: number,
 ): ValidationResult & { neighbourId?: number } {
   const node = layout.byId.get(id);
-  if (!node) return fail('Room not found.');
-  if (node.isElevator) return fail('Elevators cannot be merged.');
-  if (node.mergeLevel >= MAX_MERGE_LEVEL) return fail('This room is already at maximum width.');
+  if (!node) return fail('未找到该房间。');
+  if (node.isElevator) return fail('电梯无法合并。');
+  if (node.mergeLevel >= MAX_MERGE_LEVEL) return fail('该房间已达到最大合并宽度。');
 
   const cells = occupancy(layout.nodes);
   const left = cells.get(`${node.row},${node.col - 1}`);
@@ -202,12 +200,12 @@ export function canMergeRoom(
       return { ok: true, neighbourId: nb.deserializeID };
     }
   }
-  return fail('No matching same-level neighbour of the same type to merge with.');
+  return fail('没有可合并的同类型同级相邻房间。');
 }
 
 /** Whether a room level is within the type's legal range (1..maxLevel from room metadata). */
 export function canSetRoomLevel(maxLevel: number, level: number): ValidationResult {
-  if (level < 1 || level > maxLevel) return fail(`Level must be 1–${maxLevel}.`);
+  if (level < 1 || level > maxLevel) return fail(`等级必须为 1–${maxLevel}。`);
   return OK;
 }
 
@@ -219,16 +217,16 @@ export function validateLayout(layout: Layout): ValidationResult {
   const overlap = findOverlap(layout.nodes);
   if (overlap) {
     return fail(
-      `Rooms overlap at floor ${overlap.a.row} (#${overlap.a.deserializeID}/#${overlap.b.deserializeID}).`,
+      `房间在楼层 ${overlap.a.row} 重叠（#${overlap.a.deserializeID}/#${overlap.b.deserializeID}）。`,
     );
   }
   const cells = occupancy(layout.nodes);
   for (const n of layout.nodes) {
     if (n.row < 0 || n.row >= layout.rows || n.col < 0 || n.colEnd > layout.cols) {
-      return fail(`Room #${n.deserializeID} is out of bounds.`);
+      return fail(`房间 #${n.deserializeID} 超出边界。`);
     }
     if (n.type !== ENTRANCE_TYPE && !reachesEntrance(layout.nodes, n, cells)) {
-      return fail(`Room #${n.deserializeID} (${n.type}) cannot reach the entrance.`);
+      return fail(`房间 #${n.deserializeID}（${n.type}）无法到达入口。`);
     }
   }
   return OK;

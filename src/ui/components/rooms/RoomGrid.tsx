@@ -565,15 +565,15 @@ export function RoomGrid({
             return (
               <div
                 data-handy-outside=""
-                aria-label="Robots waiting outside the vault"
+                aria-label="在大门外等候的巧手先生"
                 className="relative shrink-0"
                 style={{ width: zoneCells * CELL_W, height: layout.rows * CELL_H }}
               >
                 {showOutsideDrop && (
                   <button
                     type="button"
-                    aria-label="Send the selected Mr. Handy outside the vault"
-                    title="Drop here: send the robot outside the vault (it waits at the door)"
+                    aria-label="将选中的巧手先生送出避难所"
+                    title="放到此处：将巧手先生送出避难所（它会在大门等待）"
                     onClick={() => onHandyChipClick(() => onSendArmedOutside?.())}
                     className="absolute flex items-center justify-center rounded-sm border border-dashed border-sky-400/70 bg-sky-500/10 text-sm leading-none hover:bg-sky-500/30"
                     style={{
@@ -590,8 +590,8 @@ export function RoomGrid({
                     <button
                       key={`outside-handy-${h.id}`}
                       type="button"
-                      aria-label={`${h.name} waiting outside the vault${armed ? ' (selected)' : ''}`}
-                      title={`${h.name} (waiting outside) - drag it onto a floor slot, or click to ${armed ? 'cancel' : 'pick it up'}`}
+                      aria-label={`${h.name} 在大门外等候${armed ? '（已选中）' : ''}`}
+                      title={`${h.name}（在大门外等候）：拖拽到楼层槽位，或点击${armed ? '取消选择' : '拿起'}`}
                       onClick={() => onHandyChipClick(() => onOutsideHandyClick?.(h.id))}
                       onPointerDown={(e) => onHandyPointerDown(e, h.id)}
                       onPointerMove={onHandyPointerMove}
@@ -647,8 +647,8 @@ export function RoomGrid({
                   type="button"
                   data-terrain-cell=""
                   disabled={buildMode}
-                  aria-label={`Excavate rock at floor ${displayFloor(r)}, column ${c}`}
-                  title="Click to excavate, drag to move"
+                  aria-label={`挖掘第 ${displayFloor(r)} 层第 ${c} 列的岩石`}
+                  title="点击挖掘，拖拽移动"
                   onClick={() => onTerrainClick(() => onExcavateRock?.(r, c))}
                   onPointerDown={(e) => onTerrainPointerDown(e, 'rock', r, c)}
                   onPointerMove={onTerrainPointerMove}
@@ -683,8 +683,8 @@ export function RoomGrid({
                   type="button"
                   data-terrain-cell=""
                   disabled={buildMode}
-                  aria-label={`Remove ultracite deposit at floor ${displayFloor(r)}, column ${c}`}
-                  title="Ultracite deposit - click to remove, drag to move"
+                  aria-label={`移除第 ${displayFloor(r)} 层第 ${c} 列的超镭`}
+                  title="超镭：点击移除，拖拽移动"
                   onClick={() => onTerrainClick(() => onRemoveUltracite?.(r, c))}
                   onPointerDown={(e) => onTerrainPointerDown(e, 'ultracite', r, c)}
                   onPointerMove={onTerrainPointerMove}
@@ -722,7 +722,7 @@ export function RoomGrid({
                         key={`terrain-${key}`}
                         type="button"
                         data-terrain-cell=""
-                        aria-label={`Place ${terrainMode} at floor ${displayFloor(r)}, column ${c}`}
+                        aria-label={`在第 ${displayFloor(r)} 层第 ${c} 列放置${terrainMode === 'rock' ? '岩石' : '超镭'}`}
                         onClick={() => onPlaceTerrain?.(r, c)}
                         className={`absolute rounded-sm border border-dashed ${
                           terrainMode === 'rock'
@@ -746,7 +746,7 @@ export function RoomGrid({
                     key={`drop-${key}`}
                     type="button"
                     data-drop-cell=""
-                    aria-label={`Build at floor ${displayFloor(r)}, column ${c}`}
+                    aria-label={`在第 ${displayFloor(r)} 层第 ${c} 列建造`}
                     onClick={() => onPlace?.(r, c)}
                     className="absolute rounded-sm border border-dashed border-emerald-500/80 bg-emerald-500/15 hover:bg-emerald-500/35"
                     style={{
@@ -776,10 +776,10 @@ export function RoomGrid({
                   type="button"
                   data-room-tile=""
                   aria-current={selected ? 'true' : undefined}
-                  aria-label={`${labelOf(node.type)} floor ${displayFloor(node.row)}${
-                    isElevator ? '' : ` level ${node.level}`
-                  }${damaged ? ' - needs repair' : ''}${emergency ? ' - emergency' : ''}${
-                    advisory ? ` - advisory: ${advisory.title}` : ''
+                  aria-label={`${labelOf(node.type)}，第 ${displayFloor(node.row)} 层${
+                    isElevator ? '' : `，等级 ${node.level}`
+                  }${damaged ? '，需要修复' : ''}${emergency ? '，紧急事故' : ''}${
+                    advisory ? `，建议：${advisory.title}` : ''
                   }`}
                   onClick={() => onRoomClick(node)}
                   onPointerDown={(e) => onRoomPointerDown(e, node)}
@@ -814,8 +814,7 @@ export function RoomGrid({
                         {labelOf(node.type)}
                       </span>
                       <span className="text-[9px] text-current/80">
-                        L{node.level}
-                        {max > 0 ? ` · ${occ}/${max}` : ''}
+                        {node.level} 级{max > 0 ? ` · ${occ}/${max}` : ''}
                       </span>
                     </>
                   )}
@@ -824,7 +823,7 @@ export function RoomGrid({
                   {damaged && (
                     <span
                       aria-hidden="true"
-                      title="Needs repair"
+                      title="需要修复"
                       className="absolute bottom-2 right-1 text-sm leading-none drop-shadow-[0_1px_1px_rgba(0,0,0,0.9)]"
                     >
                       🔧
@@ -838,7 +837,7 @@ export function RoomGrid({
                       viewBox="0 0 24 24"
                       className="pointer-events-none absolute bottom-2 left-1 h-3.5 w-3.5 fill-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.9)]"
                     >
-                      <title>Emergency</title>
+                      <title>紧急事故</title>
                       <path d="M12 23a7.5 7.5 0 0 0 7.5-7.5c0-2.7-1.2-4.8-2.7-6.7-.4 1.4-1.4 2-2.4 2 1.1-2.2.4-5.4-2.4-7.8-.4 3.2-2.6 4.4-4 6.9-1 1.6-1.5 3.2-1.5 5.6A7.5 7.5 0 0 0 12 23z" />
                     </svg>
                   )}
@@ -867,7 +866,7 @@ export function RoomGrid({
                   <button
                     key={`move-${key}`}
                     type="button"
-                    aria-label={`Move ${labelOf(moveNode.type)} to floor ${displayFloor(r)}, column ${c}`}
+                    aria-label={`将 ${labelOf(moveNode.type)} 移动到第 ${displayFloor(r)} 层第 ${c} 列`}
                     onClick={() => onMoveRoom?.(moveNode.deserializeID, r, c)}
                     className="absolute z-30 rounded-sm border border-dashed border-sky-400/80 bg-sky-500/15 hover:bg-sky-500/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
                     style={{
@@ -960,7 +959,7 @@ export function RoomGrid({
               is draggable; eligible empty floors light up as drop targets while a robot is
               armed or dragged (one robot per floor, the game rule). */}
           {handyRail && handyRail.length > 0 && (
-            <div className="shrink-0" aria-label="Mr. Handy floors">
+            <div className="shrink-0" aria-label="巧手先生楼层">
               {handyRail.map((slot) => {
                 const armed = slot.handy && slot.handy.id === armedHandyId;
                 const clickable = !!slot.handy || slot.eligible;
@@ -972,16 +971,16 @@ export function RoomGrid({
                     disabled={!clickable}
                     aria-label={
                       slot.handy
-                        ? `${slot.handy.name} on floor ${displayFloor(slot.row)}${armed ? ' (selected)' : ''}`
+                        ? `${slot.handy.name} 在第 ${displayFloor(slot.row)} 层${armed ? '（已选中）' : ''}`
                         : slot.eligible
-                          ? `Move Mr. Handy to floor ${displayFloor(slot.row)}`
-                          : `Floor ${displayFloor(slot.row)}: no Mr. Handy`
+                          ? `将巧手先生移动到第 ${displayFloor(slot.row)} 层`
+                          : `第 ${displayFloor(slot.row)} 层：没有巧手先生`
                     }
                     title={
                       slot.handy
-                        ? `${slot.handy.name} - drag it, or click to ${armed ? 'cancel' : 'move it'}`
+                        ? `${slot.handy.name}：可拖拽，或点击${armed ? '取消选择' : '拿起'}`
                         : slot.eligible
-                          ? `Move here (floor ${displayFloor(slot.row)})`
+                          ? `移动到此处（第 ${displayFloor(slot.row)} 层）`
                           : undefined
                     }
                     onClick={() => onHandyChipClick(() => onHandySlotClick?.(slot.row))}
@@ -1063,10 +1062,10 @@ export function RoomGrid({
           </span>
           <span>
             {!drag.deletable
-              ? 'Can’t delete - would strand rooms'
+              ? '无法删除——会使其他房间失去连接'
               : drag.overTrash
-                ? 'Release to delete'
-                : 'Drag here to delete'}
+                ? '松开以删除'
+                : '拖到此处删除'}
           </span>
         </div>
       )}

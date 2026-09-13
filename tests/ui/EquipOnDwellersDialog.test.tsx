@@ -50,7 +50,7 @@ function renderDialog(overrides: Partial<Parameters<typeof EquipOnDwellersDialog
 describe('EquipOnDwellersDialog', () => {
   it('lists every dweller with location + current slot item so the choice is informed', () => {
     renderDialog();
-    expect(screen.getByText('Equip Plasma Rifle')).toBeInTheDocument();
+    expect(screen.getByText('装备 Plasma Rifle')).toBeInTheDocument();
     expect(screen.getByText('Alice')).toBeInTheDocument();
     expect(screen.getByText('Laser Pistol')).toBeInTheDocument();
     expect(screen.getByText('Bob')).toBeInTheDocument();
@@ -68,9 +68,9 @@ describe('EquipOnDwellersDialog', () => {
   it('confirms with the selected dweller ids (single item → multiple dwellers)', async () => {
     const user = userEvent.setup();
     const { onConfirm, onClose } = renderDialog();
-    await user.click(screen.getByRole('checkbox', { name: 'Select Alice' }));
-    await user.click(screen.getByRole('checkbox', { name: 'Select Bob' }));
-    await user.click(screen.getByRole('button', { name: 'Equip on 2 dwellers' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Alice' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Bob' }));
+    await user.click(screen.getByRole('button', { name: '装备到 2 名居民' }));
     expect(onConfirm).toHaveBeenCalledWith([1, 2]);
     expect(onClose).toHaveBeenCalled();
   });
@@ -78,13 +78,13 @@ describe('EquipOnDwellersDialog', () => {
   it('select-all toggles every dweller', async () => {
     const user = userEvent.setup();
     const { onConfirm } = renderDialog();
-    await user.click(screen.getByRole('checkbox', { name: 'Select all' }));
-    await user.click(screen.getByRole('button', { name: 'Equip on 2 dwellers' }));
+    await user.click(screen.getByRole('checkbox', { name: '全选' }));
+    await user.click(screen.getByRole('button', { name: '装备到 2 名居民' }));
     expect(onConfirm).toHaveBeenCalledWith([1, 2]);
   });
 
   it('confirm is disabled until at least one dweller is selected', () => {
     renderDialog();
-    expect(screen.getByRole('button', { name: /Equip on/ })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /装备到/ })).toBeDisabled();
   });
 });

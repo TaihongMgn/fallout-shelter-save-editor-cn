@@ -11,9 +11,9 @@ import { fieldHelp } from '../../lib/fieldHelp.ts';
 // so they belong with the rest rather than in a separate card.
 
 const CONSUMABLES: ReadonlyArray<{ code: number; label: string }> = [
-  { code: CONSUMABLE_CODES.Lunchbox, label: 'Lunchboxes' },
-  { code: CONSUMABLE_CODES.MrHandy, label: 'Mr. Handy' },
-  { code: CONSUMABLE_CODES.PetCarrier, label: 'Pet Carriers' },
+  { code: CONSUMABLE_CODES.Lunchbox, label: '午餐盒' },
+  { code: CONSUMABLE_CODES.MrHandy, label: '巧手先生' },
+  { code: CONSUMABLE_CODES.PetCarrier, label: '宠物箱' },
 ];
 
 const MAX_CONSUMABLES = 999;
@@ -34,11 +34,7 @@ export function ConsumablesCard({
   onSetStarterPacks: (count: number) => void;
 }) {
   return (
-    <VaultCard
-      title="Consumables"
-      help={fieldHelp.consumables}
-      description="Lunchboxes and other openable packs."
-    >
+    <VaultCard title="消耗品" help={fieldHelp.consumables} description="午餐盒及其他可打开的礼包。">
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {CONSUMABLES.map(({ code, label }) => (
           <NumberField
@@ -56,18 +52,18 @@ export function ConsumablesCard({
           real-money offer, and stock unopened packs in the consumable queue. */}
       <div className="mt-4 border-t border-neutral-800 pt-3">
         <h4 className="flex items-center gap-1.5 text-sm font-semibold text-neutral-200">
-          Starter Pack
+          新手礼包
           <InfoTooltip text={fieldHelp.starterPack} />
         </h4>
         <p className="mt-0.5 text-xs text-neutral-400">
-          Hide the paid Starter Pack offer, or stock unopened packs in your vault.
+          隐藏付费新手礼包的商店促销，或将未开封礼包囤入你的避难所。
         </p>
 
         <div className="mt-3 flex items-center justify-between gap-3">
           <div className="text-sm text-neutral-300">
-            Store offer
+            商店促销
             <span className="ml-2 text-xs text-neutral-400">
-              {starterPackPurchased ? 'hidden' : 'showing'}
+              {starterPackPurchased ? '已隐藏' : '展示中'}
             </span>
           </div>
           <button
@@ -75,13 +71,13 @@ export function ConsumablesCard({
             onClick={() => onToggleStarterPack(!starterPackPurchased)}
             className="rounded border border-neutral-700 px-3 py-1.5 text-sm text-neutral-200 hover:bg-neutral-800"
           >
-            {starterPackPurchased ? 'Show offer' : 'Hide offer'}
+            {starterPackPurchased ? '显示促销' : '隐藏促销'}
           </button>
         </div>
 
         <div className="mt-3">
           <NumberField
-            label="Unopened packs in vault"
+            label="避难所内未开封礼包"
             value={starterPacksInVault}
             min={0}
             max={MAX_CONSUMABLES}
@@ -91,8 +87,7 @@ export function ConsumablesCard({
         </div>
 
         <p className="mt-2 text-xs text-neutral-500">
-          Open packs in-game to receive the contents (often a pet and multiple special dwellers).
-          The offer toggle alone only removes the purchase prompt - it doesn&apos;t add anything.
+          在游戏中打开礼包即可获得内容物（通常是一只宠物和多名特殊居民）。仅切换促销开关只会移除购买提示，不会添加任何东西。
         </p>
       </div>
     </VaultCard>

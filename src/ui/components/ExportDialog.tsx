@@ -84,7 +84,7 @@ function ExportDialogBody() {
 
       close();
     } catch (e) {
-      setExportError(e instanceof Error ? e.message : 'Export failed.');
+      setExportError(e instanceof Error ? e.message : '导出失败。');
     } finally {
       setExporting(false);
     }

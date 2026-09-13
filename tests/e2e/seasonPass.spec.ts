@@ -18,7 +18,7 @@ const KILL_PICKER = () => {
 };
 
 async function acceptDisclaimer(page: import('@playwright/test').Page): Promise<void> {
-  await page.getByRole('button', { name: 'I understand and accept the risks' }).click();
+  await page.getByRole('button', { name: '我已了解并接受风险' }).click();
 }
 
 test('sandbox → Season tab → Continue → Max all → export offers the save and season files', async ({
@@ -29,27 +29,27 @@ test('sandbox → Season tab → Continue → Max all → export offers the save
   await acceptDisclaimer(page);
 
   // Start from the bundled new-game vault so a `.sav` is always present for the Season tab.
-  await page.getByRole('button', { name: 'Start fresh / sandbox' }).click();
-  await expect(page.getByRole('button', { name: 'Export', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '从零开始 / 沙盒' }).click();
+  await expect(page.getByRole('button', { name: '导出', exact: true })).toBeVisible();
 
-  await page.getByRole('link', { name: 'Season Pass' }).click();
+  await page.getByRole('link', { name: '赛季通行证' }).click();
 
   // Onboarding → build the catalog working model. The button reads "Loading catalog…" until
   // season-pass.json resolves, then becomes "Continue".
-  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: '继续' }).click();
 
   // Max every season - a single combined edit that flips seasonEdited on.
-  await page.getByRole('button', { name: 'Max all seasons' }).click();
+  await page.getByRole('button', { name: '全部赛季满级' }).click();
 
   const downloads: Download[] = [];
   page.on('download', (d) => downloads.push(d));
 
   // Export via the one shared dialog. The Season tab shows its own "Export" button too, so
   // scope the opener to the toolbar (banner) and the confirm to the dialog.
-  await page.getByRole('banner').getByRole('button', { name: 'Export', exact: true }).click();
+  await page.getByRole('banner').getByRole('button', { name: '导出', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByText('Your season-pass progress')).toBeVisible(); // season files offered
-  await dialog.getByRole('button', { name: 'Export', exact: true }).click();
+  await expect(dialog.getByText('你的赛季通行证进度')).toBeVisible(); // season files offered
+  await dialog.getByRole('button', { name: '导出', exact: true }).click();
 
   // Sandbox has no original to back up, so the three outputs are the vault save + the pair.
   await expect
@@ -99,31 +99,31 @@ test('upload a synthetic spd.dat → Claim unclaimed → export re-encodes the c
   await acceptDisclaimer(page);
 
   // A `.sav` must be loaded before the Season tab can grant rewards into it.
-  await page.getByRole('button', { name: 'Start fresh / sandbox' }).click();
-  await expect(page.getByRole('button', { name: 'Export', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '从零开始 / 沙盒' }).click();
+  await expect(page.getByRole('button', { name: '导出', exact: true })).toBeVisible();
 
-  await page.getByRole('link', { name: 'Season Pass' }).click();
+  await page.getByRole('link', { name: '赛季通行证' }).click();
 
   // Upload the synthetic spd.dat through the onboarding's hidden .dat input.
   await page.locator('input[accept=".dat"]').setInputFiles(spdPath);
 
   // Claim everything the free track entitles (premium is locked) - flips seasonEdited on.
-  await page.getByRole('button', { name: 'Claim unclaimed' }).click();
+  await page.getByRole('button', { name: '领取未领奖励' }).click();
 
   const downloads: Download[] = [];
   page.on('download', (d) => downloads.push(d));
 
   // Export through the one shared dialog (the inline per-file buttons are gone). The season
   // files default on once a season edit has been made, so confirming emits spd.dat + nvf.dat.
-  await page.getByRole('banner').getByRole('button', { name: 'Export', exact: true }).click();
+  await page.getByRole('banner').getByRole('button', { name: '导出', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByText('Your season-pass progress')).toBeVisible();
-  await dialog.getByRole('button', { name: 'Export', exact: true }).click();
+  await expect(dialog.getByText('你的赛季通行证进度')).toBeVisible();
+  await dialog.getByRole('button', { name: '导出', exact: true }).click();
 
   await expect.poll(() => downloads.length).toBeGreaterThanOrEqual(1);
   const spdDl = downloads.find((d) => d.suggestedFilename() === 'spd.dat');
   expect(spdDl, 'expected an exported spd.dat download').toBeTruthy();
 
   const exported = await decodeSeason(readFileSync(await spdDl!.path(), 'utf8'));
-  expect(exported.seasonsData!.Institute.freeRewardsList![0].claimedList).toContain(0);
+  expect(exported.seasonsData!.Institute.freeRewardsList![0].claimedList).toContain(1);
 });

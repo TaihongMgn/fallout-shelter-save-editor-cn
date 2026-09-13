@@ -17,15 +17,15 @@ export function OutfitsView({ virtualized = true }: { virtualized?: boolean } = 
   const schema = useMemo(() => outfitSchema(gameData?.enums, craft), [gameData, craft]);
   return (
     <ItemCatalogSection
-      title="Outfits"
-      unitNoun="outfits"
+      title="服装"
+      unitNoun="服装"
       storageType="Outfit"
       slot="Outfit"
       data={gameData?.outfits ?? []}
       schema={schema}
       persistKey="catalog.outfits"
-      searchLabel="Search outfits"
-      searchPlaceholder="Search outfits…"
+      searchLabel="搜索服装"
+      searchPlaceholder="搜索服装…"
       focusRowId={detail ?? null}
       virtualized={virtualized}
     />

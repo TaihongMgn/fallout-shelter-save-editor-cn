@@ -45,25 +45,25 @@ describe('questSeasonId', () => {
 
 describe('enum labels', () => {
   it('labels quest types and schemes (Default scheme has no badge)', () => {
-    expect(questTypeLabel(0)).toBe('Questline');
-    expect(questTypeLabel(5)).toBe('Event');
+    expect(questTypeLabel(0)).toBe('任务线');
+    expect(questTypeLabel(5)).toBe('活动');
     expect(questSchemeLabel(0)).toBeNull();
-    expect(questSchemeLabel(2)).toBe('Halloween');
+    expect(questSchemeLabel(2)).toBe('万圣节');
     expect(questSchemeLabel(undefined)).toBeNull();
   });
 
   it('labels environments and map regions', () => {
-    expect(questEnvironmentLabel(7)).toBe('Cave');
-    expect(questRegionLabel('chain')).toBe('Story chains');
-    expect(questRegionLabel('repeatable')).toBe('Repeatable / daily');
+    expect(questEnvironmentLabel(7)).toBe('洞穴');
+    expect(questRegionLabel('chain')).toBe('剧情任务线');
+    expect(questRegionLabel('repeatable')).toBe('可重复 / 每日');
   });
 
   it('names every scheme for the detail row, defaulting only 0 and absent', () => {
-    expect(questSchemeName(0)).toBe('Default');
-    expect(questSchemeName(undefined)).toBe('Default');
-    expect(questSchemeName(2)).toBe('Halloween');
+    expect(questSchemeName(0)).toBe('默认');
+    expect(questSchemeName(undefined)).toBe('默认');
+    expect(questSchemeName(2)).toBe('万圣节');
     // An id the table has not learned yet must not masquerade as Default.
-    expect(questSchemeName(9)).toBe('Scheme 9');
+    expect(questSchemeName(9)).toBe('方案 9');
   });
 });
 
@@ -99,7 +99,7 @@ describe('questSeason', () => {
     const season = questSeason(halloween, new Date('2026-10-20'));
     expect(season).toEqual({
       kind: 'seasonal',
-      recurring: 'Oct 12 – Nov 1',
+      recurring: '10月12日 – 11月1日',
       open: true,
       wraps: false,
     });
@@ -118,7 +118,11 @@ describe('questSeason', () => {
   it('flags a window that wraps the new year and keeps it open on both sides', () => {
     const christmas = quest(1, [2016, 12, 14], [2017, 1, 2]);
     const onNewYearsEve = questSeason(christmas, new Date('2026-12-31'));
-    expect(onNewYearsEve).toMatchObject({ recurring: 'Dec 14 – Jan 2', wraps: true, open: true });
+    expect(onNewYearsEve).toMatchObject({
+      recurring: '12月14日 – 1月2日',
+      wraps: true,
+      open: true,
+    });
     expect((questSeason(christmas, new Date('2027-01-01')) as { open: boolean }).open).toBe(true);
     expect((questSeason(christmas, new Date('2026-11-30')) as { open: boolean }).open).toBe(false);
   });
@@ -133,15 +137,15 @@ describe('formatRequirement', () => {
     }) as QuestRequirement;
 
   it('humanizes stat/level requirements with a >= threshold', () => {
-    expect(formatRequirement(req(4, 20))).toBe('Dweller level ≥ 20');
-    expect(formatRequirement(req(5, 5))).toBe('Strength ≥ 5');
-    expect(formatRequirement(req(12, 9))).toBe('Weapon min damage ≥ 9');
-    expect(formatRequirement(req(3, 3))).toBe('Team size ≥ 3');
+    expect(formatRequirement(req(4, 20))).toBe('居民等级 ≥ 20');
+    expect(formatRequirement(req(5, 5))).toBe('力量 ≥ 5');
+    expect(formatRequirement(req(12, 9))).toBe('武器最小伤害 ≥ 9');
+    expect(formatRequirement(req(3, 3))).toBe('队伍人数 ≥ 3');
   });
 
   it('humanizes weapon/outfit requirements', () => {
-    expect(formatRequirement(req(1, 0, 'LaserRifle'))).toBe('Requires weapon: LaserRifle');
-    expect(formatRequirement(req(2, 0))).toBe('Requires an outfit');
+    expect(formatRequirement(req(1, 0, 'LaserRifle'))).toBe('需要武器：LaserRifle');
+    expect(formatRequirement(req(2, 0))).toBe('需要服装');
   });
 });
 
@@ -149,7 +153,7 @@ describe('grantLineChip', () => {
   it('maps currency lines to a labelled currency chip (no icon)', () => {
     const line: GrantLine = { kind: 'resource', key: 'Nuka', qty: 2500, label: 'Nuka' };
     expect(grantLineChip(line)).toEqual({
-      label: 'Caps',
+      label: '瓶盖',
       qty: 2500,
       icon: null,
       tone: 'currency',

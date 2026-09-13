@@ -8,14 +8,14 @@ import { fieldHelp } from '../../lib/fieldHelp.ts';
 // (vaultSelectors); the power toggle lets values exceed the cap.
 
 const RESOURCE_FIELDS: ReadonlyArray<{ key: string; label: string }> = [
-  { key: 'Nuka', label: 'Caps' },
-  { key: 'Food', label: 'Food' },
-  { key: 'Energy', label: 'Energy' },
-  { key: 'Water', label: 'Water' },
-  { key: 'StimPack', label: 'Stimpaks' },
-  { key: 'RadAway', label: 'RadAway' },
-  { key: 'NukaColaQuantum', label: 'Nuka-Cola Quantum' },
-  { key: 'PokerChip', label: 'Poker Chips' },
+  { key: 'Nuka', label: '瓶盖' },
+  { key: 'Food', label: '食物' },
+  { key: 'Energy', label: '电力' },
+  { key: 'Water', label: '水' },
+  { key: 'StimPack', label: '治疗针' },
+  { key: 'RadAway', label: '消辐宁' },
+  { key: 'NukaColaQuantum', label: '量子核子可乐' },
+  { key: 'PokerChip', label: '扑克筹码' },
 ];
 
 const FALLBACK_MAX = 9_999_999;
@@ -34,14 +34,14 @@ export function ResourcesCard({
   onMaxAll: () => void;
 }) {
   const maxTooltip = caps
-    ? 'Fill every resource to its game-legal capacity (room/dweller-derived).'
-    : 'Loading capacities…';
+    ? '将所有资源填至游戏允许的容量上限（由房间与居民推导得出）。'
+    : '正在加载容量…';
 
   return (
     <VaultCard
-      title="Resources"
+      title="资源"
       help={fieldHelp.resources}
-      description="Edit any resource; caps are derived from your rooms + dwellers."
+      description="编辑任意资源；容量上限由你的房间与居民推导得出。"
       action={
         <button
           type="button"
@@ -50,7 +50,7 @@ export function ResourcesCard({
           title={maxTooltip}
           className="rounded border border-amber-700 px-2.5 py-1 text-xs text-amber-300 hover:bg-amber-900/30 disabled:opacity-40"
         >
-          Max resources
+          资源拉满
         </button>
       }
     >
@@ -69,7 +69,7 @@ export function ResourcesCard({
               />
               {cap !== undefined && (
                 <p className="mt-0.5 text-right text-[10px] tabular-nums text-neutral-400">
-                  max {cap.toLocaleString()}
+                  上限 {cap.toLocaleString()}
                 </p>
               )}
             </div>

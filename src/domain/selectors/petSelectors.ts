@@ -39,7 +39,7 @@ export interface PetRow {
 }
 
 /** localStorage / display label for an unequipped instance. */
-const STORAGE_LABEL = 'Storage';
+const STORAGE_LABEL = '仓库';
 
 function dwellerList(save: SaveData): Dweller[] {
   const list = save.dwellers?.dwellers;
@@ -54,7 +54,7 @@ function inventoryItems(save: SaveData): Item[] {
 /** A dweller's display name (trimmed "name lastName"), falling back to its id. */
 function dwellerName(dweller: Dweller): string {
   const name = `${dweller.name ?? ''} ${dweller.lastName ?? ''}`.trim();
-  return name || `Dweller ${dweller.serializeId}`;
+  return name || `居民 ${dweller.serializeId}`;
 }
 
 /** Enrich a pet item into a row's catalog fields, degrading to raw id without game data. */

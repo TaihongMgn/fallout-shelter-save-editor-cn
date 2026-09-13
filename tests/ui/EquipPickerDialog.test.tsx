@@ -55,7 +55,7 @@ describe('EquipPickerDialog', () => {
     renderDialog();
     expect(screen.getByText('Laser Pistol')).toBeInTheDocument();
     expect(screen.getByText('Plasma Rifle')).toBeInTheDocument();
-    expect(screen.getByText('Equipped')).toBeInTheDocument();
+    expect(screen.getByText('已装备')).toBeInTheDocument();
   });
 
   it('equips the clicked row and closes', async () => {

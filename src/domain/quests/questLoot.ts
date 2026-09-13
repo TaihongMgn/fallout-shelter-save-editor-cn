@@ -134,37 +134,37 @@ const RANDOM_SPEC: Record<number, RandomSpec> = {
  */
 const LOOT_TYPE_LABEL: Record<number, string> = {
   // Concrete types, reached only when a stack arrives with no m_lootID to resolve.
-  [EQuestLootType.Weapon]: 'Weapon',
-  [EQuestLootType.Outfit]: 'Outfit',
-  [EQuestLootType.Pet]: 'Pet',
-  [EQuestLootType.Recipe]: 'Recipe',
-  [EQuestLootType.Junk]: 'Junk',
-  [EQuestLootType.Specific]: 'Specific Item',
-  [EQuestLootType.Dweller]: 'Special Dweller',
-  [EQuestLootType.MrHandy]: 'Mr. Handy',
-  [EQuestLootType.QuestClue]: 'Quest Clue',
-  [EQuestLootType.RecipeParts]: 'Recipe Parts',
+  [EQuestLootType.Weapon]: '武器',
+  [EQuestLootType.Outfit]: '服装',
+  [EQuestLootType.Pet]: '宠物',
+  [EQuestLootType.Recipe]: '配方',
+  [EQuestLootType.Junk]: '垃圾',
+  [EQuestLootType.Specific]: '指定物品',
+  [EQuestLootType.Dweller]: '特殊居民',
+  [EQuestLootType.MrHandy]: '巧手先生',
+  [EQuestLootType.QuestClue]: '任务线索',
+  [EQuestLootType.RecipeParts]: '配方部件',
   // Random* family: the preview's descriptors.
-  [EQuestLootType.RandomLoots]: 'Random Loot',
-  [EQuestLootType.RandomCommonWeapon]: 'Common Weapon',
-  [EQuestLootType.RandomRareWeapon]: 'Rare Weapon',
-  [EQuestLootType.RandomLegendaryWeapon]: 'Legendary Weapon',
-  [EQuestLootType.RandomCommonOutfit]: 'Common Outfit',
-  [EQuestLootType.RandomRareOutfit]: 'Rare Outfit',
-  [EQuestLootType.RandomLegendaryOutfit]: 'Legendary Outfit',
-  [EQuestLootType.RandomCommonPet]: 'Common Pet',
-  [EQuestLootType.RandomRarePet]: 'Rare Pet',
-  [EQuestLootType.RandomLegendaryPet]: 'Legendary Pet',
-  [EQuestLootType.RandomRareDweller]: 'Rare Dweller',
-  [EQuestLootType.RandomCommonJunk]: 'Common Junk',
-  [EQuestLootType.RandomRareJunk]: 'Rare Junk',
-  [EQuestLootType.RandomLegendaryJunk]: 'Legendary Junk',
-  [EQuestLootType.RandomRareWeaponRecipe]: 'Rare Weapon Recipe',
-  [EQuestLootType.RandomRareOutfitRecipe]: 'Rare Outfit Recipe',
-  [EQuestLootType.RandomLegendaryWeaponRecipe]: 'Legendary Weapon Recipe',
-  [EQuestLootType.RandomLegendaryOutfitRecipe]: 'Legendary Outfit Recipe',
-  [EQuestLootType.RandomRecipePart]: 'Random Recipe Part',
-  [EQuestLootType.RandomClue]: 'Quest Clue',
+  [EQuestLootType.RandomLoots]: '随机奖励',
+  [EQuestLootType.RandomCommonWeapon]: '常见武器',
+  [EQuestLootType.RandomRareWeapon]: '稀有武器',
+  [EQuestLootType.RandomLegendaryWeapon]: '传说武器',
+  [EQuestLootType.RandomCommonOutfit]: '常见服装',
+  [EQuestLootType.RandomRareOutfit]: '稀有服装',
+  [EQuestLootType.RandomLegendaryOutfit]: '传说服装',
+  [EQuestLootType.RandomCommonPet]: '常见宠物',
+  [EQuestLootType.RandomRarePet]: '稀有宠物',
+  [EQuestLootType.RandomLegendaryPet]: '传说宠物',
+  [EQuestLootType.RandomRareDweller]: '稀有居民',
+  [EQuestLootType.RandomCommonJunk]: '常见垃圾',
+  [EQuestLootType.RandomRareJunk]: '稀有垃圾',
+  [EQuestLootType.RandomLegendaryJunk]: '传说垃圾',
+  [EQuestLootType.RandomRareWeaponRecipe]: '稀有武器配方',
+  [EQuestLootType.RandomRareOutfitRecipe]: '稀有服装配方',
+  [EQuestLootType.RandomLegendaryWeaponRecipe]: '传说武器配方',
+  [EQuestLootType.RandomLegendaryOutfitRecipe]: '传说服装配方',
+  [EQuestLootType.RandomRecipePart]: '随机配方部件',
+  [EQuestLootType.RandomClue]: '任务线索',
 };
 
 // --- draw pools (loot the game rolls WITHOUT replacement) --------------------------
@@ -401,7 +401,7 @@ function resolveRandom(stack: LootStack, g: GameData, rng: () => number): GrantL
 
 /** A Random* stack that could not be rolled: keep it as a `random` descriptor for the preview. */
 function randomOrUnsupported(stack: LootStack): GrantLine {
-  const label = LOOT_TYPE_LABEL[stack.lootType] ?? `Loot type ${stack.lootType}`;
+  const label = LOOT_TYPE_LABEL[stack.lootType] ?? `奖励类型 ${stack.lootType}`;
   return { kind: 'random', lootType: stack.lootType, qty: stack.quantity, label };
 }
 
@@ -472,7 +472,7 @@ function planStack(
       {
         kind: 'recipe',
         ids,
-        label: ids.length === 1 ? `${name(ids[0])} Recipe` : `${ids.length} Recipes`,
+        label: ids.length === 1 ? `${name(ids[0])} 配方` : `${ids.length} 个配方`,
         rolled: true,
       },
     ];
@@ -488,14 +488,14 @@ function planStack(
       if (named) pools.clues.delete(named);
       const won = named ?? drawClue(pools, rng);
       if (won === null) break; // every clue already found - silently grant nothing
-      lines.push({ kind: 'clue', questName: won, label: 'Quest Clue', rolled: named === null });
+      lines.push({ kind: 'clue', questName: won, label: '任务线索', rolled: named === null });
     }
     return lines;
   }
   if (t === EQuestLootType.RandomRecipePart && rng && pools) {
     const themeId = pick([...pools.themes], rng);
     if (themeId === undefined) return [];
-    return [{ kind: 'recipePart', themeId, qty, label: `${themeId} Parts`, rolled: true }];
+    return [{ kind: 'recipePart', themeId, qty, label: `${themeId} 部件`, rolled: true }];
   }
   if (t === EQuestLootType.RecipeParts && stack.lootID) {
     return [
@@ -503,7 +503,7 @@ function planStack(
         kind: 'recipePart',
         themeId: stack.lootID,
         qty,
-        label: `${stack.lootID} Parts`,
+        label: `${stack.lootID} 部件`,
         rolled: false,
       },
     ];
@@ -546,7 +546,7 @@ function planStack(
     return [{ kind: 'resource', key: RESOURCE_KEY[t], qty, label: RESOURCE_KEY[t] }];
   }
   if (CONSUMABLE_CODE[t] !== undefined) {
-    return [{ kind: 'consumable', code: CONSUMABLE_CODE[t], qty, label: `Consumable ${t}` }];
+    return [{ kind: 'consumable', code: CONSUMABLE_CODE[t], qty, label: `消耗品 ${t}` }];
   }
   if (ITEM_TYPE[t] && stack.lootID) {
     const cat =
@@ -576,14 +576,14 @@ function planStack(
   if (t === EQuestLootType.Recipe && stack.lootID) {
     const named =
       g.weaponById.get(stack.lootID)?.name ?? g.outfitById.get(stack.lootID)?.name ?? stack.lootID;
-    return [{ kind: 'recipe', ids: [stack.lootID], label: `${named} Recipe`, rolled: false }];
+    return [{ kind: 'recipe', ids: [stack.lootID], label: `${named} 配方`, rolled: false }];
   }
   if (RANDOM_SPEC[t] || t >= 100) {
     // Random* family: roll when an rng is supplied (grant flow), else keep a preview descriptor.
     return rng ? resolveRandom(stack, g, rng) : [randomOrUnsupported(stack)];
   }
   // Dweller, MrHandy, RecipeParts, QuestClue, and any id-less item stack: cannot grant in v1.
-  const label = LOOT_TYPE_LABEL[t] ?? (stack.lootID || `Loot type ${t}`);
+  const label = LOOT_TYPE_LABEL[t] ?? (stack.lootID || `奖励类型 ${t}`);
   return [{ kind: 'unsupported', lootType: t, qty, label }];
 }
 

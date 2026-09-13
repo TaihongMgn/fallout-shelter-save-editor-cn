@@ -20,7 +20,7 @@ import { themeRecipeIdFor } from '../rooms/themes.ts';
 /** Thrown when an op targets a `deserializeID` that no room has. */
 export class RoomNotFoundError extends Error {
   constructor(public readonly deserializeID: number) {
-    super(`No room with deserializeID ${deserializeID}.`);
+    super(`找不到 deserializeID 为 ${deserializeID} 的房间。`);
     this.name = 'RoomNotFoundError';
   }
 }

@@ -58,12 +58,12 @@ describe('RoomSidePanel loadout clarity (finding 4)', () => {
     const user = userEvent.setup();
     renderPanel({
       onApplyLoadout: vi.fn(),
-      loadoutLabel: 'Apply Agility loadout',
-      loadoutHelp: 'Equips Sturdy Wrestler (the strongest Agility outfit) + Fat Man.',
+      loadoutLabel: '应用敏捷配装',
+      loadoutHelp: '为全部 1 名在住居民装备 精壮摔跤手（最强的 敏捷 服装）与 胖子核弹。',
       onOpenBulkLoadouts: vi.fn(),
     });
-    await user.hover(screen.getByRole('button', { name: 'What this loadout equips' }));
-    expect(screen.getByRole('tooltip')).toHaveTextContent('the strongest Agility outfit');
+    await user.hover(screen.getByRole('button', { name: '此配置装备的内容' }));
+    expect(screen.getByRole('tooltip')).toHaveTextContent('最强的 敏捷 服装');
   });
 
   it('the Bulk loadouts link invokes onOpenBulkLoadouts', async () => {
@@ -71,18 +71,18 @@ describe('RoomSidePanel loadout clarity (finding 4)', () => {
     const onOpenBulkLoadouts = vi.fn();
     renderPanel({
       onApplyLoadout: vi.fn(),
-      loadoutLabel: 'Apply Agility loadout',
+      loadoutLabel: '应用敏捷配装',
       onOpenBulkLoadouts,
     });
-    await user.click(screen.getByRole('button', { name: /Customize in Bulk/ }));
+    await user.click(screen.getByRole('button', { name: '在「批量 → 场所装备配置」中自定义' }));
     expect(onOpenBulkLoadouts).toHaveBeenCalledOnce();
   });
 
   it('the loadout button invokes onApplyLoadout', async () => {
     const user = userEvent.setup();
     const onApplyLoadout = vi.fn();
-    renderPanel({ onApplyLoadout, loadoutLabel: 'Apply Agility loadout' });
-    await user.click(screen.getByRole('button', { name: 'Apply Agility loadout' }));
+    renderPanel({ onApplyLoadout, loadoutLabel: '应用敏捷配装' });
+    await user.click(screen.getByRole('button', { name: '应用敏捷配装' }));
     expect(onApplyLoadout).toHaveBeenCalledOnce();
   });
 });
@@ -90,7 +90,7 @@ describe('RoomSidePanel loadout clarity (finding 4)', () => {
 describe('RoomSidePanel timers', () => {
   it('renders nothing without timers', () => {
     renderPanel();
-    expect(screen.queryByText('Timers')).not.toBeInTheDocument();
+    expect(screen.queryByText('计时器')).not.toBeInTheDocument();
   });
 
   it('lists timer rows and fires the per-kind completion', async () => {
@@ -98,20 +98,20 @@ describe('RoomSidePanel timers', () => {
     const props = renderPanel({
       timers: [
         { kind: 'production', remainingSeconds: 120 },
-        { kind: 'crafting', remainingSeconds: 3_700, itemName: 'Fat Man' },
+        { kind: 'crafting', remainingSeconds: 3_700, itemName: '胖子核弹' },
         { kind: 'rush', remainingSeconds: 60 },
       ],
       onCompleteTimers: vi.fn(),
       onCompleteTrainingSlot: vi.fn(),
     });
-    expect(screen.getByText('Timers')).toBeInTheDocument();
-    expect(screen.getByText(/production cycle/i)).toBeInTheDocument();
-    expect(screen.getByText(/crafting fat man/i)).toBeInTheDocument();
-    expect(screen.getByText(/rush cost cooldown/i)).toBeInTheDocument();
-    const finishButtons = screen.getAllByRole('button', { name: /finish now/i });
+    expect(screen.getByText('计时器')).toBeInTheDocument();
+    expect(screen.getByText('生产周期')).toBeInTheDocument();
+    expect(screen.getByText(/正在制作 胖子核弹/)).toBeInTheDocument();
+    expect(screen.getByText('加速冷却')).toBeInTheDocument();
+    const finishButtons = screen.getAllByRole('button', { name: '立即完成' });
     await user.click(finishButtons[1]!);
     expect(props.onCompleteTimers).toHaveBeenCalledExactlyOnceWith(['crafting']);
-    await user.click(screen.getByRole('button', { name: /reset now/i }));
+    await user.click(screen.getByRole('button', { name: '立即重置' }));
     expect(props.onCompleteTimers).toHaveBeenLastCalledWith(['rush']);
   });
 
@@ -125,11 +125,11 @@ describe('RoomSidePanel timers', () => {
       onCompleteTimers: vi.fn(),
       onCompleteTrainingSlot: vi.fn(),
     });
-    expect(screen.getByText(/bob training/i)).toBeInTheDocument();
-    const finishButtons = screen.getAllByRole('button', { name: /^finish now$/i });
+    expect(screen.getByText(/Bob 训练中/)).toBeInTheDocument();
+    const finishButtons = screen.getAllByRole('button', { name: /^立即完成$/ });
     await user.click(finishButtons[0]!);
     expect(props.onCompleteTrainingSlot).toHaveBeenCalledExactlyOnceWith(10);
-    await user.click(screen.getByRole('button', { name: /finish all training/i }));
+    await user.click(screen.getByRole('button', { name: '完成全部训练' }));
     expect(props.onCompleteTimers).toHaveBeenCalledExactlyOnceWith(['training']);
   });
 });
@@ -137,18 +137,18 @@ describe('RoomSidePanel timers', () => {
 describe('RoomSidePanel timers - finished and awaiting-collect states', () => {
   it('a finished timer shows its state instead of a dead button', () => {
     renderPanel({
-      timers: [{ kind: 'crafting', remainingSeconds: 0, itemName: 'Fat Man' }],
+      timers: [{ kind: 'crafting', remainingSeconds: 0, itemName: '胖子核弹' }],
       onCompleteTimers: vi.fn(),
     });
-    expect(screen.getByText(/finishes on next load/i)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /finish now/i })).not.toBeInTheDocument();
+    expect(screen.getByText(/下次载入时完成/)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '立即完成' })).not.toBeInTheDocument();
   });
 
   it('a full production room explains why no timer is stored', () => {
     renderPanel({ productionAwaitingCollect: true });
-    expect(screen.getByText('Timers')).toBeInTheDocument();
-    expect(screen.getByText(/output full - collect in game/i)).toBeInTheDocument();
-    expect(screen.getByText(/no cycle timer is stored/i)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /finish now/i })).not.toBeInTheDocument();
+    expect(screen.getByText('计时器')).toBeInTheDocument();
+    expect(screen.getByText('产出已满，请在游戏中收取')).toBeInTheDocument();
+    expect(screen.getByText(/没有存储生产周期/)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '立即完成' })).not.toBeInTheDocument();
   });
 });

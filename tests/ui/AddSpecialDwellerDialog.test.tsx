@@ -49,9 +49,9 @@ describe('AddSpecialDwellerDialog', () => {
     const user = userEvent.setup();
     const { onAdd, onClose } = renderDialog();
 
-    await user.click(screen.getByRole('checkbox', { name: 'Select Max Power' }));
-    await user.click(screen.getByRole('checkbox', { name: 'Select Piper Wright' }));
-    await user.click(screen.getByRole('button', { name: 'Add 2 dwellers' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Max Power' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Piper Wright' }));
+    await user.click(screen.getByRole('button', { name: '添加 2 名居民' }));
 
     expect(onAdd).toHaveBeenCalledWith(['L_Max', 'L_Piper']);
     expect(onClose).toHaveBeenCalled();
@@ -62,13 +62,13 @@ describe('AddSpecialDwellerDialog', () => {
     const { onAdd } = renderDialog();
 
     await user.click(screen.getByText('Max Power'));
-    await user.click(screen.getByRole('button', { name: 'Add 1 dweller' }));
+    await user.click(screen.getByRole('button', { name: '添加 1 名居民' }));
 
     expect(onAdd).toHaveBeenCalledWith(['L_Max']);
   });
 
   it('the add button is disabled until something is selected', () => {
     renderDialog();
-    expect(screen.getByRole('button', { name: /^Add 0/ })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /^添加 0/ })).toBeDisabled();
   });
 });

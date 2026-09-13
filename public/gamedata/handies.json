@@ -5,8 +5,8 @@
     "characterType": 2,
     "actorDataId": null,
     "sprite": "MrHandy",
-    "source": "Lunchboxes, Mr. Handy boxes and the starter pack",
-    "name": "Mr. Handy",
+    "source": "午餐盒、巧手先生盒和新手礼包",
+    "name": "巧手先生",
     "starterPack": true,
     "mrHandyBoxOdds": 0.92,
     "lotteryOdds": {
@@ -21,8 +21,8 @@
     "characterType": 2,
     "actorDataId": "SnipSnip",
     "sprite": "MrHandyQuestReward_SnipSnip",
-    "source": "Rare lunchbox / Mr. Handy box drop and quest rewards",
-    "name": "Snip Snip",
+    "source": "稀有午餐盒 / 巧手先生盒掉落和任务奖励",
+    "name": "剪剪",
     "starterPack": false,
     "mrHandyBoxOdds": 0.08,
     "lotteryOdds": {
@@ -37,8 +37,8 @@
     "characterType": 5,
     "actorDataId": "Victor",
     "sprite": "Icon_VictorCard",
-    "source": "Season pass reward (securitron)",
-    "name": "Victor",
+    "source": "赛季通行证奖励（保安机器人）",
+    "name": "维克托",
     "starterPack": false,
     "mrHandyBoxOdds": 0,
     "lotteryOdds": {
@@ -53,8 +53,8 @@
     "characterType": 6,
     "actorDataId": "Curie",
     "sprite": "Curie",
-    "source": "Season pass reward (Miss Nanny)",
-    "name": "Curie",
+    "source": "赛季通行证奖励（保姆小姐机器人）",
+    "name": "居里",
     "starterPack": false,
     "mrHandyBoxOdds": 0,
     "lotteryOdds": {

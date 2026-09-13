@@ -29,7 +29,7 @@ test('game data loads from the served subpath, not the domain root', async ({ pa
   const weaponsResponse = page.waitForResponse((r) => /\/gamedata\/weapons\.json$/.test(r.url()));
 
   await page.goto('./');
-  await page.getByRole('button', { name: 'I understand' }).click();
+  await page.getByRole('button', { name: '我已了解' }).click();
   await page.locator('input[type="file"]').setInputFiles(inputPath);
 
   const res = await weaponsResponse;
@@ -39,7 +39,7 @@ test('game data loads from the served subpath, not the domain root', async ({ pa
   );
 
   // End-to-end: the parsed catalog renders a non-zero count, proving the JSON was fetched,
-  // parsed, and wired through the UI under the subpath (a 404 would show "0 weapons").
-  await page.getByRole('link', { name: 'Weapons' }).click();
-  await expect(page.getByText(/[1-9]\d* weapons/).first()).toBeVisible();
+  // parsed, and wired through the UI under the subpath (a 404 would show "0 武器").
+  await page.getByRole('link', { name: '武器' }).click();
+  await expect(page.getByText(/[1-9]\d* 个武器/).first()).toBeVisible();
 });

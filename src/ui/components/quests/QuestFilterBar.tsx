@@ -30,13 +30,13 @@ const DIFFICULTY_MAX = 60;
 const STATUS_OPTIONS: { value: QuestStatus; label: string; hint: string }[] = [
   {
     value: 'inLog',
-    label: 'In quest log',
-    hint: 'Offered right now: the rotation + unlocked story steps',
+    label: '在任务日志中',
+    hint: '当前可接取：轮换任务 + 已解锁的剧情步骤',
   },
-  { value: 'completed', label: 'Completed', hint: 'In the completion ledger' },
-  { value: 'incomplete', label: 'Not completed', hint: 'Not in the ledger' },
-  { value: 'skipped', label: 'Skipped', hint: 'Skipped out of a rotation' },
-  { value: 'deployed', label: 'Team deployed', hint: 'A team is out on it right now' },
+  { value: 'completed', label: '已完成', hint: '已记录于完成清单' },
+  { value: 'incomplete', label: '未完成', hint: '不在完成清单中' },
+  { value: 'skipped', label: '已跳过', hint: '在轮换中被跳过' },
+  { value: 'deployed', label: '小队已派出', hint: '当前有小队正在执行此任务' },
 ];
 
 const QUEST_TYPES = [0, 1, 2, 3, 4, 5, 6];
@@ -44,25 +44,25 @@ const QUEST_SCHEMES = [0, 1, 2, 3, 4, 5];
 const QUEST_ENVIRONMENTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 const REGIONS: QuestMapRegion[] = ['chain', 'standalone', 'repeatable'];
 const FLAG_OPTIONS: { value: QuestFlag; label: string; hint: string }[] = [
-  { value: 'repeatable', label: 'Repeatable', hint: 'Can be replayed without un-completing' },
-  { value: 'timeLimited', label: 'Time limited', hint: 'Has a start/end date window' },
-  { value: 'hidden', label: 'Hidden', hint: 'Never shown in-game (m_isVisible = 0)' },
+  { value: 'repeatable', label: '可重复', hint: '无需取消完成即可重玩' },
+  { value: 'timeLimited', label: '限时', hint: '有开始/结束日期窗口' },
+  { value: 'hidden', label: '已隐藏', hint: '游戏中从不显示（m_isVisible = 0）' },
 ];
 const REWARD_OPTIONS: { value: RewardBucket; label: string }[] = [
-  { value: 'weapon', label: 'Weapons' },
-  { value: 'outfit', label: 'Outfits' },
-  { value: 'pet', label: 'Pets' },
-  { value: 'dweller', label: 'Dwellers' },
-  { value: 'junk', label: 'Junk' },
-  { value: 'recipe', label: 'Recipes' },
-  { value: 'recipeParts', label: 'Recipe parts' },
-  { value: 'caps', label: 'Caps' },
-  { value: 'quantum', label: 'Quantum' },
-  { value: 'consumable', label: 'Stimpaks / RadAway' },
-  { value: 'lunchbox', label: 'Lunchboxes' },
-  { value: 'mrHandy', label: 'Mr. Handy' },
-  { value: 'clue', label: 'Quest clues' },
-  { value: 'pokerChip', label: 'Poker chips' },
+  { value: 'weapon', label: '武器' },
+  { value: 'outfit', label: '服装' },
+  { value: 'pet', label: '宠物' },
+  { value: 'dweller', label: '居民' },
+  { value: 'junk', label: '垃圾' },
+  { value: 'recipe', label: '配方' },
+  { value: 'recipeParts', label: '配方零件' },
+  { value: 'caps', label: '瓶盖' },
+  { value: 'quantum', label: '量子核子可乐' },
+  { value: 'consumable', label: '治疗针 / 消辐宁' },
+  { value: 'lunchbox', label: '午餐盒' },
+  { value: 'mrHandy', label: '巧手先生' },
+  { value: 'clue', label: '任务线索' },
+  { value: 'pokerChip', label: '扑克筹码' },
 ];
 
 function toggleValue<T>(list: readonly T[], value: T): T[] {
@@ -97,7 +97,7 @@ function FacetPopover({
         <button
           type="button"
           onClick={toggle}
-          aria-label={`Filter by ${label}`}
+          aria-label={`按${label}筛选`}
           aria-pressed={count > 0}
           className={`flex items-center gap-1.5 rounded border px-2 py-1 text-xs transition-colors ${
             count > 0
@@ -157,13 +157,13 @@ function CheckList<T extends string | number>({
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Find…"
-          aria-label="Find option"
+          placeholder="查找…"
+          aria-label="查找选项"
           className="rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-xs text-neutral-100 focus:border-amber-500/60 focus:outline-none"
         />
       )}
       {shown.length === 0 ? (
-        <p className="px-1 py-2 text-xs text-neutral-400">No matches</p>
+        <p className="px-1 py-2 text-xs text-neutral-400">无匹配项</p>
       ) : (
         <ul className="max-h-64 overflow-auto">
           {shown.map((o) => (
@@ -235,7 +235,7 @@ export function QuestFilterBar({
   return (
     <div className="flex shrink-0 flex-col gap-1.5">
       <div className="flex flex-wrap items-center gap-1.5">
-        <FacetPopover label="Status" count={filter.status.length}>
+        <FacetPopover label="状态" count={filter.status.length}>
           <CheckList
             options={STATUS_OPTIONS}
             selected={filter.status}
@@ -244,7 +244,7 @@ export function QuestFilterBar({
           />
         </FacetPopover>
 
-        <FacetPopover label="Type" count={filter.types.length}>
+        <FacetPopover label="类型" count={filter.types.length}>
           <CheckList
             options={QUEST_TYPES.map((t) => ({ value: t, label: questTypeLabel(t) }))}
             selected={filter.types}
@@ -253,7 +253,7 @@ export function QuestFilterBar({
           />
         </FacetPopover>
 
-        <FacetPopover label="Region" count={filter.regions.length}>
+        <FacetPopover label="地区" count={filter.regions.length}>
           <CheckList
             options={REGIONS.map((r) => ({ value: r, label: questRegionLabel(r) }))}
             selected={filter.regions}
@@ -262,7 +262,7 @@ export function QuestFilterBar({
           />
         </FacetPopover>
 
-        <FacetPopover label="Questline" count={filter.questlines.length} width="w-64">
+        <FacetPopover label="任务线" count={filter.questlines.length} width="w-64">
           <CheckList
             searchable
             options={questlineTitles.map((t) => ({ value: t, label: t }))}
@@ -272,7 +272,7 @@ export function QuestFilterBar({
           />
         </FacetPopover>
 
-        <FacetPopover label="Scheme" count={filter.schemes.length}>
+        <FacetPopover label="方案" count={filter.schemes.length}>
           <CheckList
             options={QUEST_SCHEMES.map((s) => ({ value: s, label: questSchemeName(s) }))}
             selected={filter.schemes}
@@ -281,7 +281,7 @@ export function QuestFilterBar({
           />
         </FacetPopover>
 
-        <FacetPopover label="Environment" count={filter.environments.length}>
+        <FacetPopover label="环境" count={filter.environments.length}>
           <CheckList
             searchable
             options={QUEST_ENVIRONMENTS.map((e) => ({ value: e, label: questEnvironmentLabel(e) }))}
@@ -291,7 +291,7 @@ export function QuestFilterBar({
           />
         </FacetPopover>
 
-        <FacetPopover label="Rewards" count={filter.rewards.length}>
+        <FacetPopover label="奖励" count={filter.rewards.length}>
           <CheckList
             options={REWARD_OPTIONS}
             selected={filter.rewards}
@@ -300,7 +300,7 @@ export function QuestFilterBar({
           />
         </FacetPopover>
 
-        <FacetPopover label="Flags" count={filter.flags.length}>
+        <FacetPopover label="标记" count={filter.flags.length}>
           <CheckList
             options={FLAG_OPTIONS}
             selected={filter.flags}
@@ -309,11 +309,9 @@ export function QuestFilterBar({
           />
         </FacetPopover>
 
-        <FacetPopover label="Difficulty" count={difficulty ? 1 : 0} width="w-52">
+        <FacetPopover label="难度" count={difficulty ? 1 : 0} width="w-52">
           <div className="flex flex-col gap-2">
-            <p className="text-[11px] text-neutral-400">
-              Matches any quest whose difficulty range overlaps this window.
-            </p>
+            <p className="text-[11px] text-neutral-400">匹配难度范围与此区间有重叠的所有任务。</p>
             <div className="flex items-center gap-1">
               <input
                 type="number"
@@ -322,7 +320,7 @@ export function QuestFilterBar({
                 value={difficulty?.min ?? ''}
                 onChange={(e) => setDifficultyBound('min', e.target.value)}
                 placeholder={`≥ ${DIFFICULTY_MIN}`}
-                aria-label="Minimum difficulty"
+                aria-label="最小难度"
                 className="w-16 rounded border border-neutral-700 bg-neutral-950 px-1 py-1 text-xs text-neutral-100"
               />
               <span className="text-neutral-400">–</span>
@@ -333,7 +331,7 @@ export function QuestFilterBar({
                 value={difficulty?.max ?? ''}
                 onChange={(e) => setDifficultyBound('max', e.target.value)}
                 placeholder={`≤ ${DIFFICULTY_MAX}`}
-                aria-label="Maximum difficulty"
+                aria-label="最大难度"
                 className="w-16 rounded border border-neutral-700 bg-neutral-950 px-1 py-1 text-xs text-neutral-100"
               />
             </div>
@@ -346,30 +344,25 @@ export function QuestFilterBar({
           disabled={!active}
           className="rounded border border-neutral-700 px-2 py-1 text-xs text-neutral-300 hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          Clear filters
+          清空筛选
         </button>
 
         {active && (
           <span className="tabular-nums text-[11px] text-neutral-400">
-            {shown} of {total} shown · {matched} matched
+            显示 {shown}/{total} · 命中 {matched}
           </span>
         )}
       </div>
 
       {active && (
         <p className="text-[11px] text-neutral-500">
-          Quests with a bright, thick border are your matches, and the number beside each filter
-          option is how many you would be left with. Matches pull in their whole chain, so
-          prerequisites and follow-ups stay visible: completed steps stay green, and greyed ones are
-          chain context you have not reached. Chain context never counts. Everything on the map
-          stays clickable.
+          边框明亮加粗的任务即命中结果；每个筛选选项旁的数字是勾选后剩余的任务数。命中会连带整条任务链，因此前置与后续任务保持可见：已完成的步骤保持绿色，灰色的是你尚未到达的链上下文。链上下文不计入数量。地图上的一切仍可点击。
         </p>
       )}
 
       {rotationExpired && filter.status.includes('inLog') && (
         <p className="text-[11px] text-amber-500/90">
-          This save&apos;s daily/weekly rotation has expired, so the log shows only story steps and
-          the standalone quest. The game re-rolls the rotation when it loads the save.
+          此存档的每日/每周轮换已过期，因此任务日志只显示剧情步骤和独立任务。游戏加载存档时会重新生成轮换。
         </p>
       )}
     </div>

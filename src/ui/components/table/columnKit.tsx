@@ -20,8 +20,64 @@ export function inSelectedSet<T>(): FilterFn<T> {
   };
 }
 
-/** Lightly humanize an EBonusEffect id for display (e.g. "DamageBoost" → "Damage Boost"). */
-export const prettyBonus = (bonus: string): string => bonus.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+/** Pet bonus-effect display names (glossary + game data EBonusEffect ids); unknown ids fall back to the humanized id. */
+const BONUS_LABELS: Record<string, string> = {
+  None: '无',
+  AddMaxHP: '增加最大生命值',
+  AttractChildren: '吸引居民',
+  CapsBoost: '瓶盖加成',
+  CheaperCrafting: '制作更省',
+  ChildMultiplier: '儿童属性加成',
+  ChildSpecialBoost: '儿童 SPECIAL 加成',
+  DamageBoost: '伤害强化',
+  DelayInvader: '延缓掠夺者',
+  DelayPest: '延缓害虫',
+  FasterAndCheaperCrafting: '制作更快更省',
+  FasterCrafting: '制作更快',
+  FasterPregnancy: '加快怀孕',
+  FasterWastelandReturnSpeed: '加快废土返程',
+  HappinessBoost: '幸福度加成',
+  HealingBoost: '治疗强化',
+  MysteriousMagnet: '神秘磁铁',
+  ObjectiveMultiplier: '目标加成',
+  Production: '产量加成',
+  RadHealingBoost: '辐射治疗加成',
+  Resistance: '抗性',
+  Rollerbrain: '滚滚智多星',
+  RushInvader: '阻止加速掠夺者',
+  Save_Food: '节省食物',
+  Save_Power: '节省电力',
+  Save_Water: '节省水',
+  Special_A: '敏捷加成',
+  Special_C: '魅力加成',
+  Special_E: '耐力加成',
+  Special_I: '智力加成',
+  Special_L: '幸运加成',
+  Special_P: '感知加成',
+  Special_S: '力量加成',
+  TrainingBoost: '训练强化',
+  TrainingNonStopBoost: '不间断训练强化',
+  WastelandCapsBoost: '废土瓶盖加成',
+  WastelandItemBoost: '废土物品加成',
+  WastelandJunkBoost: '废土垃圾加成',
+  XPBoost: '经验值加成',
+};
+
+/** Rarity display names (glossary); unmapped values pass through unchanged. */
+export const RARITY_LABELS: Record<string, string> = {
+  None: '无',
+  Common: '常见',
+  Normal: '普通',
+  Rare: '稀有',
+  Legendary: '传说',
+};
+
+/** Display label for a rarity enum value (Common/Normal/Rare/Legendary → 常见/普通/稀有/传说). */
+export const rarityLabel = (rarity: string): string => RARITY_LABELS[rarity] ?? rarity;
+
+/** Lightly humanize an EBonusEffect id for display (e.g. "DamageBoost" → 伤害强化). */
+export const prettyBonus = (bonus: string): string =>
+  BONUS_LABELS[bonus] ?? bonus.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
 
 /** A truncating text cell with the full value shown on hover. */
 export function nameCell(value: string): ReactNode {
@@ -37,14 +93,14 @@ export function selectColumn<T>(getLabel: (row: T) => string): ColumnDef<T> {
     id: 'select',
     header: ({ table }: { table: Table<T> }) => (
       <IndeterminateCheckbox
-        label="Select all"
+        label="全选"
         checked={table.getIsAllRowsSelected()}
         indeterminate={table.getIsSomeRowsSelected()}
         onChange={table.getToggleAllRowsSelectedHandler()}
       />
     ),
     cell: ({ row, table }) => (
-      <RowSelectCheckbox row={row} table={table} label={`Select ${getLabel(row.original)}`} />
+      <RowSelectCheckbox row={row} table={table} label={`选择 ${getLabel(row.original)}`} />
     ),
     size: 44,
     enableSorting: false,

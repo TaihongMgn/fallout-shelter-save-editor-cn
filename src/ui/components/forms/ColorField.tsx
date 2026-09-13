@@ -55,18 +55,18 @@ function parseHex(input: string): number | null {
 
 // Curated quick-pick palette (RGB; alpha is preserved from the current value).
 const SWATCHES: ReadonlyArray<{ name: string; rgb: number }> = [
-  { name: 'White', rgb: 0xffffff },
-  { name: 'Light gray', rgb: 0xc8c8c8 },
-  { name: 'Gray', rgb: 0x808080 },
-  { name: 'Black', rgb: 0x000000 },
-  { name: 'Fair skin', rgb: 0xf2c9a0 },
-  { name: 'Tan skin', rgb: 0xc68642 },
-  { name: 'Brown', rgb: 0x6b4423 },
-  { name: 'Blonde', rgb: 0xe6c66e },
-  { name: 'Red', rgb: 0xc0392b },
-  { name: 'Green', rgb: 0x27ae60 },
-  { name: 'Blue', rgb: 0x2e6fb5 },
-  { name: 'Amber', rgb: 0xf0a020 },
+  { name: '白色', rgb: 0xffffff },
+  { name: '浅灰', rgb: 0xc8c8c8 },
+  { name: '灰色', rgb: 0x808080 },
+  { name: '黑色', rgb: 0x000000 },
+  { name: '浅肤色', rgb: 0xf2c9a0 },
+  { name: '棕褐肤色', rgb: 0xc68642 },
+  { name: '棕色', rgb: 0x6b4423 },
+  { name: '金发色', rgb: 0xe6c66e },
+  { name: '红色', rgb: 0xc0392b },
+  { name: '绿色', rgb: 0x27ae60 },
+  { name: '蓝色', rgb: 0x2e6fb5 },
+  { name: '琥珀色', rgb: 0xf0a020 },
 ];
 
 export function ColorField({
@@ -151,7 +151,7 @@ export function ColorField({
     <div className={`flex flex-col gap-1 ${className ?? ''}`}>
       <span className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-neutral-400">
         {label}
-        {help && <InfoTooltip text={help} label={`About ${label.toLowerCase()}`} />}
+        {help && <InfoTooltip text={help} label={`关于 ${label.toLowerCase()}`} />}
       </span>
       <div className="flex items-center gap-2">
         <span
@@ -169,7 +169,7 @@ export function ColorField({
         />
         <input
           type="text"
-          aria-label={`${label} hex`}
+          aria-label={`${label} 十六进制`}
           value={hexText}
           spellCheck={false}
           onChange={(e) => setHexText(e.target.value)}
@@ -181,7 +181,7 @@ export function ColorField({
           α
           <input
             type="number"
-            aria-label={`${label} alpha`}
+            aria-label={`${label} 透明度`}
             min={0}
             max={255}
             value={argb.a}

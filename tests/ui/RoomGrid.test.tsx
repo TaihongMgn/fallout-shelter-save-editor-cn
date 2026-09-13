@@ -36,7 +36,7 @@ describe('RoomGrid', () => {
         onExcavateRock={onExcavateRock}
       />,
     );
-    await user.click(screen.getByRole('button', { name: 'Excavate rock at floor 2, column 3' }));
+    await user.click(screen.getByRole('button', { name: '挖掘第 2 层第 3 列的岩石' }));
     expect(onExcavateRock).toHaveBeenCalledWith(1, 3);
   });
 
@@ -52,9 +52,7 @@ describe('RoomGrid', () => {
         onExcavateRock={noop}
       />,
     );
-    expect(
-      screen.getByRole('button', { name: 'Excavate rock at floor 2, column 0' }),
-    ).toBeDisabled();
+    expect(screen.getByRole('button', { name: '挖掘第 2 层第 0 列的岩石' })).toBeDisabled();
   });
 
   it('renders the palette drag-to-build ghost - emerald on a legal cell, rose on an illegal one', () => {
@@ -97,7 +95,7 @@ describe('RoomGrid', () => {
         needsRepair={(n) => n.deserializeID === 1}
       />,
     );
-    const room = screen.getByRole('button', { name: /Entrance.*needs repair/ });
+    const room = screen.getByRole('button', { name: /Entrance.*需要修复/ });
     expect(room).toHaveTextContent('🔧');
   });
 
@@ -112,8 +110,8 @@ describe('RoomGrid', () => {
         needsRepair={() => false}
       />,
     );
-    expect(screen.getByRole('button', { name: /Entrance floor 1/ })).not.toHaveTextContent('🔧');
-    expect(screen.queryByRole('button', { name: /needs repair/ })).toBeNull();
+    expect(screen.getByRole('button', { name: /Entrance，第 1 层/ })).not.toHaveTextContent('🔧');
+    expect(screen.queryByRole('button', { name: /需要修复/ })).toBeNull();
   });
 
   it('shows an emergency fire badge and folds the state into the room aria-label', () => {
@@ -127,7 +125,7 @@ describe('RoomGrid', () => {
         inEmergency={(n) => n.deserializeID === 1}
       />,
     );
-    expect(screen.getByRole('button', { name: /Entrance.*emergency/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Entrance.*紧急事故/ })).toBeInTheDocument();
     // The flame is a white inline SVG (not the colored emoji).
     expect(container.querySelector('svg.fill-white')).toBeTruthy();
   });
@@ -144,7 +142,7 @@ describe('RoomGrid', () => {
       />,
     );
     expect(container.querySelector('svg.fill-white')).toBeNull();
-    expect(screen.queryByRole('button', { name: /emergency/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /紧急事故/ })).toBeNull();
   });
 
   it('marks the selected room with aria-current and a strong outline', () => {
@@ -157,7 +155,7 @@ describe('RoomGrid', () => {
         maxDwellersOf={() => 0}
       />,
     );
-    const room = screen.getByRole('button', { name: /Entrance floor 1/ });
+    const room = screen.getByRole('button', { name: /Entrance，第 1 层/ });
     expect(room).toHaveAttribute('aria-current', 'true');
     expect(room.className).toContain('outline-amber-300');
   });
@@ -189,10 +187,10 @@ describe('RoomGrid drag-to-rearrange (UX-G)', () => {
         canMove={(n) => n.type !== 'Entrance'}
       />,
     );
-    expect(screen.getByRole('button', { name: /Storage floor 1/ }).className).toContain(
+    expect(screen.getByRole('button', { name: /Storage，第 1 层/ }).className).toContain(
       'cursor-grab',
     );
-    expect(screen.getByRole('button', { name: /Entrance floor 1/ }).className).not.toContain(
+    expect(screen.getByRole('button', { name: /Entrance，第 1 层/ }).className).not.toContain(
       'cursor-grab',
     );
   });
@@ -212,7 +210,7 @@ describe('RoomGrid drag-to-rearrange (UX-G)', () => {
         onMoveRoom={noop}
       />,
     );
-    await user.click(screen.getByRole('button', { name: /Storage floor 1/ }));
+    await user.click(screen.getByRole('button', { name: /Storage，第 1 层/ }));
     expect(onSelect).toHaveBeenCalledWith(3);
   });
 
@@ -246,7 +244,7 @@ describe('RoomGrid drag-to-rearrange (UX-G)', () => {
       }) as DOMRect;
 
     // Storage (id 3) sits at row 0, col 4. Press on its left edge.
-    const storage = screen.getByRole('button', { name: /Storage floor 1/ });
+    const storage = screen.getByRole('button', { name: /Storage，第 1 层/ });
     const pressX = 4 * CELL_W + 2,
       pressY = 0 * CELL_H + 2;
     fireEvent.pointerDown(storage, { button: 0, pointerId: 1, clientX: pressX, clientY: pressY });
@@ -284,9 +282,9 @@ describe('RoomGrid drag-to-rearrange (UX-G)', () => {
     );
     // Targets are the legal drops minus the room's current cell (0,4): row-1 cols 0 and 4.
     expect(
-      screen.getByRole('button', { name: 'Move Storage to floor 2, column 0' }),
+      screen.getByRole('button', { name: '将 Storage 移动到第 2 层第 0 列' }),
     ).toBeInTheDocument();
-    const target = screen.getByRole('button', { name: 'Move Storage to floor 2, column 4' });
+    const target = screen.getByRole('button', { name: '将 Storage 移动到第 2 层第 4 列' });
     await user.click(target);
     expect(onMoveRoom).toHaveBeenCalledWith(3, 1, 4);
   });
@@ -332,7 +330,7 @@ describe('RoomGrid drag-to-delete', () => {
       width: 600,
       height: 1000,
     });
-    const storage = screen.getByRole('button', { name: /Storage floor 1/ });
+    const storage = screen.getByRole('button', { name: /Storage，第 1 层/ });
     const pressX = 4 * CELL_W + 2;
     fireEvent.pointerDown(storage, { button: 0, pointerId: 1, clientX: pressX, clientY: 2 });
     // First move crosses the drag threshold and renders the trash zone.

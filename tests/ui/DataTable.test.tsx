@@ -74,7 +74,7 @@ describe('DataTable', () => {
       />,
     );
 
-    await user.type(screen.getByRole('searchbox', { name: /search/i }), 'ali');
+    await user.type(screen.getByRole('searchbox', { name: '搜索' }), 'ali');
     expect(rowNames()).toEqual(['Alice']);
   });
 
@@ -245,7 +245,7 @@ describe('DataTable', () => {
         onColumnSizingChange={onColumnSizingChange}
       />,
     );
-    const handle = screen.getByRole('separator', { name: /resize name column/i });
+    const handle = screen.getByRole('separator', { name: '调整 name 列宽' });
     handle.focus();
     await user.keyboard('{ArrowRight}');
     expect(onColumnSizingChange).toHaveBeenCalled();

@@ -49,7 +49,7 @@ export const PLATFORM_TARGETS: readonly PlatformTarget[] = [
     id: 'pc',
     // Confirmed (Steam & standalone) against real on-disk files.
     // The `Documents\My Games\…` pattern is used by other Bethesda titles, NOT Fallout Shelter.
-    label: 'PC (Windows)',
+    label: 'PC（Windows）',
     basePath: '%LOCALAPPDATA%\\FalloutShelter\\',
     verified: true,
   },
@@ -58,50 +58,50 @@ export const PLATFORM_TARGETS: readonly PlatformTarget[] = [
     // Steam Deck runs the Windows build through Proton, so the save lives inside the game's
     // Proton prefix (Steam app id 588430) where %LOCALAPPDATA% maps to
     // .../drive_c/users/steamuser/AppData/Local/FalloutShelter/.
-    label: 'Steam Deck (Proton)',
+    label: 'Steam Deck（Proton）',
     basePath:
       '~/.local/share/Steam/steamapps/compatdata/588430/pfx/drive_c/users/steamuser/AppData/Local/FalloutShelter/',
     verified: false,
-    note: 'On a microSD install the prefix lives under that card instead of the internal drive.',
+    note: '若游戏安装在 microSD 卡上，该前缀目录会位于存储卡而非内置硬盘。',
   },
   {
     id: 'msstore',
     // The Microsoft Store / Windows 10 UWP build sandboxes its data under a per-package folder
     // (the hash after the underscore varies per install), NOT the plain %LOCALAPPDATA%\FalloutShelter\.
-    label: 'PC (Microsoft Store)',
+    label: 'PC（Microsoft Store）',
     basePath: '%LOCALAPPDATA%\\Packages\\BethesdaSoftworks.FalloutShelter_<hash>\\LocalState\\',
     verified: false,
-    note: 'The package hash varies per install. If that folder instead holds a SystemAppData\\wgs container, the save is Xbox-cloud-wrapped and not directly loadable.',
+    note: '软件包哈希因安装而异。如果该目录下实际是 SystemAppData\\wgs 容器，则存档已被 Xbox 云端封装，无法直接读取。',
   },
   {
     id: 'android',
     label: 'Android',
     basePath: '/Android/data/com.bethsoft.falloutshelter/files/',
     verified: false,
-    note: 'App-private storage - needs a file manager with root, or adb.',
+    note: '应用私有存储——需要具备 root 权限的文件管理器或 adb。',
   },
   {
     id: 'ios',
     label: 'iOS',
-    basePath: 'Fallout Shelter app sandbox → Documents/',
+    basePath: '辐射：避难所应用沙盒 → Documents/',
     verified: false,
-    note: 'Sandboxed - needs an iTunes/Finder file-sharing or backup tool.',
+    note: '受沙盒限制——需要通过 iTunes/Finder 文件共享或备份工具访问。',
   },
   {
     id: 'switch',
     label: 'Nintendo Switch',
-    basePath: 'Console save-data storage for Fallout Shelter',
+    basePath: '主机的存档数据存储区（辐射：避难所）',
     verified: false,
-    note: 'Requires the console’s save-data transfer/backup flow.',
+    note: '需要使用主机的存档转移/备份流程。',
   },
   {
     id: 'xbox',
     // No on-console file access, but Xbox Play Anywhere shares its cloud save with the Windows 10
     // Microsoft Store build, so the edit route is: sync on that PC build, edit, sync back.
     label: 'Xbox',
-    basePath: 'No direct console access. Sync to the PC (Microsoft Store) build and edit there',
+    basePath: '无法直接访问主机文件。请先在 PC（Microsoft Store）版上同步存档并在该版本编辑',
     verified: false,
-    note: 'Xbox Play Anywhere shares the cloud save with the Microsoft Store version; edit it on that PC build, then let it sync back to the console.',
+    note: 'Xbox Play Anywhere 与 Microsoft Store 版共享云端存档；请在 PC 版上编辑，再让它同步回主机。',
   },
 ];
 

@@ -24,16 +24,16 @@ const CANVAS_SIZE = 384;
 type Chip = 'skin' | 'face' | 'hair' | 'beard' | 'outfit' | 'helmet' | 'weapon' | 'pet';
 
 const CHIP_ORDER: ReadonlyArray<{ key: Chip; label: string }> = [
-  { key: 'skin', label: 'Skin' },
-  { key: 'face', label: 'Face' },
-  { key: 'hair', label: 'Hair' },
+  { key: 'skin', label: '肤色' },
+  { key: 'face', label: '脸型' },
+  { key: 'hair', label: '发型' },
   // faceMask pieces are beards on men but also glasses/face paint/ghoul faces etc.,
   // so the universal name is Accessory, not Beard.
-  { key: 'beard', label: 'Accessory' },
-  { key: 'outfit', label: 'Outfit' },
-  { key: 'helmet', label: 'Helmet' },
-  { key: 'weapon', label: 'Weapon' },
-  { key: 'pet', label: 'Pet' },
+  { key: 'beard', label: '配饰' },
+  { key: 'outfit', label: '服装' },
+  { key: 'helmet', label: '头盔' },
+  { key: 'weapon', label: '武器' },
+  { key: 'pet', label: '宠物' },
 ];
 
 type Visible = Record<Chip, boolean>;
@@ -121,7 +121,7 @@ export function DwellerPreview({ dweller, assets }: DwellerPreviewProps) {
         setReady(true);
       })
       .catch((e: unknown) => {
-        if (!disposed) setError(e instanceof Error ? e.message : 'Renderer init failed.');
+        if (!disposed) setError(e instanceof Error ? e.message : '渲染器初始化失败。');
       });
     return () => {
       disposed = true;
@@ -179,7 +179,7 @@ export function DwellerPreview({ dweller, assets }: DwellerPreviewProps) {
           overlays,
         });
       } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : 'Render failed.');
+        if (!cancelled) setError(e instanceof Error ? e.message : '渲染失败。');
       }
     })();
 
@@ -197,7 +197,7 @@ export function DwellerPreview({ dweller, assets }: DwellerPreviewProps) {
         className="mx-auto w-full max-w-[288px] rounded border border-neutral-800 bg-neutral-950"
         style={{ aspectRatio: '1 / 1' }}
       />
-      {error && <p className="mt-1 text-center text-[11px] text-red-400">Preview: {error}</p>}
+      {error && <p className="mt-1 text-center text-[11px] text-red-400">预览：{error}</p>}
 
       {/* Layer-toggle chip row (view-only) */}
       <div className="mt-2 flex flex-wrap justify-center gap-1">
@@ -220,7 +220,7 @@ export function DwellerPreview({ dweller, assets }: DwellerPreviewProps) {
 
       {/* Zoom */}
       <label className="mt-2 flex items-center gap-2 text-[11px] text-neutral-400">
-        Zoom
+        缩放
         <input
           type="range"
           min={0.5}
@@ -229,7 +229,7 @@ export function DwellerPreview({ dweller, assets }: DwellerPreviewProps) {
           value={zoom}
           onChange={(e) => setZoom(Number(e.target.value))}
           className="flex-1 accent-amber-500"
-          aria-label="Zoom"
+          aria-label="缩放"
         />
         <span className="w-8 tabular-nums">{zoom.toFixed(1)}×</span>
       </label>

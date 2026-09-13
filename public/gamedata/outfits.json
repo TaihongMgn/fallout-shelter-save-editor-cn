@@ -1,7 +1,7 @@
 [
   {
     "id": "AbrahamSpecial",
-    "name": "Abraham's Relaxedwear",
+    "name": "亚伯拉罕的便装",
     "category": 2,
     "special": {
       "S": 0,
@@ -20,7 +20,7 @@
   },
   {
     "id": "ActionWeddingDress",
-    "name": "Action Wedding Dress",
+    "name": "动作风婚纱",
     "category": 2,
     "special": {
       "S": 0,
@@ -39,7 +39,7 @@
   },
   {
     "id": "AlienSpaceSuit",
-    "name": "Alien Space Suit",
+    "name": "外星人太空服",
     "category": 2,
     "special": {
       "S": 0,
@@ -58,7 +58,7 @@
   },
   {
     "id": "AlienSpaceSuitEnemy",
-    "name": "Alien Space Suit",
+    "name": "外星人太空服",
     "category": 4,
     "special": {
       "S": 0,
@@ -77,7 +77,7 @@
   },
   {
     "id": "AlistairSpecial",
-    "name": "Tenpenny's Suit",
+    "name": "坦佩尼的西装",
     "category": 2,
     "special": {
       "S": 0,
@@ -96,7 +96,7 @@
   },
   {
     "id": "AllNightware",
-    "name": "Nightwear",
+    "name": "睡衣",
     "category": 2,
     "special": {
       "S": 0,
@@ -115,7 +115,7 @@
   },
   {
     "id": "AllNightware_Lucky",
-    "name": "Lucky Nightwear",
+    "name": "幸运睡衣",
     "category": 2,
     "special": {
       "S": 0,
@@ -134,7 +134,7 @@
   },
   {
     "id": "AllNightware_Naughty",
-    "name": "Naughty Nightwear",
+    "name": "淘气睡衣",
     "category": 2,
     "special": {
       "S": 0,
@@ -153,7 +153,7 @@
   },
   {
     "id": "AmataSpecial",
-    "name": "Amata's Jumpsuit",
+    "name": "阿玛塔的连体服",
     "category": 4,
     "special": {
       "S": 0,
@@ -172,7 +172,7 @@
   },
   {
     "id": "ArgyleSweater",
-    "name": "Accountant Outfit",
+    "name": "会计套装",
     "category": 2,
     "special": {
       "S": 0,
@@ -191,7 +191,7 @@
   },
   {
     "id": "BaseballUniform",
-    "name": "Baseball Uniform",
+    "name": "棒球服",
     "category": 2,
     "special": {
       "S": 0,
@@ -210,7 +210,7 @@
   },
   {
     "id": "BattleArmor",
-    "name": "Battle Armor",
+    "name": "战斗装甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -229,7 +229,7 @@
   },
   {
     "id": "BattleArmor_Heavy",
-    "name": "Heavy Battle Armor",
+    "name": "重型战斗装甲",
     "category": 2,
     "special": {
       "S": 4,
@@ -248,7 +248,7 @@
   },
   {
     "id": "BattleArmor_Sturdy",
-    "name": "Sturdy Battle Armor",
+    "name": "坚固战斗装甲",
     "category": 2,
     "special": {
       "S": 3,
@@ -267,7 +267,7 @@
   },
   {
     "id": "BishopSpecial",
-    "name": "Clergy Outfit",
+    "name": "神职人员服",
     "category": 2,
     "special": {
       "S": 0,
@@ -286,7 +286,7 @@
   },
   {
     "id": "BittercupSpecial",
-    "name": "Bittercup's Outfit",
+    "name": "苦杯的服装",
     "category": 2,
     "special": {
       "S": 2,
@@ -305,7 +305,7 @@
   },
   {
     "id": "BOSCasual",
-    "name": "BOS Casual",
+    "name": "钢铁兄弟会便装",
     "category": 2,
     "special": {
       "S": 0,
@@ -324,7 +324,7 @@
   },
   {
     "id": "BOSUniform",
-    "name": "BoS Uniform",
+    "name": "钢铁兄弟会制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -343,7 +343,7 @@
   },
   {
     "id": "BOSUniform_Advanced",
-    "name": "Advanced BoS Uniform",
+    "name": "高级钢铁兄弟会制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -362,7 +362,7 @@
   },
   {
     "id": "BOSUniform_Expert",
-    "name": "Expert BoS Uniform",
+    "name": "专家级钢铁兄弟会制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -381,7 +381,7 @@
   },
   {
     "id": "BowlingShirt",
-    "name": "Drag Racer",
+    "name": "飙车手",
     "category": 2,
     "special": {
       "S": 1,
@@ -400,7 +400,7 @@
   },
   {
     "id": "BusinessDress",
-    "name": "Agent Provocateur",
+    "name": "蛊惑特工",
     "category": 2,
     "special": {
       "S": 0,
@@ -419,7 +419,7 @@
   },
   {
     "id": "BusinessSuit",
-    "name": "Business Suit",
+    "name": "商务西装",
     "category": 2,
     "special": {
       "S": 0,
@@ -438,7 +438,7 @@
   },
   {
     "id": "ButchSpecial",
-    "name": "Tunnel Snakes' Outfit",
+    "name": "地下蛇帮套装",
     "category": 2,
     "special": {
       "S": 0,
@@ -457,7 +457,7 @@
   },
   {
     "id": "CaitsCorset",
-    "name": "Cait's Corset",
+    "name": "凯特的束腰",
     "category": 2,
     "special": {
       "S": 3,
@@ -476,7 +476,7 @@
   },
   {
     "id": "CheckeredShirt",
-    "name": "Spring Casualwear",
+    "name": "春季便装",
     "category": 2,
     "special": {
       "S": 0,
@@ -495,7 +495,7 @@
   },
   {
     "id": "ColonelSpecial",
-    "name": "Autumn's Uniform",
+    "name": "奥汀的制服",
     "category": 2,
     "special": {
       "S": 2,
@@ -514,7 +514,7 @@
   },
   {
     "id": "CombatArmor",
-    "name": "Combat Armor",
+    "name": "战斗护甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -533,7 +533,7 @@
   },
   {
     "id": "CombatArmor_Heavy",
-    "name": "Heavy Combat Armor",
+    "name": "重型战斗护甲",
     "category": 2,
     "special": {
       "S": 4,
@@ -552,7 +552,7 @@
   },
   {
     "id": "CombatArmor_Sturdy",
-    "name": "Sturdy Combat Armor",
+    "name": "坚固战斗护甲",
     "category": 2,
     "special": {
       "S": 3,
@@ -571,7 +571,7 @@
   },
   {
     "id": "ComedianSpecial",
-    "name": "Comedian Outfit",
+    "name": "喜剧演员服",
     "category": 2,
     "special": {
       "S": 0,
@@ -590,7 +590,7 @@
   },
   {
     "id": "costume_01",
-    "name": "Casual01",
+    "name": "便装01",
     "category": 1,
     "special": {
       "S": 0,
@@ -609,7 +609,7 @@
   },
   {
     "id": "costume_02",
-    "name": "Casual02",
+    "name": "便装02",
     "category": 1,
     "special": {
       "S": 0,
@@ -628,7 +628,7 @@
   },
   {
     "id": "costume_03",
-    "name": "Casual03",
+    "name": "便装03",
     "category": 1,
     "special": {
       "S": 0,
@@ -647,7 +647,7 @@
   },
   {
     "id": "costume_04",
-    "name": "Casual04",
+    "name": "便装04",
     "category": 1,
     "special": {
       "S": 0,
@@ -666,7 +666,7 @@
   },
   {
     "id": "costume_05",
-    "name": "Casual05",
+    "name": "便装05",
     "category": 1,
     "special": {
       "S": 0,
@@ -685,7 +685,7 @@
   },
   {
     "id": "costume_06",
-    "name": "Casual06",
+    "name": "便装06",
     "category": 1,
     "special": {
       "S": 0,
@@ -704,7 +704,7 @@
   },
   {
     "id": "costume_07",
-    "name": "Casual07",
+    "name": "便装07",
     "category": 1,
     "special": {
       "S": 0,
@@ -723,7 +723,7 @@
   },
   {
     "id": "costume_08",
-    "name": "Casual08",
+    "name": "便装08",
     "category": 1,
     "special": {
       "S": 0,
@@ -742,7 +742,7 @@
   },
   {
     "id": "costume_09",
-    "name": "Casual09",
+    "name": "便装09",
     "category": 1,
     "special": {
       "S": 0,
@@ -761,7 +761,7 @@
   },
   {
     "id": "costume_10",
-    "name": "Casual10",
+    "name": "便装10",
     "category": 1,
     "special": {
       "S": 0,
@@ -780,7 +780,7 @@
   },
   {
     "id": "CourserUniform",
-    "name": "Courser Uniform",
+    "name": "追猎者制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -799,7 +799,7 @@
   },
   {
     "id": "CromwellSpecial",
-    "name": "Confessor Cromwell's Rags",
+    "name": "忏悔者克伦威尔的破衣",
     "category": 2,
     "special": {
       "S": 0,
@@ -818,7 +818,7 @@
   },
   {
     "id": "Detective",
-    "name": "Detective Outfit",
+    "name": "侦探服",
     "category": 2,
     "special": {
       "S": 0,
@@ -837,7 +837,7 @@
   },
   {
     "id": "DooWopOutfit",
-    "name": "Doo-Wop Singer",
+    "name": "杜沃普歌手",
     "category": 2,
     "special": {
       "S": 1,
@@ -856,7 +856,7 @@
   },
   {
     "id": "DrLiSpecial",
-    "name": "Doctor Li's Outfit",
+    "name": "李医生的工作服",
     "category": 4,
     "special": {
       "S": 0,
@@ -875,7 +875,7 @@
   },
   {
     "id": "ElderLyonsSpecial",
-    "name": "Elder Lyon's Robe",
+    "name": "长老莱昂的长袍",
     "category": 4,
     "special": {
       "S": 0,
@@ -894,7 +894,7 @@
   },
   {
     "id": "EmpressSpecial",
-    "name": "Republic Robes",
+    "name": "共和国长袍",
     "category": 2,
     "special": {
       "S": 0,
@@ -913,7 +913,7 @@
   },
   {
     "id": "EnclaveOfficerUniform",
-    "name": "Enclave Officer Uniform",
+    "name": "英克雷军官制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -932,7 +932,7 @@
   },
   {
     "id": "EnclaveOfficerUniform_Helmetless",
-    "name": "Enclave Officer Uniform",
+    "name": "英克雷军官制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -951,7 +951,7 @@
   },
   {
     "id": "EnclavePowerArmor",
-    "name": "Enclave Power Armor",
+    "name": "英克雷动力装甲",
     "category": 2,
     "special": {
       "S": 6,
@@ -970,7 +970,7 @@
   },
   {
     "id": "EnclaveSecurityOutfit",
-    "name": "Enclave Security Outfit",
+    "name": "英克雷保安服",
     "category": 2,
     "special": {
       "S": 2,
@@ -989,7 +989,7 @@
   },
   {
     "id": "EnclaveSecurityOutfit_Helmetless",
-    "name": "Enclave Security Outfit",
+    "name": "英克雷保安服",
     "category": 2,
     "special": {
       "S": 2,
@@ -1008,7 +1008,7 @@
   },
   {
     "id": "EngineerSpecial",
-    "name": "Engineer Outfit",
+    "name": "工程师服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1027,7 +1027,7 @@
   },
   {
     "id": "EulogyJonesSpecial",
-    "name": "Eulogy Jones' Suit",
+    "name": "悼词·琼斯的西装",
     "category": 2,
     "special": {
       "S": 0,
@@ -1046,7 +1046,7 @@
   },
   {
     "id": "FarHarborSpecial",
-    "name": "Tattered Longcoat",
+    "name": "破旧长大衣",
     "category": 2,
     "special": {
       "S": 2,
@@ -1065,7 +1065,7 @@
   },
   {
     "id": "FlightSuit",
-    "name": "Flight Suit",
+    "name": "飞行服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1084,7 +1084,7 @@
   },
   {
     "id": "FlightSuit_Advanced",
-    "name": "Advanced Flight Suit",
+    "name": "高级飞行服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1103,7 +1103,7 @@
   },
   {
     "id": "FlightSuit_Expert",
-    "name": "Expert Flight Suit",
+    "name": "专家级飞行服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1122,7 +1122,7 @@
   },
   {
     "id": "FormalWear",
-    "name": "Formal Wear",
+    "name": "正装",
     "category": 2,
     "special": {
       "S": 0,
@@ -1141,7 +1141,7 @@
   },
   {
     "id": "FormalWear_Fancy",
-    "name": "Fancy Formal Wear",
+    "name": "华丽正装",
     "category": 2,
     "special": {
       "S": 0,
@@ -1160,7 +1160,7 @@
   },
   {
     "id": "FormalWear_Lucky",
-    "name": "Lucky Formal Wear",
+    "name": "幸运正装",
     "category": 2,
     "special": {
       "S": 0,
@@ -1179,7 +1179,7 @@
   },
   {
     "id": "Gen1Synth",
-    "name": "Gen1 Synth",
+    "name": "一代合成人",
     "category": 4,
     "special": {
       "S": 0,
@@ -1198,7 +1198,7 @@
   },
   {
     "id": "Gen2SynthEnemy",
-    "name": "Gen2 Synth Enemy",
+    "name": "二代合成人",
     "category": 4,
     "special": {
       "S": 0,
@@ -1217,7 +1217,7 @@
   },
   {
     "id": "GreaserSpecial",
-    "name": "Greaser Outfit",
+    "name": "阿飞套装",
     "category": 2,
     "special": {
       "S": 0,
@@ -1236,7 +1236,7 @@
   },
   {
     "id": "HandymanJumpsuit",
-    "name": "Handyman Jumpsuit",
+    "name": "杂工连体服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1255,7 +1255,7 @@
   },
   {
     "id": "HandymanJumpsuit_Advanced",
-    "name": "Advanced Jumpsuit",
+    "name": "高级连体服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1274,7 +1274,7 @@
   },
   {
     "id": "HandymanJumpsuit_Expert",
-    "name": "Expert Jumpsuit",
+    "name": "专家级连体服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1293,7 +1293,7 @@
   },
   {
     "id": "HanksPowerArmor",
-    "name": "Hank's Power Armor",
+    "name": "汉克的动力装甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -1312,7 +1312,7 @@
   },
   {
     "id": "HarknessSpecial",
-    "name": "Harkness' Security Uniform",
+    "name": "哈克尼斯的保安制服",
     "category": 4,
     "special": {
       "S": 0,
@@ -1331,7 +1331,7 @@
   },
   {
     "id": "HazmatSuit",
-    "name": "Wasteland Gear",
+    "name": "废土装束",
     "category": 2,
     "special": {
       "S": 0,
@@ -1350,7 +1350,7 @@
   },
   {
     "id": "HazmatSuit_Heavy",
-    "name": "Heavy Wasteland Gear",
+    "name": "重型废土装束",
     "category": 2,
     "special": {
       "S": 0,
@@ -1369,7 +1369,7 @@
   },
   {
     "id": "HazmatSuit_Sturdy",
-    "name": "Sturdy Wasteland Gear",
+    "name": "坚固废土装束",
     "category": 2,
     "special": {
       "S": 0,
@@ -1388,7 +1388,7 @@
   },
   {
     "id": "Horseman_DeathJacket",
-    "name": "Death's Jacket",
+    "name": "死神夹克",
     "category": 2,
     "special": {
       "S": 0,
@@ -1407,7 +1407,7 @@
   },
   {
     "id": "Horseman_FamineVestment",
-    "name": "Famine's Vestment",
+    "name": "饥神法衣",
     "category": 2,
     "special": {
       "S": 4,
@@ -1426,7 +1426,7 @@
   },
   {
     "id": "Horseman_PestilencePlating",
-    "name": "Pestilence's Plating",
+    "name": "疫神铠甲",
     "category": 2,
     "special": {
       "S": 0,
@@ -1445,7 +1445,7 @@
   },
   {
     "id": "Horseman_WarArmor",
-    "name": "War's Armor",
+    "name": "战神护甲",
     "category": 2,
     "special": {
       "S": 4,
@@ -1464,7 +1464,7 @@
   },
   {
     "id": "HunterGear_Bounty",
-    "name": "Bounty Hunter Gear",
+    "name": "赏金猎人装束",
     "category": 2,
     "special": {
       "S": 3,
@@ -1483,7 +1483,7 @@
   },
   {
     "id": "HunterGear_Mutant",
-    "name": "Mutant Hunter Gear",
+    "name": "变种人猎人装束",
     "category": 2,
     "special": {
       "S": 4,
@@ -1502,7 +1502,7 @@
   },
   {
     "id": "HunterGear_Treasure",
-    "name": "Treasure Hunter Gear",
+    "name": "寻宝猎人装束",
     "category": 2,
     "special": {
       "S": 2,
@@ -1521,7 +1521,7 @@
   },
   {
     "id": "Incognito",
-    "name": "Incognito Leisurewear",
+    "name": "隐匿休闲装",
     "category": 2,
     "special": {
       "S": 0,
@@ -1540,7 +1540,7 @@
   },
   {
     "id": "InstituteJumper_Advanced",
-    "name": "Advanced Institute Jumper",
+    "name": "高级学院连体服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1559,7 +1559,7 @@
   },
   {
     "id": "InstituteJumper_Expert",
-    "name": "Expert Institute Jumper",
+    "name": "专家级学院连体服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1578,7 +1578,7 @@
   },
   {
     "id": "JacketTshirt",
-    "name": "Motorcycle Jacket",
+    "name": "机车夹克",
     "category": 2,
     "special": {
       "S": 6,
@@ -1597,7 +1597,7 @@
   },
   {
     "id": "JailhouseRocker",
-    "name": "Jailhouse Rocker",
+    "name": "监狱摇滚客",
     "category": 2,
     "special": {
       "S": 0,
@@ -1616,7 +1616,7 @@
   },
   {
     "id": "JamesSpecial",
-    "name": "Dad's Lab Uniform",
+    "name": "老爸的实验室制服",
     "category": 4,
     "special": {
       "S": 0,
@@ -1635,7 +1635,7 @@
   },
   {
     "id": "JerichoSpecial",
-    "name": "Jericho's Leather Armor",
+    "name": "杰里科式皮甲",
     "category": 4,
     "special": {
       "S": 2,
@@ -1654,7 +1654,7 @@
   },
   {
     "id": "JobinsonsJersey",
-    "name": "Rackie Jobinson's Jersey",
+    "name": "拉基·乔宾森的球衣",
     "category": 2,
     "special": {
       "S": 4,
@@ -1673,7 +1673,7 @@
   },
   {
     "id": "jumpsuit",
-    "name": "Vault Suit",
+    "name": "避难所制服",
     "category": 3,
     "special": {
       "S": 0,
@@ -1692,7 +1692,7 @@
   },
   {
     "id": "KelloggsOutfit",
-    "name": "Kellogg's Armor",
+    "name": "凯洛格的护甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -1711,7 +1711,7 @@
   },
   {
     "id": "KingSpecial",
-    "name": "Medieval Ruler Outfit",
+    "name": "中世纪君主装",
     "category": 2,
     "special": {
       "S": 0,
@@ -1730,7 +1730,7 @@
   },
   {
     "id": "KnightSpecial",
-    "name": "Knight Armor",
+    "name": "骑士铠甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -1749,7 +1749,7 @@
   },
   {
     "id": "LabCoat",
-    "name": "Lab Coat",
+    "name": "实验服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1768,7 +1768,7 @@
   },
   {
     "id": "LabCoat_Advanced",
-    "name": "Advanced Lab Coat",
+    "name": "高级实验服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1787,7 +1787,7 @@
   },
   {
     "id": "LabCoat_Expert",
-    "name": "Expert Lab Coat",
+    "name": "专家级实验服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1806,7 +1806,7 @@
   },
   {
     "id": "LegatesArmor",
-    "name": "Legate's Armor",
+    "name": "使节装甲",
     "category": 2,
     "special": {
       "S": 4,
@@ -1825,7 +1825,7 @@
   },
   {
     "id": "LibrarianSpecial",
-    "name": "Librarian Outfit",
+    "name": "图书管理员服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1844,7 +1844,7 @@
   },
   {
     "id": "LifeguardOutfit",
-    "name": "Lifeguard Outfit",
+    "name": "救生员装",
     "category": 2,
     "special": {
       "S": 0,
@@ -1863,7 +1863,7 @@
   },
   {
     "id": "LoungeShirt",
-    "name": "Bowling Shirt",
+    "name": "保龄球衫",
     "category": 2,
     "special": {
       "S": 0,
@@ -1882,7 +1882,7 @@
   },
   {
     "id": "LucasSpecial",
-    "name": "Sheriff's Duster",
+    "name": "警长风衣",
     "category": 2,
     "special": {
       "S": 0,
@@ -1901,7 +1901,7 @@
   },
   {
     "id": "LucysVaultSuit",
-    "name": "Lucy's Vault Suit",
+    "name": "露西的避难所制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -1920,7 +1920,7 @@
   },
   {
     "id": "LucysYellowDress",
-    "name": "Lucy's Yellow Dress",
+    "name": "露西的黄裙子",
     "category": 2,
     "special": {
       "S": 0,
@@ -1939,7 +1939,7 @@
   },
   {
     "id": "MaJuneJacket",
-    "name": "Ma June Jacket",
+    "name": "琼恩大妈的夹克",
     "category": 2,
     "special": {
       "S": 0,
@@ -1958,7 +1958,7 @@
   },
   {
     "id": "MaximusJacket",
-    "name": "Maximus' Jacket",
+    "name": "马克西姆斯的夹克",
     "category": 2,
     "special": {
       "S": 2,
@@ -1977,7 +1977,7 @@
   },
   {
     "id": "MayorSpecial",
-    "name": "Mayor Outfit",
+    "name": "市长装",
     "category": 2,
     "special": {
       "S": 0,
@@ -1996,7 +1996,7 @@
   },
   {
     "id": "MechanicJumpsuit",
-    "name": "Mechanic Jumpsuit",
+    "name": "机械师连体服",
     "category": 2,
     "special": {
       "S": 1,
@@ -2015,7 +2015,7 @@
   },
   {
     "id": "MetalArmor_Heavy",
-    "name": "Heavy Metal Armor",
+    "name": "重型金属护甲",
     "category": 2,
     "special": {
       "S": 4,
@@ -2034,7 +2034,7 @@
   },
   {
     "id": "MetalArmor_Sturdy",
-    "name": "Sturdy Metal Armor",
+    "name": "坚固金属护甲",
     "category": 2,
     "special": {
       "S": 3,
@@ -2053,7 +2053,7 @@
   },
   {
     "id": "MetalArmorRaiderBoss",
-    "name": "Metal Armor Raider Boss",
+    "name": "金属护甲掠夺者头目",
     "category": 0,
     "special": {
       "S": 0,
@@ -2072,7 +2072,7 @@
   },
   {
     "id": "MilitaryJumpsuit",
-    "name": "Military Fatigues",
+    "name": "军用作训服",
     "category": 2,
     "special": {
       "S": 3,
@@ -2091,7 +2091,7 @@
   },
   {
     "id": "MilitaryJumpsuit_Commander",
-    "name": "Commander Fatigues",
+    "name": "指挥官作训服",
     "category": 2,
     "special": {
       "S": 7,
@@ -2110,7 +2110,7 @@
   },
   {
     "id": "MilitaryJumpsuit_Officer",
-    "name": "Officer Fatigues",
+    "name": "军官作训服",
     "category": 2,
     "special": {
       "S": 5,
@@ -2129,7 +2129,7 @@
   },
   {
     "id": "MoiraSpecial",
-    "name": "Moira's RobCo Jumpsuit",
+    "name": "摩伊拉的RobCo连体服",
     "category": 4,
     "special": {
       "S": 0,
@@ -2148,7 +2148,7 @@
   },
   {
     "id": "MojaveWastelandSurvivor",
-    "name": "Mojave Wasteland Survivor",
+    "name": "莫哈维废土幸存者",
     "category": 2,
     "special": {
       "S": 0,
@@ -2167,7 +2167,7 @@
   },
   {
     "id": "MoldaversArmor",
-    "name": "Moldaver's Armor",
+    "name": "莫尔达弗的护甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -2186,7 +2186,7 @@
   },
   {
     "id": "MoviefanSpecial",
-    "name": "Movie Fan Outfit",
+    "name": "影迷装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2205,7 +2205,7 @@
   },
   {
     "id": "MrBurkeSpecial",
-    "name": "Mr. Burke's Businesswear",
+    "name": "伯克先生的商务装",
     "category": 4,
     "special": {
       "S": 0,
@@ -2224,7 +2224,7 @@
   },
   {
     "id": "MrHousesSuit",
-    "name": "Mr. House's Suit",
+    "name": "豪斯先生的西装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2243,7 +2243,7 @@
   },
   {
     "id": "NCR_Ranger",
-    "name": "NCR Ranger Outfit",
+    "name": "新加州共和国游骑兵装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2262,7 +2262,7 @@
   },
   {
     "id": "NCR_Ranger_Helmetless",
-    "name": "NCR Ranger Outfit",
+    "name": "新加州共和国游骑兵装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2281,7 +2281,7 @@
   },
   {
     "id": "NCRPowerArmor",
-    "name": "NCR Power Armor",
+    "name": "新加州共和国动力装甲",
     "category": 2,
     "special": {
       "S": 1,
@@ -2300,7 +2300,7 @@
   },
   {
     "id": "NinjaSuit",
-    "name": "Ninja Outfit",
+    "name": "忍者装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2319,7 +2319,7 @@
   },
   {
     "id": "NormalClothing",
-    "name": "Normal Clothing",
+    "name": "普通服装",
     "category": 1,
     "special": {
       "S": 0,
@@ -2338,7 +2338,7 @@
   },
   {
     "id": "OrionsExplorerGear",
-    "name": "Orion's Explorer Gear",
+    "name": "奥里翁的探险装",
     "category": 2,
     "special": {
       "S": 3,
@@ -2357,7 +2357,7 @@
   },
   {
     "id": "OverseerClaffsJumpsuit",
-    "name": "Pioneer Overseer Suit",
+    "name": "先驱监管人套装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2376,7 +2376,7 @@
   },
   {
     "id": "PaladinDansesPowerArmor",
-    "name": "Paladin Danse's Power Armor",
+    "name": "圣骑士丹斯式动力装甲",
     "category": 2,
     "special": {
       "S": 5,
@@ -2395,7 +2395,7 @@
   },
   {
     "id": "PaladinDansesPowerArmorWithHelmet",
-    "name": "Paladin Danse's Power Armor",
+    "name": "圣骑士丹斯式动力装甲",
     "category": 2,
     "special": {
       "S": 5,
@@ -2414,7 +2414,7 @@
   },
   {
     "id": "PaladinJacket",
-    "name": "BoS Paladin Jacket",
+    "name": "钢铁兄弟会圣骑士夹克",
     "category": 2,
     "special": {
       "S": 2,
@@ -2433,7 +2433,7 @@
   },
   {
     "id": "PiperSpecial",
-    "name": "Piper's Outfit",
+    "name": "派普的套装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2452,7 +2452,7 @@
   },
   {
     "id": "PolkaDotDress",
-    "name": "Polka Dot Sundress",
+    "name": "波点吊带裙",
     "category": 2,
     "special": {
       "S": 1,
@@ -2471,7 +2471,7 @@
   },
   {
     "id": "PowerArmor",
-    "name": "T-45a Power Armor",
+    "name": "T-45a动力装甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -2490,7 +2490,7 @@
   },
   {
     "id": "PowerArmor_51a",
-    "name": "T-51a Power Armor",
+    "name": "T-51a动力装甲",
     "category": 2,
     "special": {
       "S": 3,
@@ -2509,7 +2509,7 @@
   },
   {
     "id": "PowerArmor_51d",
-    "name": "T-51d Power Armor",
+    "name": "T-51d动力装甲",
     "category": 2,
     "special": {
       "S": 3,
@@ -2528,7 +2528,7 @@
   },
   {
     "id": "PowerArmor_51f",
-    "name": "T-51f Power Armor",
+    "name": "T-51f动力装甲",
     "category": 2,
     "special": {
       "S": 4,
@@ -2547,7 +2547,7 @@
   },
   {
     "id": "PowerArmor_MkI",
-    "name": "X-01 Mk I Power Armor",
+    "name": "X-01 Mk I动力装甲",
     "category": 2,
     "special": {
       "S": 3,
@@ -2566,7 +2566,7 @@
   },
   {
     "id": "PowerArmor_MkIV",
-    "name": "X-01 Mk IV Power Armor",
+    "name": "X-01 Mk IV动力装甲",
     "category": 2,
     "special": {
       "S": 4,
@@ -2585,7 +2585,7 @@
   },
   {
     "id": "PowerArmor_MkVI",
-    "name": "X-01 Mk VI Power Armor",
+    "name": "X-01 Mk VI动力装甲",
     "category": 2,
     "special": {
       "S": 5,
@@ -2604,7 +2604,7 @@
   },
   {
     "id": "PowerArmor_T45d",
-    "name": "T-45d Power Armor",
+    "name": "T-45d动力装甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -2623,7 +2623,7 @@
   },
   {
     "id": "PowerArmor_T45f",
-    "name": "T-45f Power Armor",
+    "name": "T-45f动力装甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -2642,7 +2642,7 @@
   },
   {
     "id": "PowerArmor_T60a",
-    "name": "T-60a Power Armor",
+    "name": "T-60a动力装甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -2661,7 +2661,7 @@
   },
   {
     "id": "PowerArmor_T60d",
-    "name": "T-60d Power Armor",
+    "name": "T-60d动力装甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -2680,7 +2680,7 @@
   },
   {
     "id": "PowerArmor_T60f",
-    "name": "T-60f Power Armor",
+    "name": "T-60f动力装甲",
     "category": 2,
     "special": {
       "S": 1,
@@ -2699,7 +2699,7 @@
   },
   {
     "id": "PrestonSpecial",
-    "name": "Minuteman Uniform",
+    "name": "民兵制服",
     "category": 2,
     "special": {
       "S": 2,
@@ -2718,7 +2718,7 @@
   },
   {
     "id": "PrewarCowboy",
-    "name": "Prewar Cowboy Costume",
+    "name": "战前牛仔装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2737,7 +2737,7 @@
   },
   {
     "id": "PrinceSpecial",
-    "name": "Nobility Outfit",
+    "name": "贵族装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2756,7 +2756,7 @@
   },
   {
     "id": "ProfessorSpecial",
-    "name": "Professor Outfit",
+    "name": "教授装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2775,7 +2775,7 @@
   },
   {
     "id": "RadiationSuit",
-    "name": "Radiation Suit",
+    "name": "辐射防护服",
     "category": 2,
     "special": {
       "S": 0,
@@ -2794,7 +2794,7 @@
   },
   {
     "id": "RadiationSuit_Advanced",
-    "name": "Advanced Radiation Suit",
+    "name": "高级辐射防护服",
     "category": 2,
     "special": {
       "S": 0,
@@ -2813,7 +2813,7 @@
   },
   {
     "id": "RadiationSuit_Expert",
-    "name": "Expert Radiation Suit",
+    "name": "专家级辐射防护服",
     "category": 2,
     "special": {
       "S": 0,
@@ -2832,7 +2832,7 @@
   },
   {
     "id": "RaiderArmor",
-    "name": "Raider Armor",
+    "name": "掠夺者护甲",
     "category": 2,
     "special": {
       "S": 0,
@@ -2851,7 +2851,7 @@
   },
   {
     "id": "RaiderArmor_Heavy",
-    "name": "Heavy Raider Armor",
+    "name": "重型掠夺者护甲",
     "category": 2,
     "special": {
       "S": 0,
@@ -2870,7 +2870,7 @@
   },
   {
     "id": "RaiderArmor_Sturdy",
-    "name": "Sturdy Raider Armor",
+    "name": "坚固掠夺者护甲",
     "category": 2,
     "special": {
       "S": 0,
@@ -2889,7 +2889,7 @@
   },
   {
     "id": "RegsDirtyBlackSuit",
-    "name": "Regs' Dirty Black Suit",
+    "name": "雷吉斯的脏黑西装",
     "category": 2,
     "special": {
       "S": 0,
@@ -2908,7 +2908,7 @@
   },
   {
     "id": "RiotGear",
-    "name": "Merc Gear",
+    "name": "雇佣兵装束",
     "category": 2,
     "special": {
       "S": 0,
@@ -2927,7 +2927,7 @@
   },
   {
     "id": "RiotGear_Heavy",
-    "name": "Heavy Merc Gear",
+    "name": "重型雇佣兵装束",
     "category": 2,
     "special": {
       "S": 0,
@@ -2946,7 +2946,7 @@
   },
   {
     "id": "RiotGear_Sturdy",
-    "name": "Sturdy Merc Gear",
+    "name": "坚固雇佣兵装束",
     "category": 2,
     "special": {
       "S": 0,
@@ -2965,7 +2965,7 @@
   },
   {
     "id": "RobCoFactoryUniform",
-    "name": "RobCo Factory Uniform",
+    "name": "RobCo工厂制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -2984,7 +2984,7 @@
   },
   {
     "id": "RobCoRdSuit",
-    "name": "RobCo R&D Suit",
+    "name": "RobCo研发服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3003,7 +3003,7 @@
   },
   {
     "id": "RobCoRdSuit_Helmetless",
-    "name": "RobCo R&D Suit",
+    "name": "RobCo研发服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3022,7 +3022,7 @@
   },
   {
     "id": "RobotArmor",
-    "name": "Robot Armor",
+    "name": "机器人护甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -3041,7 +3041,7 @@
   },
   {
     "id": "RothchildSpecial",
-    "name": "Scribe Rothchild's Robe",
+    "name": "书吏罗斯柴尔德的长袍",
     "category": 2,
     "special": {
       "S": 0,
@@ -3060,7 +3060,7 @@
   },
   {
     "id": "RottedDuster",
-    "name": "The Ghoul's Coat",
+    "name": "尸鬼的大衣",
     "category": 2,
     "special": {
       "S": 0,
@@ -3079,7 +3079,7 @@
   },
   {
     "id": "SantaSuit_Original",
-    "name": "Original Santa Suit",
+    "name": "经典圣诞老人装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3098,7 +3098,7 @@
   },
   {
     "id": "SarahSpecial",
-    "name": "Lyon's Pride Armor",
+    "name": "莱昂之傲装甲",
     "category": 4,
     "special": {
       "S": 4,
@@ -3117,7 +3117,7 @@
   },
   {
     "id": "ScarredPowerArmor",
-    "name": "Scarred Power Armor",
+    "name": "疤痕动力装甲",
     "category": 2,
     "special": {
       "S": 4,
@@ -3136,7 +3136,7 @@
   },
   {
     "id": "ScientistScrubs",
-    "name": "Junior Officer Uniform",
+    "name": "初级军官制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3155,7 +3155,7 @@
   },
   {
     "id": "ScientistScrubs_Commander",
-    "name": "Commander Uniform",
+    "name": "指挥官制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3174,7 +3174,7 @@
   },
   {
     "id": "ScientistScrubs_Officer",
-    "name": "Officer Uniform",
+    "name": "军官制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3193,7 +3193,7 @@
   },
   {
     "id": "ScifiSpecial",
-    "name": "Sci-Fi Fan Outfit",
+    "name": "科幻迷装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3212,7 +3212,7 @@
   },
   {
     "id": "Scorched",
-    "name": "Scorched",
+    "name": "焦尸",
     "category": 4,
     "special": {
       "S": 0,
@@ -3231,7 +3231,7 @@
   },
   {
     "id": "ScorchedHeavy",
-    "name": "Scorched",
+    "name": "焦尸",
     "category": 4,
     "special": {
       "S": 0,
@@ -3250,7 +3250,7 @@
   },
   {
     "id": "ScribeRobe",
-    "name": "Scribe Robe",
+    "name": "书吏长袍",
     "category": 2,
     "special": {
       "S": 0,
@@ -3269,7 +3269,7 @@
   },
   {
     "id": "ScribeRobe_Elder",
-    "name": "Elder Robe",
+    "name": "长老长袍",
     "category": 2,
     "special": {
       "S": 0,
@@ -3288,7 +3288,7 @@
   },
   {
     "id": "ScribeRobe_Initiate",
-    "name": "Initiate Robe",
+    "name": "见习生长袍",
     "category": 2,
     "special": {
       "S": 0,
@@ -3307,7 +3307,7 @@
   },
   {
     "id": "SequinDress",
-    "name": "Vault Socialite",
+    "name": "避难所名媛",
     "category": 2,
     "special": {
       "S": 0,
@@ -3326,7 +3326,7 @@
   },
   {
     "id": "SlasherSpecial",
-    "name": "Horror Fan Outfit",
+    "name": "恐怖迷装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3345,7 +3345,7 @@
   },
   {
     "id": "SleazySuit",
-    "name": "Sleazy Suit",
+    "name": "轻薄西装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3364,7 +3364,7 @@
   },
   {
     "id": "SleekSuit",
-    "name": "Sleek Suit",
+    "name": "时髦西装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3383,7 +3383,7 @@
   },
   {
     "id": "SodaFountainDress",
-    "name": "Soda Fountain Dress",
+    "name": "汽水吧连衣裙",
     "category": 2,
     "special": {
       "S": 0,
@@ -3402,7 +3402,7 @@
   },
   {
     "id": "SoldierSpecial",
-    "name": "Soldier Uniform",
+    "name": "士兵制服",
     "category": 2,
     "special": {
       "S": 2,
@@ -3421,7 +3421,7 @@
   },
   {
     "id": "SpecialThemeHalloween",
-    "name": "Ghost Costume",
+    "name": "幽灵装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3440,7 +3440,7 @@
   },
   {
     "id": "SpecialThemeHalloween2",
-    "name": "Skeleton Costume",
+    "name": "骷髅装",
     "category": 2,
     "special": {
       "S": 2,
@@ -3459,7 +3459,7 @@
   },
   {
     "id": "SpecialThemeThanksGiving",
-    "name": "Pilgrim Outfit",
+    "name": "朝圣者装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3478,7 +3478,7 @@
   },
   {
     "id": "SpecialThemeXmas",
-    "name": "Santa Suit",
+    "name": "圣诞老人装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3497,7 +3497,7 @@
   },
   {
     "id": "SpecialThemeXmas2",
-    "name": "Elf Outfit",
+    "name": "精灵装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3516,7 +3516,7 @@
   },
   {
     "id": "SportsfanSpecial",
-    "name": "Sports Fan Outfit",
+    "name": "体育迷装",
     "category": 2,
     "special": {
       "S": 4,
@@ -3535,7 +3535,7 @@
   },
   {
     "id": "StarPaladinSpecial",
-    "name": "Cross' Power Armor",
+    "name": "克罗斯的动力装甲",
     "category": 4,
     "special": {
       "S": 5,
@@ -3554,7 +3554,7 @@
   },
   {
     "id": "SurgeonSpecial",
-    "name": "Surgeon Outfit",
+    "name": "外科医生服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3573,7 +3573,7 @@
   },
   {
     "id": "SurvivorSpecial",
-    "name": "Survivor Armor",
+    "name": "幸存者护甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -3592,7 +3592,7 @@
   },
   {
     "id": "Suspenders",
-    "name": "Bespoke Attire",
+    "name": "定制礼服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3611,7 +3611,7 @@
   },
   {
     "id": "SweaterVest",
-    "name": "Pre-War Suburbanite",
+    "name": "战前郊区客",
     "category": 2,
     "special": {
       "S": 0,
@@ -3630,7 +3630,7 @@
   },
   {
     "id": "Swimsuit",
-    "name": "Swimsuit",
+    "name": "泳装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3649,7 +3649,7 @@
   },
   {
     "id": "SwingDress",
-    "name": "Swing Dress",
+    "name": "摇摆舞裙",
     "category": 2,
     "special": {
       "S": 0,
@@ -3668,7 +3668,7 @@
   },
   {
     "id": "SynthArmor_Heavy",
-    "name": "Heavy Synth Armor",
+    "name": "重型合成人护甲",
     "category": 2,
     "special": {
       "S": 0,
@@ -3687,7 +3687,7 @@
   },
   {
     "id": "ThreedogSpecial",
-    "name": "Three Dog's Outfit",
+    "name": "三狗的套装",
     "category": 2,
     "special": {
       "S": 0,
@@ -3706,7 +3706,7 @@
   },
   {
     "id": "TiedBlouse",
-    "name": "Country Girl",
+    "name": "乡村女孩",
     "category": 2,
     "special": {
       "S": 4,
@@ -3725,7 +3725,7 @@
   },
   {
     "id": "UtilityJumpsuit",
-    "name": "Armored Vault Suit",
+    "name": "加固避难所制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3744,7 +3744,7 @@
   },
   {
     "id": "UtilityJumpsuit_Heavy",
-    "name": "Heavy Vault Suit",
+    "name": "重型避难所制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3763,7 +3763,7 @@
   },
   {
     "id": "UtilityJumpsuit_Sturdy",
-    "name": "Sturdy Vault Suit",
+    "name": "坚固避难所制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3782,7 +3782,7 @@
   },
   {
     "id": "ValentinesTrenchCoat",
-    "name": "Valentine's Trench Coat",
+    "name": "瓦伦坦的风衣",
     "category": 2,
     "special": {
       "S": 0,
@@ -3801,7 +3801,7 @@
   },
   {
     "id": "Vault33Suit",
-    "name": "Vault 33 Suit",
+    "name": "33号避难所制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3820,7 +3820,7 @@
   },
   {
     "id": "VaultSecurityOutfit",
-    "name": "Vault Security Outfit",
+    "name": "避难所保安服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3839,7 +3839,7 @@
   },
   {
     "id": "Vest",
-    "name": "Post-War Casanova",
+    "name": "战后情圣",
     "category": 2,
     "special": {
       "S": 0,
@@ -3858,7 +3858,7 @@
   },
   {
     "id": "WaitressUniform",
-    "name": "Waitress Uniform",
+    "name": "女服务生制服",
     "category": 2,
     "special": {
       "S": 0,
@@ -3877,7 +3877,7 @@
   },
   {
     "id": "WandererArmor",
-    "name": "Leather Armor",
+    "name": "皮甲",
     "category": 2,
     "special": {
       "S": 1,
@@ -3896,7 +3896,7 @@
   },
   {
     "id": "WandererArmor_Heavy",
-    "name": "Heavy Leather Armor",
+    "name": "重型皮甲",
     "category": 2,
     "special": {
       "S": 3,
@@ -3915,7 +3915,7 @@
   },
   {
     "id": "WandererArmor_Sturdy",
-    "name": "Sturdy Leather Armor",
+    "name": "坚固皮甲",
     "category": 2,
     "special": {
       "S": 2,
@@ -3934,7 +3934,7 @@
   },
   {
     "id": "WastelandSurgeon",
-    "name": "Wasteland Surgeon",
+    "name": "废土外科医生",
     "category": 2,
     "special": {
       "S": 0,
@@ -3953,7 +3953,7 @@
   },
   {
     "id": "WastelandSurgeon_Doctor",
-    "name": "Wasteland Doctor",
+    "name": "废土医生",
     "category": 2,
     "special": {
       "S": 0,
@@ -3972,7 +3972,7 @@
   },
   {
     "id": "WastelandSurgeon_Settler",
-    "name": "Wasteland Medic",
+    "name": "废土医护",
     "category": 2,
     "special": {
       "S": 0,
@@ -3991,7 +3991,7 @@
   },
   {
     "id": "WeddingDress",
-    "name": "Wedding Dress",
+    "name": "婚纱",
     "category": 2,
     "special": {
       "S": 0,
@@ -4010,7 +4010,7 @@
   },
   {
     "id": "WilzigsTravelwear",
-    "name": "Wilzig's Travelwear",
+    "name": "威尔齐格的旅行装",
     "category": 2,
     "special": {
       "S": 0,
@@ -4029,7 +4029,7 @@
   },
   {
     "id": "WorkDress",
-    "name": "Rural Schoolmarm",
+    "name": "乡村女教师",
     "category": 2,
     "special": {
       "S": 0,
@@ -4048,7 +4048,7 @@
   },
   {
     "id": "WrestlerSpecial",
-    "name": "Wrestler Outfit",
+    "name": "摔跤手装",
     "category": 2,
     "special": {
       "S": 2,
@@ -4067,7 +4067,7 @@
   },
   {
     "id": "ZekesJacketAndJeans",
-    "name": "Zeke's Jacket and Jeans",
+    "name": "泽克的夹克牛仔裤",
     "category": 2,
     "special": {
       "S": 0,

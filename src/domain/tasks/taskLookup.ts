@@ -74,10 +74,10 @@ export function formatDuration(totalSeconds: number): string {
   const hours = Math.floor((s % 86_400) / 3_600);
   const minutes = Math.floor((s % 3_600) / 60);
   const seconds = s % 60;
-  if (days > 0) return `${days}d ${hours}h`;
-  if (hours > 0) return `${hours}h ${minutes}m`;
-  if (minutes > 0) return `${minutes}m ${seconds}s`;
-  return `${seconds}s`;
+  if (days > 0) return `${days} 天 ${hours} 小时`;
+  if (hours > 0) return `${hours} 小时 ${minutes} 分`;
+  if (minutes > 0) return `${minutes} 分 ${seconds} 秒`;
+  return `${seconds} 秒`;
 }
 
 // --- .NET tick arithmetic (BigInt) ------------------------------------------------

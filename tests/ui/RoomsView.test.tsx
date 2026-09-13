@@ -91,7 +91,7 @@ describe('RoomsView - Repair all (finding 5)', () => {
   it('enables Repair all with the damaged count and repairs every room on click', async () => {
     const user = userEvent.setup();
     renderInSectionRoute(<RoomsView />, { initialPath: '/rooms' });
-    const btn = screen.getByRole('button', { name: /Repair all \(1\)/ });
+    const btn = screen.getByRole('button', { name: /全部修复 \(1\)/ });
     expect(btn).toBeEnabled();
     await user.click(btn);
     const cafeteria = rooms().find((r) => r.deserializeID === 2)!;
@@ -105,7 +105,7 @@ describe('RoomsView - Repair all (finding 5)', () => {
     save.vault!.rooms![1].roomHealth = { damageValue: 0, initialValue: 0 };
     useSaveStore.setState({ save, status: 'loaded', past: [], future: [] });
     renderInSectionRoute(<RoomsView />, { initialPath: '/rooms' });
-    expect(screen.getByRole('button', { name: /Repair all/ })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /全部修复/ })).toBeDisabled();
   });
 });
 
@@ -113,18 +113,26 @@ describe('RoomsView - sticky mode dismissal (build / terrain / armed robot share
   it('keeps terrain paint on its own cells, exits on an outside press or the toggle', async () => {
     const user = userEvent.setup();
     renderInSectionRoute(<RoomsView />, { initialPath: '/rooms' });
-    await user.click(screen.getByRole('button', { name: '+ Rock' }));
-    expect(screen.getAllByRole('button', { name: /^Place rock/ }).length).toBeGreaterThan(0);
+    await user.click(screen.getByRole('button', { name: '+ 岩石' }));
+    expect(
+      screen.getAllByRole('button', { name: /^在第 .+ 层第 .+ 列放置岩石$/ }).length,
+    ).toBeGreaterThan(0);
     // Painting a cell keeps the mode active (sticky).
-    await user.click(screen.getAllByRole('button', { name: /^Place rock/ })[0]);
-    expect(screen.getAllByRole('button', { name: /^Place rock/ }).length).toBeGreaterThan(0);
+    await user.click(screen.getAllByRole('button', { name: /^在第 .+ 层第 .+ 列放置岩石$/ })[0]);
+    expect(
+      screen.getAllByRole('button', { name: /^在第 .+ 层第 .+ 列放置岩石$/ }).length,
+    ).toBeGreaterThan(0);
     // A press anywhere else (the heading) exits the mode.
-    await user.click(screen.getByRole('heading', { name: 'Rooms' }));
-    expect(screen.queryAllByRole('button', { name: /^Place rock/ })).toHaveLength(0);
+    await user.click(screen.getByRole('heading', { name: '房间' }));
+    expect(screen.queryAllByRole('button', { name: /^在第 .+ 层第 .+ 列放置岩石$/ })).toHaveLength(
+      0,
+    );
     // Clicking the toggle again also exits.
-    await user.click(screen.getByRole('button', { name: '+ Rock' }));
-    await user.click(screen.getByRole('button', { name: '+ Rock' }));
-    expect(screen.queryAllByRole('button', { name: /^Place rock/ })).toHaveLength(0);
+    await user.click(screen.getByRole('button', { name: '+ 岩石' }));
+    await user.click(screen.getByRole('button', { name: '+ 岩石' }));
+    expect(screen.queryAllByRole('button', { name: /^在第 .+ 层第 .+ 列放置岩石$/ })).toHaveLength(
+      0,
+    );
   });
 
   it('disarms an armed Mr. Handy on a press outside the rail and outside zone', async () => {
@@ -132,14 +140,14 @@ describe('RoomsView - sticky mode dismissal (build / terrain / armed robot share
     useSaveStore.setState({ save: handySave(), status: 'loaded', past: [], future: [] });
     renderInSectionRoute(<RoomsView />, { initialPath: '/rooms' });
     // Arm the robot: eligible floors light up on the rail.
-    await user.click(screen.getByRole('button', { name: /Butler on floor 2/ }));
-    expect(screen.getByRole('button', { name: 'Move Mr. Handy to floor 1' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Butler 在第 2 层/ }));
+    expect(screen.getByRole('button', { name: '将巧手先生移动到第 1 层' })).toBeInTheDocument();
     // A press anywhere else (the heading) disarms it.
-    await user.click(screen.getByRole('heading', { name: 'Rooms' }));
-    expect(screen.queryByRole('button', { name: 'Move Mr. Handy to floor 1' })).toBeNull();
+    await user.click(screen.getByRole('heading', { name: '房间' }));
+    expect(screen.queryByRole('button', { name: '将巧手先生移动到第 1 层' })).toBeNull();
     // Clicking the robot's own chip again also disarms (toggle).
-    await user.click(screen.getByRole('button', { name: /Butler on floor 2/ }));
-    await user.click(screen.getByRole('button', { name: /Butler on floor 2 \(selected\)/ }));
-    expect(screen.queryByRole('button', { name: 'Move Mr. Handy to floor 1' })).toBeNull();
+    await user.click(screen.getByRole('button', { name: /Butler 在第 2 层/ }));
+    await user.click(screen.getByRole('button', { name: /Butler 在第 2 层（已选中）/ }));
+    expect(screen.queryByRole('button', { name: '将巧手先生移动到第 1 层' })).toBeNull();
   });
 });

@@ -69,10 +69,10 @@ export function diagnose(save: SaveData): Diagnosis[] {
     out.push({
       kind: 'orphanedSavedRoom',
       severity: 'error',
-      title: 'Dwellers assigned to missing rooms',
+      title: '居民被分配到不存在的房间',
       detail:
-        `${orphans.length} dweller(s) have a savedRoom pointing at a room that does not ` +
-        `exist. The game can't place them. Fix: send them back to the vault door (savedRoom = -1).`,
+        `${orphans.length} 名居民的 savedRoom 指向一个不存在的房间，游戏无法安置他们。` +
+        `修复方式：将他们送回避难所大门（savedRoom = -1）。`,
       count: orphans.length,
       repair: sendOrphanedDwellersToDoor,
     });
@@ -94,16 +94,16 @@ export function diagnose(save: SaveData): Diagnosis[] {
   const displayName = (id: number): string => {
     const d = dwellerById.get(id);
     const name = d ? `${d.name ?? ''} ${d.lastName ?? ''}`.trim() : '';
-    return name || `Dweller ${id}`;
+    return name || `居民 ${id}`;
   };
-  const roomLabel = (r: Room): string => `${r.type ?? 'Room'} #${r.deserializeID}`;
+  const roomLabel = (r: Room): string => `${r.type ?? '房间'} #${r.deserializeID}`;
   const rosterRoomsByDweller = new Map<number, Room[]>();
   const ghostLines: DiagnosisDetail[] = [];
   for (const r of rooms) {
     for (const id of r.dwellers ?? []) {
       if (!dwellerById.has(id)) {
         ghostLines.push({
-          text: `${roomLabel(r)} has a worker entry for dweller id ${id}, but no dweller with that id exists in this save.`,
+          text: `${roomLabel(r)} 有一条居民 id ${id} 的工作人员记录，但此存档中不存在该 id 的居民。`,
         });
         continue;
       }
@@ -120,8 +120,8 @@ export function diagnose(save: SaveData): Diagnosis[] {
     doubleLines.push({
       text:
         uniqueRooms.length === 1
-          ? `${name} is listed twice in ${roomLabel(uniqueRooms[0]!)}.`
-          : `${name} is on the worker list of ${uniqueRooms.map(roomLabel).join(' and ')}, but a dweller can only work in one room.`,
+          ? `${name} 在 ${roomLabel(uniqueRooms[0]!)} 的工作人员名单中被列出了两次。`
+          : `${name} 同时出现在 ${uniqueRooms.map(roomLabel).join(' 和 ')} 的工作人员名单中，但一名居民只能在一个房间工作。`,
       dwellers: [{ id, name }],
     });
   }
@@ -130,13 +130,11 @@ export function diagnose(save: SaveData): Diagnosis[] {
     out.push({
       kind: 'roomAssignmentDesync',
       severity: 'warning',
-      title: 'Broken room worker lists',
+      title: '房间工作人员名单异常',
       detail:
-        `${rosterIssues.length} room worker entr${rosterIssues.length === 1 ? 'y is' : 'ies are'} ` +
-        `impossible: they point at dwellers that do not exist, or book the same dweller into two ` +
-        `rooms at once. (Dwellers who are simply away from their assigned room - exploring, on a ` +
-        `quest, or idling - are normal and not flagged.) Fix: remove the impossible entries; a ` +
-        `double-booked dweller keeps the room they are actually in.`,
+        `${rosterIssues.length} 条房间工作人员记录无法成立：它们指向不存在的居民，或将同一名居民同时排入两个房间。` +
+        `（居民只是暂离所分配的房间——探索中、执行任务或空闲——属于正常情况，不会标记。）` +
+        `修复方式：移除这些无法成立的记录；被重复排班的居民保留其实际所在的房间。`,
       details: rosterIssues,
       count: rosterIssues.length,
       repair: cleanRoomRosters,
@@ -149,10 +147,10 @@ export function diagnose(save: SaveData): Diagnosis[] {
     out.push({
       kind: 'lunchboxCountMismatch',
       severity: 'warning',
-      title: 'Lunchbox count mismatch',
+      title: '午餐盒数量不匹配',
       detail:
-        `LunchBoxesCount (${String(save.vault?.LunchBoxesCount)}) does not match the ` +
-        `${byType.length} entries in LunchBoxesByType. Fix: set the count to the array length.`,
+        `LunchBoxesCount（${String(save.vault?.LunchBoxesCount)}）与 LunchBoxesByType 中的 ` +
+        `${byType.length} 条记录不一致。修复方式：将该数量设为数组长度。`,
       count: 1,
       repair: fixLunchboxCount,
     });
@@ -167,10 +165,10 @@ export function diagnose(save: SaveData): Diagnosis[] {
     out.push({
       kind: 'invalidResource',
       severity: 'error',
-      title: 'Invalid resource amounts',
+      title: '资源数值无效',
       detail:
-        `${badResources.length} resource(s) have a negative or non-finite value ` +
-        `(${badResources.map(([k]) => k).join(', ')}). Fix: clamp them to 0.`,
+        `${badResources.length} 项资源的数值为负数或非有限数 ` +
+        `（${badResources.map(([k]) => k).join(', ')}）。修复方式：将其归零。`,
       count: badResources.length,
       repair: fixInvalidResources,
     });
@@ -189,10 +187,10 @@ export function diagnose(save: SaveData): Diagnosis[] {
     out.push({
       kind: 'duplicateSerializeId',
       severity: 'error',
-      title: 'Duplicate dweller ids',
+      title: '居民 id 重复',
       detail:
-        `${dupes} dweller(s) share a serializeId with another dweller. Duplicate ids confuse ` +
-        `family/room links and saving. Fix: reassign the duplicates to fresh unique ids.`,
+        `${dupes} 名居民与其他居民共用同一个 serializeId。重复的 id 会干扰家庭/房间关联和保存。` +
+        `修复方式：为重复的居民重新分配全新的唯一 id。`,
       count: dupes,
       repair: dedupeSerializeIds,
     });
@@ -205,10 +203,10 @@ export function diagnose(save: SaveData): Diagnosis[] {
     out.push({
       kind: 'dwellerIdCounterBehind',
       severity: 'warning',
-      title: 'Dweller id counter is behind',
+      title: '居民 id 计数器落后',
       detail:
-        `The dwellers.id counter (${counter}) is below the highest dweller id (${maxId}), so the ` +
-        `next added dweller would reuse an in-use id. Fix: advance the counter to ${maxId}.`,
+        `dwellers.id 计数器（${counter}）低于最大的居民 id（${maxId}），下一个新增的居民会复用已占用的 id。` +
+        `修复方式：将计数器推进到 ${maxId}。`,
       count: 1,
       repair: fixDwellerIdCounter,
     });

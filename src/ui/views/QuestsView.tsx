@@ -44,10 +44,10 @@ import {
 /** A short "2500 Caps, 1 LaserRifle, …" summary of granted rewards for the completion toast. */
 function grantSummary(lines: ReturnType<typeof completeQuest>['granted']): string {
   const chips = lines.map(grantLineChip);
-  if (chips.length === 0) return 'no rewards';
+  if (chips.length === 0) return '无奖励';
   const shown = chips.slice(0, 4).map((c) => (c.qty > 1 ? `${c.qty}× ${c.label}` : c.label));
   const extra = chips.length - shown.length;
-  return shown.join(', ') + (extra > 0 ? `, +${extra} more` : '');
+  return shown.join('、') + (extra > 0 ? ` 等 ${extra} 项` : '');
 }
 
 export function QuestsView() {
@@ -250,7 +250,7 @@ export function QuestsView() {
   const onComplete = (): void => {
     if (!save || !selectedQuest || !catalog) return;
     if (!gameData) {
-      pushToast('Game data is still loading - try again in a moment.', 'info');
+      pushToast('游戏数据仍在加载，请稍后重试。', 'info');
       return;
     }
     // Clamp resource rewards to the save's legal caps (Section 5.4.3): grants never push a
@@ -260,10 +260,10 @@ export function QuestsView() {
       caps,
     });
     if (result.completedNames.length === 0) return;
-    applyEdit(() => result.save, `Complete ${selectedQuest.title}`);
+    applyEdit(() => result.save, `完成 ${selectedQuest.title}`);
     const also = result.completedNames.length - 1;
     pushToast(
-      `Completed ${selectedQuest.title}${also > 0 ? ` (+${also} prerequisite${also === 1 ? '' : 's'})` : ''}. Granted: ${grantSummary(result.granted)}.`,
+      `已完成 ${selectedQuest.title}${also > 0 ? `（连带完成 ${also} 个前置任务）` : ''}。已发放：${grantSummary(result.granted)}。`,
     );
   };
 
@@ -271,9 +271,9 @@ export function QuestsView() {
     if (!save || !selectedQuest || !catalog) return;
     applyEdit(
       (s) => uncompleteQuest(s, selectedQuest.m_questName, catalog.questByName),
-      `Un-complete ${selectedQuest.title}`,
+      `取消完成 ${selectedQuest.title}`,
     );
-    pushToast(`Marked ${selectedQuest.title} incomplete.`);
+    pushToast(`已将 ${selectedQuest.title} 标记为未完成。`);
   };
 
   // Variant-aware, like the map's node colouring: a step whose other difficulty cut is in the
@@ -300,17 +300,17 @@ export function QuestsView() {
   const leftPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col p-4">
       <div className="flex items-baseline gap-3">
-        <h2 className="text-lg font-semibold">Quests</h2>
+        <h2 className="text-lg font-semibold">任务</h2>
         {catalog && layout && (
           <span className="text-sm text-neutral-400">
-            {tally.quests} quests · {tally.chains} chains · {completed.size} completed
+            {tally.quests} 个任务 · {tally.chains} 条任务线 · 已完成 {completed.size} 个
           </span>
         )}
         {(catalogStatus === 'loading' || gameDataStatus === 'loading') && (
-          <span className="text-xs text-neutral-400">loading…</span>
+          <span className="text-xs text-neutral-400">加载中…</span>
         )}
         {catalogStatus === 'error' && (
-          <span className="text-xs text-amber-500">{catalogError ?? 'quest data unavailable'}</span>
+          <span className="text-xs text-amber-500">{catalogError ?? '任务数据不可用'}</span>
         )}
       </div>
 
@@ -323,8 +323,8 @@ export function QuestsView() {
             if (e.key === 'Enter') step(e.shiftKey ? -1 : 1);
           }}
           disabled={!layout}
-          placeholder="Search quests, questlines & ids…"
-          aria-label="Search quests"
+          placeholder="搜索任务、任务线与 ID…"
+          aria-label="搜索任务"
           className="min-w-0 flex-1 rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-xs text-neutral-200 focus:border-amber-500/60 focus:outline-none disabled:opacity-40"
         />
         {query.trim() && (
@@ -334,7 +334,7 @@ export function QuestsView() {
             </span>
             <button
               type="button"
-              aria-label="Previous match"
+              aria-label="上一个匹配"
               onClick={() => step(-1)}
               disabled={matches.length === 0}
               className="rounded px-1.5 py-0.5 text-xs text-neutral-300 hover:bg-neutral-800 disabled:opacity-40"
@@ -343,7 +343,7 @@ export function QuestsView() {
             </button>
             <button
               type="button"
-              aria-label="Next match"
+              aria-label="下一个匹配"
               onClick={() => step(1)}
               disabled={matches.length === 0}
               className="rounded px-1.5 py-0.5 text-xs text-neutral-300 hover:bg-neutral-800 disabled:opacity-40"
@@ -373,15 +373,14 @@ export function QuestsView() {
         {catalog && layout ? (
           layout.nodes.length === 0 ? (
             <p className="text-sm text-neutral-500">
-              No quests match these filters.{' '}
+              没有符合这些筛选条件的任务。{' '}
               <button
                 type="button"
                 onClick={() => onFilterChange(EMPTY_QUEST_FILTER)}
                 className="text-amber-400 underline hover:text-amber-300"
               >
-                Clear filters
+                清空筛选
               </button>
-              .
             </p>
           ) : (
             <QuestMap
@@ -399,9 +398,9 @@ export function QuestsView() {
             />
           )
         ) : catalogStatus === 'error' ? (
-          <p className="text-sm text-amber-500">Could not load the quest catalog.</p>
+          <p className="text-sm text-amber-500">无法加载任务目录。</p>
         ) : (
-          <p className="text-sm text-neutral-500">Loading quest catalog…</p>
+          <p className="text-sm text-neutral-500">正在加载任务目录…</p>
         )}
       </div>
     </div>
@@ -416,7 +415,7 @@ export function QuestsView() {
     <div className="flex h-full min-h-0 flex-col">
       <div
         role="tablist"
-        aria-label="Quests view"
+        aria-label="任务视图"
         className="flex gap-1 border-b border-neutral-800 px-4 pt-3"
       >
         {(['quests', 'objectives'] as const).map((t) => (
@@ -432,7 +431,7 @@ export function QuestsView() {
                 : 'text-neutral-400 hover:text-neutral-100'
             }`}
           >
-            {t === 'quests' ? 'Quests' : 'Objectives'}
+            {t === 'quests' ? '任务' : '目标'}
           </button>
         ))}
       </div>
@@ -444,7 +443,7 @@ export function QuestsView() {
       ) : (
         <div className="flex min-h-0 flex-1">
           <ResizableSplit
-            ariaLabel="Resize quest detail panel"
+            ariaLabel="调整任务详情面板宽度"
             width={panelWidth}
             onWidthChange={setPanelWidth}
             left={leftPane}

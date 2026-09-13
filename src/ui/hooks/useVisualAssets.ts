@@ -37,7 +37,7 @@ export function useVisualAssets(): UseVisualAssetsResult {
       .catch((e: unknown) => {
         inflight = null; // allow a later retry
         if (active) {
-          setError(e instanceof Error ? e.message : 'Failed to load visual assets.');
+          setError(e instanceof Error ? e.message : '视觉资源加载失败。');
           setStatus('error');
         }
       });

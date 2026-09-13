@@ -41,27 +41,23 @@ export function HandyCatalogSection({ virtualized = true }: { virtualized?: bool
       .filter((g): g is { handy: Handy; count: number } => g.handy !== null);
     const total = grants.reduce((n, g) => n + g.count, 0);
     if (total === 0) return;
-    applyEdit(
-      (s) => {
-        let next = s;
-        for (const { handy, count } of grants) {
-          for (let i = 0; i < count; i += 1) {
-            next = createMrHandy(next, {
-              name: handy.name,
-              variant: handy.variantId,
-              characterType: handy.characterType,
-              actorDataId: handy.actorDataId,
-              health: fullHealth,
-            });
-          }
+    applyEdit((s) => {
+      let next = s;
+      for (const { handy, count } of grants) {
+        for (let i = 0; i < count; i += 1) {
+          next = createMrHandy(next, {
+            name: handy.name,
+            variant: handy.variantId,
+            characterType: handy.characterType,
+            actorDataId: handy.actorDataId,
+            health: fullHealth,
+          });
         }
-        return next;
-      },
-      `Add ${total} robot${total === 1 ? '' : 's'}`,
-    );
+      }
+      return next;
+    }, `添加 ${total} 台机器人`);
     pushToast(
-      `Added ${total} robot${total === 1 ? '' : 's'} (waiting outside the vault - use Assign… ` +
-        `or the Owned tab to place ${total === 1 ? 'it' : 'them'} on a floor).`,
+      `已添加 ${total} 台机器人（在避难所外等待——请使用"派驻…"或"已拥有"标签页将其放置到楼层）。`,
     );
   };
 
@@ -82,29 +78,29 @@ export function HandyCatalogSection({ virtualized = true }: { virtualized?: bool
           health: fullHealth,
           roomId,
         }),
-      `Add ${handy.name} to floor ${displayFloor(row)}`,
+      `将 ${handy.name} 添加到第 ${displayFloor(row)} 层`,
     );
-    pushToast(`${handy.name} added and placed on floor ${displayFloor(row)}.`);
+    pushToast(`${handy.name} 已添加并放置到第 ${displayFloor(row)} 层。`);
     setAssignFor(null);
   };
 
   return (
     <div className="h-full min-h-0">
       <CatalogTableView<Handy>
-        title="Mr. Handies"
-        unitNoun="robots"
+        title="巧手先生"
+        unitNoun="机器人"
         data={handies}
         schema={schema}
         persistKey="catalog.handies"
         getRowId={(h) => h.id}
         getRowLabel={(h) => h.name}
-        searchLabel="Search robots"
-        searchPlaceholder="Search robots…"
+        searchLabel="搜索机器人"
+        searchPlaceholder="搜索机器人…"
         gameDataStatus={gameDataStatus}
         onAddToStorage={onAdd}
-        bulkAddLabel="Add to vault"
+        bulkAddLabel="添加到避难所"
         onEquip={(id) => setAssignFor(handies.find((h) => h.id === id) ?? null)}
-        equipLabel="Assign…"
+        equipLabel="派驻…"
         virtualized={virtualized}
       />
       {assignFor && (

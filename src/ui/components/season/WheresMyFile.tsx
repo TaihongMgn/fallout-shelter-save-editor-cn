@@ -16,21 +16,21 @@ export function WheresMyFile({ variant = 'season' }: WheresMyFileProps) {
   return (
     <div className="rounded-lg border border-neutral-800 bg-neutral-900/40 text-sm">
       <div className="border-b border-neutral-800 px-4 py-3 font-medium text-neutral-200">
-        Where&apos;s my file?
+        我的文件在哪里？
       </div>
       <div className="px-4 py-3">
         <p className="text-xs text-neutral-400">
           {variant === 'save' ? (
             <>
-              Your <code className="text-neutral-300">Vault&lt;N&gt;.sav</code> lives in Fallout
-              Shelter&apos;s save folder, one folder per platform:
+              你的 <code className="text-neutral-300">Vault&lt;N&gt;.sav</code>{' '}
+              位于《辐射：避难所》的存档文件夹中，每个平台一个文件夹：
             </>
           ) : (
             <>
-              The season files <code className="text-neutral-300">{SEASON_FILE_NAMES.spd}</code> and{' '}
-              <code className="text-neutral-300">{SEASON_FILE_NAMES.nvf}</code> live in the same
-              folder as your <code className="text-neutral-300">Vault&lt;N&gt;.sav</code>, one
-              folder per platform:
+              赛季文件 <code className="text-neutral-300">{SEASON_FILE_NAMES.spd}</code> 和{' '}
+              <code className="text-neutral-300">{SEASON_FILE_NAMES.nvf}</code> 与你的{' '}
+              <code className="text-neutral-300">Vault&lt;N&gt;.sav</code>{' '}
+              位于同一文件夹，每个平台一个文件夹：
             </>
           )}
         </p>
@@ -47,7 +47,7 @@ export function WheresMyFile({ variant = 'season' }: WheresMyFileProps) {
                       : 'bg-amber-500/15 text-amber-300'
                   }`}
                 >
-                  {p.verified ? 'confirmed' : 'community-reported'}
+                  {p.verified ? '已确认' : '社区反馈'}
                 </span>
               </div>
               <code className="mt-1 block break-all text-xs text-neutral-300">{p.basePath}</code>
@@ -57,9 +57,9 @@ export function WheresMyFile({ variant = 'season' }: WheresMyFileProps) {
         </ul>
 
         <p className="mt-3 text-xs text-amber-400">
-          Steam Cloud can silently overwrite local edits. Close the game and disable its cloud sync
-          for Fallout Shelter before replacing files. Console (Switch, Xbox) and iOS saves are often
-          not user-accessible without device-specific tools.
+          Steam
+          云可能会静默覆盖本地修改。替换文件前，请先关闭游戏并禁用《辐射：避难所》的云同步。主机（Switch、Xbox）和
+          iOS 存档通常无法在没有设备专用工具的情况下由用户直接访问。
         </p>
       </div>
     </div>

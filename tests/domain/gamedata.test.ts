@@ -61,10 +61,11 @@ describe('game data artifacts', () => {
       expect(w.name).not.toMatch(/^['"]|['"]$/);
     }
     // The 4 specific offenders are now clean (were `'Enhanced Gauss Pistol '` etc.).
-    expect(data.weaponById.get('GaussPistol_Enhanced')?.name).toBe('Enhanced Gauss Pistol');
-    expect(data.weaponById.get('GaussPistol_Rusty')?.name).toBe('Rusty Gauss Pistol');
-    // Apostrophe names are still preserved (unquoted scalars, never wrapped).
-    expect(data.weapons.some((w) => w.name.includes("'"))).toBe(true);
+    expect(data.weaponById.get('GaussPistol_Enhanced')?.name).toBe('强化型高斯手枪');
+    expect(data.weaponById.get('GaussPistol_Rusty')?.name).toBe('锈蚀型高斯手枪');
+    // Internal punctuation is still preserved (unquoted scalars, never wrapped) - the
+    // localized ".32 Pistol" keeps its decimal point with no surrounding quotes.
+    expect(data.weapons.some((w) => w.name.includes('.'))).toBe(true);
   });
 
   it('joins a sortable sell-price value onto junk', () => {
@@ -77,12 +78,13 @@ describe('game data artifacts', () => {
 
   it('normalizes every room display name to consistent Title Case (UX-A finding 7)', () => {
     // The raw localization mixes ALL-CAPS + Title-Case; roomMetadataByType must be uniform.
-    expect(data.roomMetadataByType.get('Armory')?.name).toBe('Armory');
-    expect(data.roomMetadataByType.get('Energy2')?.name).toBe('Nuclear Reactor');
-    expect(data.roomMetadataByType.get('NukaCola')?.name).toBe('Nuka Cola');
-    // No surviving ALL-CAPS word across the whole catalog.
+    expect(data.roomMetadataByType.get('Armory')?.name).toBe('军械库');
+    expect(data.roomMetadataByType.get('Energy2')?.name).toBe('核反应堆');
+    expect(data.roomMetadataByType.get('NukaCola')?.name).toBe('核子可乐装瓶厂');
+    // No surviving ALL-CAPS word across the whole catalog ("UFO" is a legit acronym).
     for (const [, meta] of data.roomMetadataByType) {
-      expect(meta.name).not.toMatch(/\b[A-Z]{2,}\b/);
+      const caps = (meta.name.match(/\b[A-Z]{2,}\b/g) ?? []).filter((w) => w !== 'UFO');
+      expect(caps).toEqual([]);
     }
   });
 
@@ -113,7 +115,7 @@ describe('game data artifacts', () => {
   it('indexes by id and resolves known vs unknown ids', () => {
     expect(isKnownWeaponId(data, '032Pistol')).toBe(true);
     expect(isKnownWeaponId(data, 'NotARealWeapon')).toBe(false);
-    expect(data.weaponById.get('032Pistol')?.name).toBe('.32 Pistol');
+    expect(data.weaponById.get('032Pistol')?.name).toBe('0.32口径手枪');
     expect(isKnownPetId(data, 'lykoi_l')).toBe(true);
     expect(isKnownPetId(data, 'NotARealPet')).toBe(false);
   });

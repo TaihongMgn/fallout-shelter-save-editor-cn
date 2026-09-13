@@ -23,7 +23,7 @@ function MemberChip({ member }: { member: FamilyMember }) {
         type="button"
         onClick={() => goTo('dwellers', member.id)}
         className="rounded border border-neutral-700 bg-neutral-800/60 px-2 py-0.5 text-xs text-neutral-200 hover:bg-neutral-700"
-        title="Open this dweller"
+        title="查看该居民"
       >
         {label}
       </button>
@@ -32,7 +32,7 @@ function MemberChip({ member }: { member: FamilyMember }) {
   return (
     <span
       className="rounded border border-neutral-800 px-2 py-0.5 text-xs text-neutral-400"
-      title={member.special ? 'Special character (not in this vault)' : 'Not in this vault'}
+      title={member.special ? '特殊角色（不在本避难所中）' : '不在本避难所中'}
     >
       {label}
     </span>
@@ -77,26 +77,26 @@ export function FamilyBlock({ serializeId }: { serializeId: number }) {
     <section className="mt-4">
       <div className="mb-1.5 flex items-center justify-between gap-2">
         <h4 className="text-[11px] font-semibold uppercase tracking-wider text-amber-400/80">
-          Family
+          家庭
         </h4>
         <button
           type="button"
           onClick={viewInTree}
           className="rounded border border-neutral-700 px-2 py-0.5 text-[11px] text-neutral-300 hover:border-amber-600/60 hover:text-amber-200"
-          title="Open this dweller in the Family Tree tab"
+          title="在家族树页签中查看该居民"
         >
-          View in family tree
+          在家族树中查看
         </button>
       </div>
       {hasAny ? (
         <div className="space-y-1.5">
-          <Row label="Partner" members={partner ? [partner] : []} />
-          <Row label="Parents" members={parents} />
-          <Row label="Grandparents" members={grandparents} />
-          <Row label="Children" members={children} />
+          <Row label="配偶" members={partner ? [partner] : []} />
+          <Row label="父母" members={parents} />
+          <Row label="祖辈" members={grandparents} />
+          <Row label="子女" members={children} />
         </div>
       ) : (
-        <p className="text-xs text-neutral-400">No family recorded.</p>
+        <p className="text-xs text-neutral-400">暂无家庭记录。</p>
       )}
     </section>
   );

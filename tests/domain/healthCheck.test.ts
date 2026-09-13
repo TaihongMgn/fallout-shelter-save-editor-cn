@@ -34,8 +34,8 @@ describe('checkSaveHealth', () => {
       vault: { storage: { resources: { Nuka: Number.POSITIVE_INFINITY } } },
     });
     const messages = report.issues.map((i) => i.message).join(' | ');
-    expect(messages).toContain('duplicate serializeId');
-    expect(messages).toContain('non-finite');
+    expect(messages).toContain('名居民共用重复的 serializeId');
+    expect(messages).toContain('不是有限数');
   });
 
   it('errors when the dwellers array or vault is missing', () => {

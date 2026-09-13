@@ -101,7 +101,7 @@ function Bubble({
 
 export function InfoTooltip({
   text,
-  label = 'What this does in-game',
+  label = '游戏内效果说明',
 }: {
   text: ReactNode;
   label?: string;

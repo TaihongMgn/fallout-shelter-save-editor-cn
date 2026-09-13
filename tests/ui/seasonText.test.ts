@@ -33,9 +33,9 @@ const gameData = {
 } as unknown as GameData;
 
 describe('seasonText.seasonLabel', () => {
-  it('splits camel-case and trailing digits into spaced words', () => {
-    expect(seasonLabel('NewVegasA')).toBe('New Vegas A');
-    expect(seasonLabel('UltraciteFever')).toBe('Ultracite Fever');
+  it('maps known season ids to localized names and splits unknown ids camel-case style', () => {
+    expect(seasonLabel('NewVegasA')).toBe('新维加斯A');
+    expect(seasonLabel('UltraciteFever')).toBe('超镭狂热');
     expect(seasonLabel('Enclave')).toBe('Enclave');
     expect(seasonLabel('76Overseer')).toBe('76 Overseer');
   });
@@ -43,14 +43,14 @@ describe('seasonText.seasonLabel', () => {
 
 describe('seasonText.rewardTypeLabel', () => {
   it('maps each known reward type to a friendly label', () => {
-    expect(rewardTypeLabel('caps')).toBe('Caps');
-    expect(rewardTypeLabel('stimpack')).toBe('Stimpaks');
-    expect(rewardTypeLabel('lunchbox')).toBe('Lunchbox');
-    expect(rewardTypeLabel('weapon')).toBe('Weapon');
-    expect(rewardTypeLabel('outfit')).toBe('Outfit');
-    expect(rewardTypeLabel('pet')).toBe('Pet');
-    expect(rewardTypeLabel('dweller')).toBe('Dweller');
-    expect(rewardTypeLabel('theme')).toBe('Theme');
+    expect(rewardTypeLabel('caps')).toBe('瓶盖');
+    expect(rewardTypeLabel('stimpack')).toBe('治疗针');
+    expect(rewardTypeLabel('lunchbox')).toBe('午餐盒');
+    expect(rewardTypeLabel('weapon')).toBe('武器');
+    expect(rewardTypeLabel('outfit')).toBe('服装');
+    expect(rewardTypeLabel('pet')).toBe('宠物');
+    expect(rewardTypeLabel('dweller')).toBe('居民');
+    expect(rewardTypeLabel('theme')).toBe('主题');
   });
 
   it('renders the inert "[Type]" placeholder / unknown types as an em dash', () => {
@@ -127,31 +127,31 @@ describe('seasonText.rewardIcon', () => {
 });
 
 describe('seasonText.rewardTitle', () => {
-  it('formats quantity rewards with thousands separators and pluralization', () => {
+  it('formats quantity rewards with thousands separators and a neutral plural', () => {
     expect(rewardTitle(makeReward({ rewardType: 'caps', dataValInt: 1500 }), null)).toBe(
-      '1,500 Caps',
+      '1,500 瓶盖',
     );
     expect(rewardTitle(makeReward({ rewardType: 'stimpack', dataValInt: 1 }), null)).toBe(
-      '1 Stimpak',
+      '1 治疗针',
     );
     expect(rewardTitle(makeReward({ rewardType: 'stimpack', dataValInt: 3 }), null)).toBe(
-      '3 Stimpaks',
+      '3 治疗针',
     );
   });
 
   it('names lunchbox sub-types and prefixes a multiplier above one', () => {
     expect(
       rewardTitle(makeReward({ rewardType: 'lunchbox', dataValString: 'regular' }), null),
-    ).toBe('Lunchbox');
+    ).toBe('午餐盒');
     expect(
       rewardTitle(makeReward({ rewardType: 'lunchbox', dataValString: 'mrhandy' }), null),
-    ).toBe('Mr. Handy Lunchbox');
+    ).toBe('巧手先生午餐盒');
     expect(
       rewardTitle(
         makeReward({ rewardType: 'lunchbox', dataValString: 'petcarrier', dataValInt: 2 }),
         null,
       ),
-    ).toBe('2× Pet Carrier');
+    ).toBe('2× 宠物箱');
   });
 
   it('resolves item names through game data when present', () => {

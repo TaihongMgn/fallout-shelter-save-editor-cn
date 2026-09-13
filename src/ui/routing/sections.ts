@@ -6,22 +6,22 @@ import type { Section } from '../../state/uiStore.ts';
 export type { Section };
 
 export const SECTION_NAV: ReadonlyArray<{ id: Section; label: string }> = [
-  { id: 'vault', label: 'Vault' },
-  { id: 'dwellers', label: 'Dwellers' },
-  { id: 'family', label: 'Family Tree' },
-  { id: 'rooms', label: 'Rooms' },
-  { id: 'weapons', label: 'Weapons' },
-  { id: 'outfits', label: 'Outfits' },
-  { id: 'recipes', label: 'Recipes' },
-  { id: 'survival-guide', label: 'Survival Guide' },
-  { id: 'pets', label: 'Pets' },
-  { id: 'handies', label: 'Mr. Handies' },
-  { id: 'junk', label: 'Junk' },
-  { id: 'storage', label: 'Storage' },
-  { id: 'quests', label: 'Quests' },
-  { id: 'bulk', label: 'Bulk' },
-  { id: 'season-pass', label: 'Season Pass' },
-  { id: 'advanced', label: 'Advanced' },
+  { id: 'vault', label: '避难所' },
+  { id: 'dwellers', label: '居民' },
+  { id: 'family', label: '家谱' },
+  { id: 'rooms', label: '房间' },
+  { id: 'weapons', label: '武器' },
+  { id: 'outfits', label: '服装' },
+  { id: 'recipes', label: '配方' },
+  { id: 'survival-guide', label: '生存指南' },
+  { id: 'pets', label: '宠物' },
+  { id: 'handies', label: '巧手先生' },
+  { id: 'junk', label: '垃圾' },
+  { id: 'storage', label: '仓库' },
+  { id: 'quests', label: '任务' },
+  { id: 'bulk', label: '批量' },
+  { id: 'season-pass', label: '赛季通行证' },
+  { id: 'advanced', label: '高级' },
 ];
 
 /** Section shown when no valid section is in the URL (and the default last-section). */

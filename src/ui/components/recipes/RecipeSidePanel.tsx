@@ -35,6 +35,13 @@ interface RecipeSidePanelProps {
 /** Humanize an enum-style id (e.g. "LivingQuarters" → "Living Quarters"). */
 const humanize = (s: string): string => s.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
 
+/** Display label for the recipe kind enum (the logic values themselves stay English). */
+const KIND_LABEL: Record<string, string> = {
+  Weapon: '武器',
+  Outfit: '服装',
+  Theme: '主题',
+};
+
 const BOX = 'rounded-md border border-neutral-800 bg-neutral-900/40 px-3 py-2';
 
 /** Section wrapper matching the CharacterSheet convention (amber uppercase header). */
@@ -62,8 +69,8 @@ function StatRow({ label, value }: { label: string; value: string }) {
 function WeaponStats({ weapon }: { weapon: Weapon }) {
   return (
     <div className={BOX}>
-      <StatRow label="Damage" value={`${weapon.damageMin}–${weapon.damageMax}`} />
-      <StatRow label="Average" value={formatAvgDamage(weaponAvgDamage(weapon))} />
+      <StatRow label="伤害" value={`${weapon.damageMin}–${weapon.damageMax}`} />
+      <StatRow label="平均伤害" value={formatAvgDamage(weaponAvgDamage(weapon))} />
     </div>
   );
 }
@@ -100,7 +107,7 @@ function OutfitStats({ outfit }: { outfit: Outfit }) {
         })}
       </div>
       <div className={BOX}>
-        <StatRow label="Total SPECIAL" value={total > 0 ? `+${total}` : '0'} />
+        <StatRow label="SPECIAL 合计" value={total > 0 ? `+${total}` : '0'} />
       </div>
     </div>
   );
@@ -109,14 +116,12 @@ function OutfitStats({ outfit }: { outfit: Outfit }) {
 /** Collection status line, mirroring the Recipes table's status wording. */
 function statusText(row: RecipeViewRow): { text: string; owned: boolean } {
   if (row.kind === 'Theme') {
-    if (row.applied) return { text: 'Applied to its room', owned: true };
-    if (row.built) return { text: 'Built', owned: true };
-    if (row.known) return { text: 'In collection', owned: true };
-    return { text: 'Not in collection', owned: false };
+    if (row.applied) return { text: '已应用到对应房间', owned: true };
+    if (row.built) return { text: '已建造', owned: true };
+    if (row.known) return { text: '已拥有配方', owned: true };
+    return { text: '未拥有配方', owned: false };
   }
-  return row.known
-    ? { text: 'In collection', owned: true }
-    : { text: 'Not in collection', owned: false };
+  return row.known ? { text: '已拥有配方', owned: true } : { text: '未拥有配方', owned: false };
 }
 
 export function RecipeSidePanel({
@@ -153,13 +158,13 @@ export function RecipeSidePanel({
             <h3 className="truncate text-base font-semibold text-neutral-100" title={row.name}>
               {row.name}
             </h3>
-            <p className="text-xs text-neutral-400">{row.kind} recipe</p>
+            <p className="text-xs text-neutral-400">{KIND_LABEL[row.kind] ?? row.kind}配方</p>
           </div>
         </div>
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close recipe panel"
+          aria-label="关闭配方面板"
           className="shrink-0 rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
         >
           ✕
@@ -179,7 +184,7 @@ export function RecipeSidePanel({
         <button
           type="button"
           disabled={!canEdit}
-          title={canEdit ? undefined : 'Load a save to edit recipes'}
+          title={canEdit ? undefined : '载入存档后才能编辑配方'}
           onClick={onToggleCollection}
           className={`shrink-0 rounded border px-3 py-1 text-xs disabled:opacity-40 ${
             row.known
@@ -187,23 +192,23 @@ export function RecipeSidePanel({
               : 'border-emerald-700 text-emerald-300 hover:bg-emerald-900/40'
           }`}
         >
-          {row.known ? 'Remove from collection' : 'Add to collection'}
+          {row.known ? '从收藏中移除' : '添加到收藏'}
         </button>
       </div>
 
       {/* Stats: class-specific rows, then a shared Type + Rarity meta box on every kind. */}
-      <Section title="Stats">
+      <Section title="属性">
         <div className="flex flex-col gap-2">
           {weapon && <WeaponStats weapon={weapon} />}
           {outfit && <OutfitStats outfit={outfit} />}
           {row.kind === 'Theme' && row.roomType && (
             <div className={BOX}>
-              <StatRow label="Room" value={humanize(row.roomType)} />
+              <StatRow label="房间" value={humanize(row.roomType)} />
             </div>
           )}
           <div className={BOX}>
-            <StatRow label="Type" value={row.kind} />
-            <StatRow label="Rarity" value={row.rarity ?? 'None'} />
+            <StatRow label="类型" value={KIND_LABEL[row.kind] ?? row.kind} />
+            <StatRow label="稀有度" value={row.rarity ?? '无'} />
           </div>
         </div>
       </Section>
@@ -214,7 +219,7 @@ export function RecipeSidePanel({
           onClick={onViewInTab}
           className="mt-4 w-full rounded border border-sky-700 px-3 py-2 text-sm text-sky-300 hover:bg-sky-900/40"
         >
-          View in {row.kind === 'Weapon' ? 'Weapons' : 'Outfits'} tab →
+          前往{KIND_LABEL[row.kind] ?? row.kind}页查看 →
         </button>
       )}
     </aside>

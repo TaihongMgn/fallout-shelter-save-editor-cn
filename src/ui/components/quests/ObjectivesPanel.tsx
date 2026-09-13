@@ -33,23 +33,17 @@ export function ObjectivesPanel() {
   const canEdit = !!save;
 
   if (!save) {
-    return <p className="p-4 text-sm text-neutral-500">Load a save to view and edit objectives.</p>;
+    return <p className="p-4 text-sm text-neutral-500">载入存档后即可查看和编辑目标。</p>;
   }
   if (status === 'loading') {
-    return <p className="p-4 text-sm text-neutral-500">Loading objective catalog…</p>;
+    return <p className="p-4 text-sm text-neutral-500">目标目录加载中…</p>;
   }
   if (status === 'error' || !catalog) {
-    return (
-      <p className="p-4 text-sm text-amber-500">
-        {error ?? 'Could not load the objective catalog.'}
-      </p>
-    );
+    return <p className="p-4 text-sm text-amber-500">{error ?? '无法加载目标目录。'}</p>;
   }
   if (slots.length === 0) {
     return (
-      <p className="p-4 text-sm text-neutral-500">
-        This save has no daily objectives (`objectiveMgr` is empty).
-      </p>
+      <p className="p-4 text-sm text-neutral-500">此存档没有每日目标（`objectiveMgr` 为空）。</p>
     );
   }
 
@@ -69,12 +63,10 @@ export function ObjectivesPanel() {
   return (
     <div className="flex min-h-0 flex-1 flex-col p-4">
       <div className="flex items-baseline gap-3">
-        <h2 className="text-lg font-semibold">Daily objectives</h2>
-        <span className="text-sm text-neutral-400">{slots.length} active</span>
+        <h2 className="text-lg font-semibold">每日目标</h2>
+        <span className="text-sm text-neutral-400">{slots.length} 个生效中</span>
       </div>
-      <p className="mt-1 text-xs text-neutral-500">
-        The game keeps exactly 3 objectives active - swap one for another rather than removing it.
-      </p>
+      <p className="mt-1 text-xs text-neutral-500">游戏始终保持 3 个目标生效——请用替换而非移除。</p>
 
       <div className="mt-4 grid min-h-0 flex-1 auto-rows-min gap-4 overflow-y-auto lg:grid-cols-2 xl:grid-cols-3">
         {slots.map((slot, index) => (
@@ -92,25 +84,23 @@ export function ObjectivesPanel() {
             onToggleCompleted={(completed) => {
               applyEdit(
                 (s) => setObjectiveCompleted(s, index, completed, goalFor(slot)),
-                'Edit objective',
+                '编辑目标',
               );
-              pushToast(
-                `Objective slot ${index + 1} marked ${completed ? 'complete' : 'incomplete'}.`,
-              );
+              pushToast(`目标槽位 ${index + 1} 已标记为${completed ? '完成' : '未完成'}。`);
             }}
             onLotteryChange={(lottery) =>
-              applyEdit((s) => setObjectiveLottery(s, index, lottery), 'Edit objective lottery')
+              applyEdit((s) => setObjectiveLottery(s, index, lottery), '编辑目标难度池')
             }
             onIncLevelChange={(incLevel) =>
               applyEdit(
                 (s) => setObjectiveIncLevel(s, index, incLevel, goalFor(slot, incLevel)),
-                'Edit objective level',
+                '编辑目标等级',
               )
             }
             onProgressChange={(reqIndex, key, value) =>
               applyEdit(
                 (s) => setObjectiveProgress(s, index, reqIndex, key, value, goalFor(slot)),
-                'Edit objective progress',
+                '编辑目标进度',
               )
             }
           />
@@ -124,9 +114,9 @@ export function ObjectivesPanel() {
           onClose={() => setPickerFor(null)}
           onPick={(objectiveID) => {
             const def = catalog.objectiveById.get(objectiveID);
-            applyEdit((s) => replaceObjectiveSlot(s, pickerFor, objectiveID), 'Replace objective');
+            applyEdit((s) => replaceObjectiveSlot(s, pickerFor, objectiveID), '替换目标');
             pushToast(
-              `Slot ${pickerFor + 1} set to: ${def ? formatObjectiveDescription(def) : objectiveID}.`,
+              `槽位 ${pickerFor + 1} 已设为：${def ? formatObjectiveDescription(def) : objectiveID}。`,
             );
             setPickerFor(null);
           }}

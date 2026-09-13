@@ -83,7 +83,7 @@ export function SourcePicker(props: SourcePickerProps) {
               disabled={props.busy}
               className={PRIMARY_BTN}
             >
-              {props.busy ? (props.uploadBusyLabel ?? 'Reading…') : props.uploadButtonLabel}
+              {props.busy ? (props.uploadBusyLabel ?? '读取中…') : props.uploadButtonLabel}
             </button>
             {props.uploadHint && (
               <p className="mt-2 text-xs text-neutral-500">{props.uploadHint}</p>

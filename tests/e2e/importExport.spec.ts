@@ -33,23 +33,23 @@ test('import → export round-trips the save and emits an auto-backup', async ({
   });
 
   await page.goto('/');
-  await page.getByRole('button', { name: 'I understand and accept the risks' }).click();
+  await page.getByRole('button', { name: '我已了解并接受风险' }).click();
 
   await page.locator('input[type="file"]').setInputFiles(inputPath);
 
   // Import lands on the default section; the structural-health summary lives on the Vault
   // overview, so open it to assert the save imported clean.
-  await page.getByRole('link', { name: 'Vault' }).click();
+  await page.getByRole('link', { name: '避难所' }).click();
   await expect(page.getByText('321')).toBeVisible();
-  await expect(page.getByText('No structural issues detected.')).toBeVisible();
+  await expect(page.getByText('未检测到结构问题，该存档看起来很健康。')).toBeVisible();
 
   const downloads: Download[] = [];
   page.on('download', (d) => downloads.push(d));
 
   // Export opens the change-review dialog; confirm it. The dialog's confirm button shares the
   // "Export" label with the toolbar button, so scope the second click to the dialog.
-  await page.getByRole('button', { name: 'Export', exact: true }).click();
-  await page.getByRole('dialog').getByRole('button', { name: 'Export', exact: true }).click();
+  await page.getByRole('button', { name: '导出', exact: true }).click();
+  await page.getByRole('dialog').getByRole('button', { name: '导出', exact: true }).click();
 
   // First export emits two files: the re-encoded save + the original backup.
   await expect.poll(() => downloads.length).toBeGreaterThanOrEqual(2);

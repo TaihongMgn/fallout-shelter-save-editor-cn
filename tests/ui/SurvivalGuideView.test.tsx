@@ -70,14 +70,14 @@ describe('SurvivalGuideView', () => {
     expect(screen.getByText('Dogmeat (German Shepherd)')).toBeInTheDocument();
     expect(screen.getByText('Alarm Clock')).toBeInTheDocument();
     // 6 rows (weapon/outfit/dweller/pet/breed/junk), only the N24 weapon collected.
-    expect(screen.getByText('1/6 collected')).toBeInTheDocument();
+    expect(screen.getByText('已收集 1/6')).toBeInTheDocument();
   });
 
   it('row Collect writes an "N"-prefixed entry to the right survivalW list', async () => {
     const user = userEvent.setup();
     renderView();
     await user.click(
-      within(rowFor('Nick Valentine')).getByRole('button', { name: 'Collect Nick Valentine' }),
+      within(rowFor('Nick Valentine')).getByRole('button', { name: '收集 Nick Valentine' }),
     );
     expect(list('dwellers')).toEqual(['NL_NickValentine']);
   });
@@ -86,11 +86,11 @@ describe('SurvivalGuideView', () => {
     const user = userEvent.setup();
     renderView();
     await user.click(
-      within(rowFor('Laser Pistol')).getByRole('button', { name: 'Mark Laser Pistol seen' }),
+      within(rowFor('Laser Pistol')).getByRole('button', { name: '将 Laser Pistol 标记为已读' }),
     );
     expect(list('weapons')).toEqual(['O24']);
     await user.click(
-      within(rowFor('Laser Pistol')).getByRole('button', { name: 'Mark Laser Pistol new' }),
+      within(rowFor('Laser Pistol')).getByRole('button', { name: '将 Laser Pistol 标记为新' }),
     );
     expect(list('weapons')).toEqual(['N24']);
   });
@@ -100,7 +100,7 @@ describe('SurvivalGuideView', () => {
     renderView();
     await user.click(
       within(rowFor('Laser Pistol')).getByRole('button', {
-        name: 'Remove Laser Pistol from the guide',
+        name: '从指南中移除 Laser Pistol',
       }),
     );
     expect(list('weapons')).toEqual([]);
@@ -109,14 +109,14 @@ describe('SurvivalGuideView', () => {
   it('Collect all fills every missing list in one edit, then disables', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('button', { name: 'Collect all (5)' }));
+    await user.click(screen.getByRole('button', { name: '全部收集（5）' }));
     expect(list('weapons')).toEqual(['N24']); // untouched - was already collected
     expect(list('outfits')).toEqual(['N103']);
     expect(list('dwellers')).toEqual(['NL_NickValentine']);
     expect(list('pets')).toEqual(['N77']);
     expect(list('breeds')).toEqual(['N5']);
     expect(list('junk')).toEqual(['NAlarmClock']);
-    expect(screen.getByRole('button', { name: 'Collect all' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: '全部收集' })).toBeDisabled();
     // One applyEdit == one undo step.
     expect(useSaveStore.getState().past).toHaveLength(1);
   });
@@ -124,17 +124,17 @@ describe('SurvivalGuideView', () => {
   it('Mark all seen clears every NEW badge, then disables', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('button', { name: 'Mark all seen (1)' }));
+    await user.click(screen.getByRole('button', { name: '全部标记已读（1）' }));
     expect(list('weapons')).toEqual(['O24']);
-    expect(screen.getByRole('button', { name: 'Mark all seen' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: '全部标记已读' })).toBeDisabled();
   });
 
   it('selection bulk actions group mixed categories into one edit', async () => {
     const user = userEvent.setup();
     renderView();
-    await user.click(screen.getByRole('checkbox', { name: 'Select BOS Uniform' }));
-    await user.click(screen.getByRole('checkbox', { name: 'Select Alarm Clock' }));
-    await user.click(screen.getByRole('button', { name: 'Collect (2)' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 BOS Uniform' }));
+    await user.click(screen.getByRole('checkbox', { name: '选择 Alarm Clock' }));
+    await user.click(screen.getByRole('button', { name: '收集（2）' }));
     expect(list('outfits')).toEqual(['N103']);
     expect(list('junk')).toEqual(['NAlarmClock']);
     expect(useSaveStore.getState().past).toHaveLength(1);

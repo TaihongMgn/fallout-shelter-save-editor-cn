@@ -41,11 +41,11 @@ export function useStorageCapacityGuard(
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm">
         <p className="min-w-0 text-neutral-200">
           <span className="font-medium text-amber-300">
-            {free === 0 ? 'Storage is full' : 'Not enough storage space'}
+            {free === 0 ? '仓库已满' : '仓库空间不足'}
           </span>{' '}
-          ({free} slot{free === 1 ? '' : 's'} free
-          {wouldAdd > 1 ? `, adding ${wouldAdd} exceeds capacity by ${overBy}` : ''}). Free up
-          space, build/upgrade storage rooms, or bypass the limit below.
+          （剩余 {free} 个槽位
+          {wouldAdd > 1 ? `，本次新增 ${wouldAdd} 个将超出容量 ${overBy} 个` : ''}）。请清理空间、
+          建造或升级仓库，或在下方勾选绕过上限。
         </p>
         <label className="flex shrink-0 items-center gap-2 text-sm text-neutral-200">
           <input
@@ -54,7 +54,7 @@ export function useStorageCapacityGuard(
             onChange={(e) => setBypass(e.target.checked)}
             className="h-4 w-4 accent-amber-500"
           />
-          Bypass storage capacity (remembered)
+          绕过仓库容量上限（记住此设置）
         </label>
       </div>
     ),

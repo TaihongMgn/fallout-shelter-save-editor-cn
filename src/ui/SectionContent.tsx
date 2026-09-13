@@ -55,7 +55,7 @@ const PlaceholderView = lazy(() =>
 
 function ViewLoading() {
   return (
-    <div className="flex h-full items-center justify-center text-sm text-neutral-400">Loading…</div>
+    <div className="flex h-full items-center justify-center text-sm text-neutral-400">加载中…</div>
   );
 }
 

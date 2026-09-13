@@ -24,7 +24,7 @@ describe('room theme catalog', () => {
   it('returns [] for unthemed types and a None-led list for themed types', () => {
     expect(themeOptionsFor('Storage')).toEqual([]);
     const cafeteria = themeOptionsFor('Cafeteria');
-    expect(cafeteria[0]).toEqual({ value: NO_THEME, label: 'None' });
+    expect(cafeteria[0]).toEqual({ value: NO_THEME, label: '无' });
     expect(cafeteria.map((t) => t.value)).toContain('Institute');
     // LivingQuarters has the exclusive Lucky 38 Penthouse theme; Cafeteria does not.
     expect(themeOptionsFor('LivingQuarters').map((t) => t.value)).toContain('Lucky38Penthouse');
@@ -40,8 +40,8 @@ describe('room theme catalog', () => {
   });
 
   it('humanizes theme enum names', () => {
-    expect(themeLabel('BrotherOfSteel')).toBe('Brotherhood of Steel');
-    expect(themeLabel('Lucky38Penthouse')).toBe('Lucky 38 Penthouse');
+    expect(themeLabel('BrotherOfSteel')).toBe('钢铁兄弟会');
+    expect(themeLabel('Lucky38Penthouse')).toBe('幸运 38 顶层公寓');
     expect(themeLabel('Unknown')).toBe('Unknown'); // falls back to raw value
   });
 

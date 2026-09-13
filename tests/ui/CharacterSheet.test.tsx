@@ -78,7 +78,7 @@ describe('CharacterSheet - identity', () => {
   it('renders the dweller and commits a name edit on blur', async () => {
     const user = userEvent.setup();
     renderSheet(1);
-    const first = screen.getByRole('textbox', { name: 'First name' });
+    const first = screen.getByRole('textbox', { name: '名字' });
     expect(first).toHaveValue('Alice');
     await user.clear(first);
     await user.type(first, 'Renamed');
@@ -89,7 +89,7 @@ describe('CharacterSheet - identity', () => {
   it('changes rarity through the store', async () => {
     const user = userEvent.setup();
     renderSheet(1);
-    await user.selectOptions(screen.getByRole('combobox', { name: 'Rarity' }), 'Legendary');
+    await user.selectOptions(screen.getByRole('combobox', { name: '稀有度' }), 'Legendary');
     expect(dwellerById(1)?.rarity).toBe('Legendary');
   });
 });
@@ -102,8 +102,8 @@ describe('CharacterSheet - delete', () => {
       wrapper: MemoryRouter,
     });
 
-    await user.click(screen.getByRole('button', { name: 'Delete dweller' }));
-    await user.click(screen.getByRole('button', { name: 'Delete' })); // confirm
+    await user.click(screen.getByRole('button', { name: '删除居民' }));
+    await user.click(screen.getByRole('button', { name: '删除' })); // confirm
 
     expect(dwellerById(1)).toBeUndefined();
     expect(onClose).toHaveBeenCalled();
@@ -113,9 +113,9 @@ describe('CharacterSheet - delete', () => {
     const user = userEvent.setup();
     renderSheet(1);
     // Viewport-clamped bubble, not a native `title` (which the page cannot keep on screen).
-    await user.hover(screen.getByRole('button', { name: 'Delete dweller' }));
-    expect(screen.getByRole('tooltip')).toHaveTextContent(/cleans up every trace/i);
-    await user.unhover(screen.getByRole('button', { name: 'Delete dweller' }));
+    await user.hover(screen.getByRole('button', { name: '删除居民' }));
+    expect(screen.getByRole('tooltip')).toHaveTextContent(/清理所有痕迹/);
+    await user.unhover(screen.getByRole('button', { name: '删除居民' }));
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
   });
 
@@ -125,8 +125,8 @@ describe('CharacterSheet - delete', () => {
       wrapper: MemoryRouter,
     });
 
-    await user.click(screen.getByRole('button', { name: 'Delete dweller' }));
-    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    await user.click(screen.getByRole('button', { name: '删除居民' }));
+    await user.click(screen.getByRole('button', { name: '取消' }));
 
     expect(dwellerById(1)).toBeDefined();
   });
@@ -146,7 +146,7 @@ describe('CharacterSheet - SPECIAL', () => {
   it('"Max all" sets every SPECIAL to 10 in one edit', async () => {
     const user = userEvent.setup();
     renderSheet(1);
-    await user.click(screen.getByRole('button', { name: 'Max all' }));
+    await user.click(screen.getByRole('button', { name: '全部拉满' }));
     const stats = dwellerById(1)?.stats?.stats ?? [];
     expect(stats.slice(1, 8).map((s) => s.value)).toEqual([10, 10, 10, 10, 10, 10, 10]);
     expect(useSaveStore.getState().past).toHaveLength(1); // a single undo step
@@ -157,7 +157,7 @@ describe('CharacterSheet - out-of-range toggle', () => {
   it('writes a SPECIAL past 10 once the cheat toggle is on', async () => {
     const user = userEvent.setup();
     renderSheet(1);
-    await user.click(screen.getByRole('checkbox', { name: /allow out-of-range/i }));
+    await user.click(screen.getByRole('checkbox', { name: /允许超出范围/ }));
     const strength = screen.getByRole('spinbutton', { name: 'S' });
     await user.clear(strength);
     await user.type(strength, '99');
@@ -170,7 +170,7 @@ describe('CharacterSheet - appearance', () => {
   it('clearing facial hair deletes the faceMask key (round-trip fidelity)', async () => {
     const user = userEvent.setup();
     renderSheet(1);
-    const face = screen.getByRole('textbox', { name: 'Face accessory' });
+    const face = screen.getByRole('textbox', { name: '面部装饰' });
     expect(face).toHaveValue('wrinkles');
     await user.clear(face); // empty + allowNone → null → delete key
     const d = dwellerById(1);
@@ -182,14 +182,14 @@ describe('CharacterSheet - pregnancy gating', () => {
   it('shows pregnancy controls for a female dweller and toggles the flag', async () => {
     const user = userEvent.setup();
     renderSheet(1);
-    const pregnant = screen.getByRole('checkbox', { name: 'Pregnant' });
+    const pregnant = screen.getByRole('checkbox', { name: '怀孕中' });
     await user.click(pregnant);
     expect(dwellerById(1)?.pregnant).toBe(true);
   });
 
   it('hides pregnancy controls for a male dweller', () => {
     renderSheet(2);
-    expect(screen.queryByRole('checkbox', { name: 'Pregnant' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('checkbox', { name: '怀孕中' })).not.toBeInTheDocument();
   });
 
   it('Babies expected appears for an editor-forced pregnancy and creates the partnership', async () => {
@@ -207,10 +207,10 @@ describe('CharacterSheet - pregnancy gating', () => {
       future: [],
     });
     renderSheet(1);
-    expect(screen.queryByRole('combobox', { name: /babies expected/i })).not.toBeInTheDocument();
-    await user.click(screen.getByRole('checkbox', { name: 'Pregnant' }));
+    expect(screen.queryByRole('combobox', { name: /预期婴儿数/ })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('checkbox', { name: '怀孕中' }));
     // The selector shows immediately - no round trip through the game to get the entry.
-    const select = screen.getByRole('combobox', { name: /babies expected/i });
+    const select = screen.getByRole('combobox', { name: /预期婴儿数/ });
     await user.selectOptions(select, '3');
     const partner = useSaveStore.getState().save?.vault?.rooms?.[0]?.partners?.[0];
     expect(partner?.s).toBe('RaisingBaby');
@@ -231,16 +231,16 @@ describe('CharacterSheet - equipment pickers', () => {
     const user = userEvent.setup();
     renderSheet(1);
     await user.click(screen.getByRole('button', { name: 'Laser' }));
-    expect(screen.getByText('Equip weapon')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Reset to Fist' }));
+    expect(screen.getByText('装备武器')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: '重置为拳头' }));
     expect(dwellerById(1)?.equipedWeapon?.id).toBe('Fist');
   });
 
   it('opens the pet attach dialog from the empty pet slot', async () => {
     const user = userEvent.setup();
     renderSheet(2); // Bob has no pet
-    await user.click(screen.getByRole('button', { name: 'Attach a pet…' }));
-    expect(screen.getByRole('button', { name: 'Catalog' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: '装备宠物…' }));
+    expect(screen.getByRole('button', { name: '图鉴' })).toBeInTheDocument();
   });
 });
 
@@ -301,41 +301,41 @@ describe('CharacterSheet - timers', () => {
     seedTimers();
     // Alice must read as pregnant for the section to make sense in-game terms.
     renderSheet(1);
-    expect(screen.getByText(/baby due in/i)).toBeInTheDocument();
-    expect(screen.getByText('1h 0m')).toBeInTheDocument();
-    expect(screen.getByRole('checkbox', { name: /baby ready/i })).not.toBeChecked();
-    await user.click(screen.getByRole('button', { name: /deliver now/i }));
+    expect(screen.getByText(/距分娩还有/)).toBeInTheDocument();
+    expect(screen.getByText('1 小时 0 分')).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: /婴儿即将出生/ })).not.toBeChecked();
+    await user.click(screen.getByRole('button', { name: /立即分娩/ }));
     const task = useSaveStore.getState().save?.taskMgr?.tasks?.find((t) => t.id === 501);
     expect(task?.endTime).toBe(1_000);
     // The checkbox reflects the delivered state, and the row swaps to "due now" copy
     // instead of a dead "due in 0s" button.
-    expect(screen.getByRole('checkbox', { name: /baby ready/i })).toBeChecked();
-    expect(screen.getByText(/baby is due now/i)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /deliver now/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: /婴儿即将出生/ })).toBeChecked();
+    expect(screen.getByText(/婴儿已到产期/)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /立即分娩/ })).not.toBeInTheDocument();
   });
 
   it('ticking Baby ready delivers: flag and due timer complete together', async () => {
     const user = userEvent.setup();
     seedTimers();
     renderSheet(1);
-    await user.click(screen.getByRole('checkbox', { name: /baby ready/i }));
+    await user.click(screen.getByRole('checkbox', { name: /婴儿即将出生/ }));
     const task = useSaveStore.getState().save?.taskMgr?.tasks?.find((t) => t.id === 501);
     expect(task?.endTime).toBe(1_000);
-    expect(screen.getByText(/baby is due now/i)).toBeInTheDocument();
+    expect(screen.getByText(/婴儿已到产期/)).toBeInTheDocument();
   });
 
   it('unticking Baby ready cancels the delivery and restores the original due timer', async () => {
     const user = userEvent.setup();
     seedTimers();
     renderSheet(1);
-    await user.click(screen.getByRole('button', { name: /deliver now/i }));
-    expect(screen.getByText(/baby is due now/i)).toBeInTheDocument();
-    await user.click(screen.getByRole('checkbox', { name: /baby ready/i }));
+    await user.click(screen.getByRole('button', { name: /立即分娩/ }));
+    expect(screen.getByText(/婴儿已到产期/)).toBeInTheDocument();
+    await user.click(screen.getByRole('checkbox', { name: /婴儿即将出生/ }));
     // The flag clears and the countdown returns to the imported 1h - the timer is
     // NOT left stranded at 0s.
-    expect(screen.getByRole('checkbox', { name: /baby ready/i })).not.toBeChecked();
-    expect(screen.getByText(/baby due in/i)).toBeInTheDocument();
-    expect(screen.getByText('1h 0m')).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: /婴儿即将出生/ })).not.toBeChecked();
+    expect(screen.getByText(/距分娩还有/)).toBeInTheDocument();
+    expect(screen.getByText('1 小时 0 分')).toBeInTheDocument();
     const task = useSaveStore.getState().save?.taskMgr?.tasks?.find((t) => t.id === 501);
     expect(task?.endTime).toBe(4_600);
     expect(task?.startTime).toBe(900);
@@ -345,7 +345,7 @@ describe('CharacterSheet - timers', () => {
     const user = userEvent.setup();
     seedTimers();
     renderSheet(1);
-    const select = screen.getByRole('combobox', { name: /babies expected/i });
+    const select = screen.getByRole('combobox', { name: /预期婴儿数/ });
     // Absent key reads as the natural birth-time roll.
     expect(select).toHaveValue('0');
     await user.selectOptions(select, '2');
@@ -355,28 +355,28 @@ describe('CharacterSheet - timers', () => {
 
   it('hides Babies expected when there is no RaisingBaby partnership entry', () => {
     renderSheet(1); // base fixture: no vault rooms at all
-    expect(screen.queryByRole('combobox', { name: /babies expected/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: /预期婴儿数/ })).not.toBeInTheDocument();
   });
 
   it('shows the grow-up timer for a child and completes it', async () => {
     const user = userEvent.setup();
     seedTimers();
     renderSheet(3);
-    expect(screen.getByText(/adult in/i)).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /grow up now/i }));
+    expect(screen.getByText(/距成年还有/)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /立即长大/ }));
     const task = useSaveStore.getState().save?.taskMgr?.tasks?.find((t) => t.id === 502);
     expect(task?.endTime).toBe(1_000);
     // The completed timer swaps to a status line - never a dead 0s button.
-    expect(screen.getByText(/becomes an adult on next load/i)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /grow up now/i })).not.toBeInTheDocument();
+    expect(screen.getByText(/下次进入游戏时将成为成年人/)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /立即长大/ })).not.toBeInTheDocument();
   });
 
   it('shows a returning explorer and brings them home', async () => {
     const user = userEvent.setup();
     seedTimers();
     renderSheet(4);
-    expect(screen.getByText(/returning home/i)).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /return now/i }));
+    expect(screen.getByText(/返回途中/)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /立即返回/ }));
     const team = useSaveStore.getState().save?.vault?.wasteland?.teams?.[0];
     expect(team?.elapsedReturningTime).toBe(400);
   });
@@ -384,7 +384,7 @@ describe('CharacterSheet - timers', () => {
   it('renders no timer sections for a dweller without timers', () => {
     seedTimers();
     renderSheet(2);
-    expect(screen.queryByText(/growing up/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/exploring/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/成长/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/探索中/)).not.toBeInTheDocument();
   });
 });

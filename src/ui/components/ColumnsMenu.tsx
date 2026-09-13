@@ -53,7 +53,7 @@ export function ColumnsMenu({
           onClick={open}
           className="rounded border border-neutral-700 px-2 py-1 text-sm text-neutral-300 hover:bg-neutral-800"
         >
-          Columns
+          列设置
         </button>
       )}
     >
@@ -66,7 +66,7 @@ export function ColumnsMenu({
             </label>
             <button
               type="button"
-              aria-label={`Move ${labelById.get(id)} up`}
+              aria-label={`上移 ${labelById.get(id)}`}
               disabled={index === 0}
               onClick={() => move(index, -1)}
               className="px-1 text-xs text-neutral-400 hover:text-neutral-200 disabled:opacity-30"
@@ -75,7 +75,7 @@ export function ColumnsMenu({
             </button>
             <button
               type="button"
-              aria-label={`Move ${labelById.get(id)} down`}
+              aria-label={`下移 ${labelById.get(id)}`}
               disabled={index === ordered.length - 1}
               onClick={() => move(index, 1)}
               className="px-1 text-xs text-neutral-400 hover:text-neutral-200 disabled:opacity-30"

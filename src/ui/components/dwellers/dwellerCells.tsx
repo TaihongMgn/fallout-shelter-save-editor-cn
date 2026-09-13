@@ -136,7 +136,7 @@ export function HealthCell({
     return (
       <div className="flex items-center gap-2">
         <span className="rounded bg-red-900/60 px-1.5 py-0.5 text-xs font-medium text-red-300">
-          Dead
+          已死亡
         </span>
         <button
           type="button"
@@ -146,7 +146,7 @@ export function HealthCell({
           }}
           className="rounded border border-emerald-700 px-1.5 py-0.5 text-xs text-emerald-300 hover:bg-emerald-900/40"
         >
-          Revive
+          复活
         </button>
       </div>
     );

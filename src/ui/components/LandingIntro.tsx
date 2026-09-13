@@ -6,25 +6,25 @@
 
 const FEATURES: ReadonlyArray<{ term: string; detail: string }> = [
   {
-    term: 'Dwellers',
-    detail: 'SPECIAL stats, level, happiness, health, gear, appearance, and reviving the dead.',
+    term: '居民',
+    detail: 'SPECIAL 属性、等级、幸福度、生命值、装备、外观，以及复活已死亡的居民。',
   },
-  { term: 'Vault', detail: 'caps, food, water, power, Nuka-Cola, lunchboxes, and game mode.' },
+  { term: '避难所', detail: '瓶盖、食物、水、电力、核子可乐、午餐盒和游戏模式。' },
   {
-    term: 'Rooms',
-    detail: 'rearrange the layout, upgrade, apply themes, clear rocks, and repair.',
-  },
-  {
-    term: 'Season passes',
-    detail: "view every season's full reward track and claim rewards you missed.",
+    term: '房间',
+    detail: '重新规划布局、升级、应用主题、清除岩石和修复。',
   },
   {
-    term: 'Family tree',
-    detail: 'see your vault lineage and genetics stats the game never shows you.',
+    term: '赛季通行证',
+    detail: '查看每个赛季的完整奖励轨道，领取错过的奖励。',
   },
   {
-    term: 'Item catalogs',
-    detail: 'every weapon, outfit, pet, junk item, and recipe in the game.',
+    term: '家谱',
+    detail: '查看游戏中从不展示的避难所血脉与基因数据。',
+  },
+  {
+    term: '物品图鉴',
+    detail: '收录游戏中的全部武器、服装、宠物、垃圾和配方。',
   },
 ];
 
@@ -32,29 +32,28 @@ export function LandingIntro() {
   return (
     <section className="mx-auto max-w-3xl px-6 py-8 text-neutral-300">
       <h2 className="text-xl font-semibold text-neutral-100">
-        Edit your Fallout Shelter vault in your browser
+        在浏览器中编辑《辐射：避难所》的避难所
       </h2>
       <p className="mt-3 text-sm leading-relaxed">
-        A free, open-source Fallout Shelter save editor. Load your{' '}
-        <code className="text-neutral-200">Vault1.sav</code> file, change almost anything about your
-        vault, and export a working save back to the game. Everything runs locally in your browser -
-        your save is never uploaded to a server.
+        一款免费开源的《辐射：避难所》存档编辑器。载入你的{' '}
+        <code className="text-neutral-200">Vault1.sav</code>{' '}
+        文件，修改避难所里几乎任何内容，再导出一份可用的存档放回游戏。所有操作都在你的浏览器中本地完成——你的存档绝不会被上传到任何服务器。
       </p>
 
       <h3 className="mt-6 text-sm font-semibold uppercase tracking-wide text-neutral-400">
-        What you can do
+        功能一览
       </h3>
       <ul className="mt-2 space-y-1.5 text-sm leading-relaxed">
         {FEATURES.map((f) => (
           <li key={f.term}>
-            <span className="font-medium text-neutral-100">{f.term}:</span> {f.detail}
+            <span className="font-medium text-neutral-100">{f.term}：</span>
+            {f.detail}
           </li>
         ))}
       </ul>
 
       <p className="mt-6 text-xs leading-relaxed text-neutral-500">
-        Works with saves from PC, Android, iOS, and Switch. Free and open source (MIT). No accounts,
-        no ads, no telemetry.
+        兼容来自 PC、Android、iOS 和 Switch 的存档。免费开源（MIT）。无账号、无广告、无遥测数据。
       </p>
     </section>
   );

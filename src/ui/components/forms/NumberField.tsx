@@ -74,7 +74,7 @@ export function NumberField({
       <span className="flex items-stretch">
         <button
           type="button"
-          aria-label={`Decrease ${label}`}
+          aria-label={`减少 ${label}`}
           disabled={disabled}
           {...decrementHandlers}
           className="w-6 rounded-l border border-neutral-700 bg-neutral-800 text-neutral-300 hover:bg-neutral-700 disabled:opacity-40 pointer-coarse:w-9"
@@ -97,7 +97,7 @@ export function NumberField({
         />
         <button
           type="button"
-          aria-label={`Increase ${label}`}
+          aria-label={`增加 ${label}`}
           disabled={disabled}
           {...incrementHandlers}
           className="w-6 rounded-r border border-neutral-700 bg-neutral-800 text-neutral-300 hover:bg-neutral-700 disabled:opacity-40 pointer-coarse:w-9"

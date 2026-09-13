@@ -27,11 +27,11 @@ describe('SeasonExportBar', () => {
   it('shows the file source for an uploaded spd.dat vs the catalog', () => {
     setStore({ seasonSource: 'file', seasonFileName: 'spd.dat' });
     const { rerender } = render(<SeasonExportBar />);
-    expect(screen.getByText('Editing spd.dat')).toBeInTheDocument();
+    expect(screen.getByText('正在编辑 spd.dat')).toBeInTheDocument();
 
     setStore({ seasonSource: 'catalog' });
     rerender(<SeasonExportBar />);
-    expect(screen.getByText(/New season pass/)).toBeInTheDocument();
+    expect(screen.getByText(/全新赛季通行证/)).toBeInTheDocument();
   });
 
   it('opens the shared export dialog when Export is clicked', async () => {
@@ -39,7 +39,7 @@ describe('SeasonExportBar', () => {
     render(<SeasonExportBar />);
 
     expect(useUIStore.getState().exportOpen).toBe(false);
-    await user.click(screen.getByRole('button', { name: 'Export' }));
+    await user.click(screen.getByRole('button', { name: '导出' }));
     expect(useUIStore.getState().exportOpen).toBe(true);
   });
 });

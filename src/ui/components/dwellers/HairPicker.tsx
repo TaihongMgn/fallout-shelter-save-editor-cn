@@ -60,7 +60,7 @@ export function HairPicker({
           type="text"
           aria-label={label}
           value={current}
-          placeholder={allowNone ? '(none)' : ''}
+          placeholder={allowNone ? '（无）' : ''}
           spellCheck={false}
           onChange={(e) => {
             const next = e.target.value.trim();
@@ -84,7 +84,7 @@ export function HairPicker({
         }}
         className={fieldClass}
       >
-        {(allowNone || current === '') && <option value={NONE}>None</option>}
+        {(allowNone || current === '') && <option value={NONE}>无</option>}
         {options.map((o) => (
           <option key={o.value} value={o.value}>
             {o.label}

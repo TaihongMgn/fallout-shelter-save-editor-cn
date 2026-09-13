@@ -39,7 +39,7 @@ export function App() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-amber-500 focus:px-3 focus:py-1.5 focus:text-sm focus:font-medium focus:text-neutral-900"
       >
-        Skip to content
+        跳转到主要内容
       </a>
       <TopBar />
 

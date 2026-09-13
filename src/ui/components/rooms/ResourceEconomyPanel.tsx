@@ -18,13 +18,28 @@ const STATUS_DOT: Record<EconomyStatus, string> = {
   deficit: 'bg-red-500',
 };
 const STATUS_LABEL: Record<EconomyStatus, string> = {
-  ok: 'Surplus',
-  warn: 'Thin',
-  deficit: 'Deficit',
+  ok: '盈余',
+  warn: '吃紧',
+  deficit: '短缺',
+};
+
+/** Display label for tracked save-resource keys (the logic values themselves stay English). */
+const RESOURCE_LABEL: Record<string, string> = {
+  Food: '食物',
+  Water: '水',
+  Energy: '电力',
+  StimPack: '治疗针',
+  RadAway: '消辐宁',
+  Nuka: '瓶盖',
+  NukaColaQuantum: '量子核子可乐',
 };
 
 const fmt = (n: number): string => (n === 0 ? '0' : n.toFixed(1));
 const signed = (n: number): string => `${n >= 0 ? '+' : ''}${fmt(n)}`;
+
+/** Compact "resource: status" hint line for the collapsed header (display label only). */
+const statusHint = (r: ResourceLine): string =>
+  `${RESOURCE_LABEL[r.resource] ?? r.resource}: ${STATUS_LABEL[r.status].toLowerCase()}`;
 
 export function ResourceEconomyPanel({
   resources,
@@ -40,16 +55,13 @@ export function ResourceEconomyPanel({
   // Collapsed, surface any deficit/thin resource in the header so shrinking the strip
   // never hides a problem entirely.
   const troubled = resources.filter((r) => r.status !== 'ok');
-  const hint =
-    collapsed && troubled.length > 0
-      ? troubled.map((r) => `${r.resource}: ${STATUS_LABEL[r.status].toLowerCase()}`).join(' · ')
-      : undefined;
+  const hint = collapsed && troubled.length > 0 ? troubled.map(statusHint).join(' · ') : undefined;
   return (
     <section>
       {onToggleCollapsed ? (
         <div className="mb-1.5">
           <SectionToggle
-            label="Resource economy"
+            label="资源收支"
             collapsed={collapsed}
             onToggle={onToggleCollapsed}
             {...(hint ? { hint } : {})}
@@ -57,7 +69,7 @@ export function ResourceEconomyPanel({
         </div>
       ) : (
         <h3 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-400">
-          Resource economy
+          资源收支
         </h3>
       )}
       {collapsed ? null : (
@@ -69,7 +81,7 @@ export function ResourceEconomyPanel({
             >
               <div className="flex items-center justify-between gap-1">
                 <span className="truncate text-xs font-medium text-neutral-200">
-                  {line.resource}
+                  {RESOURCE_LABEL[line.resource] ?? line.resource}
                 </span>
                 <span className="flex items-center gap-1 text-[10px] text-neutral-400">
                   <span
@@ -85,12 +97,12 @@ export function ResourceEconomyPanel({
                 }`}
               >
                 {signed(line.net)}
-                <span className="ml-0.5 text-[10px] font-normal text-neutral-500">net /min</span>
+                <span className="ml-0.5 text-[10px] font-normal text-neutral-500">净产/分</span>
               </div>
               <dl className="mt-1.5 grid grid-cols-3 gap-x-1 text-[10px] leading-tight">
-                <Metric label="Stock" value={Math.round(line.stock)} />
-                <Metric label="Prod" value={fmt(line.production)} />
-                <Metric label="Use" value={fmt(line.consumption)} />
+                <Metric label="存量" value={Math.round(line.stock)} />
+                <Metric label="产量" value={fmt(line.production)} />
+                <Metric label="消耗" value={fmt(line.consumption)} />
               </dl>
             </div>
           ))}

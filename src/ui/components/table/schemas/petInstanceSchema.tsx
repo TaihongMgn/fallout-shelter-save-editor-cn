@@ -1,5 +1,5 @@
 import type { PetRow } from '../../../../domain/selectors/petSelectors.ts';
-import { iconColumn, inSelectedSet, prettyBonus } from '../columnKit.tsx';
+import { iconColumn, inSelectedSet, prettyBonus, rarityLabel } from '../columnKit.tsx';
 import type { TableSchema } from '../tableSchema.ts';
 
 // Source-of-truth schema for the OWNED PET roster - pet INSTANCES (equipped
@@ -9,13 +9,13 @@ import type { TableSchema } from '../tableSchema.ts';
 
 /** Hideable/reorderable columns (everything except the fixed sprite). */
 const HIDEABLE_PET_COLUMNS: ReadonlyArray<{ id: string; label: string }> = [
-  { id: 'name', label: 'Name' },
-  { id: 'breed', label: 'Breed' },
-  { id: 'type', label: 'Type' },
-  { id: 'rarity', label: 'Rarity' },
-  { id: 'bonus', label: 'Bonus' },
-  { id: 'value', label: 'Value' },
-  { id: 'assignedTo', label: 'Assigned to' },
+  { id: 'name', label: '名称' },
+  { id: 'breed', label: '品种' },
+  { id: 'type', label: '类型' },
+  { id: 'rarity', label: '稀有度' },
+  { id: 'bonus', label: '加成值' },
+  { id: 'value', label: '数值' },
+  { id: 'assignedTo', label: '派驻给' },
 ];
 
 export function petInstanceSchema(): TableSchema<PetRow> {
@@ -27,54 +27,54 @@ export function petInstanceSchema(): TableSchema<PetRow> {
       {
         id: 'name',
         accessorFn: (p) => p.uniqueName || p.breed,
-        header: 'Name',
+        header: '名称',
         cell: ({ getValue }) => {
           const name = getValue<string>();
           return <span title={name}>{name}</span>;
         },
         size: 160,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Name' },
+        meta: { filterVariant: 'text', headerLabel: '名称' },
       },
       {
         id: 'breed',
         accessorFn: (p) => p.breed,
-        header: 'Breed',
+        header: '品种',
         size: 140,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Breed' },
+        meta: { filterVariant: 'text', headerLabel: '品种' },
       },
       {
         id: 'type',
         accessorFn: (p) => p.type,
-        header: 'Type',
+        header: '类型',
         size: 120,
         filterFn: inSelectedSet<PetRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Type' },
+        meta: { filterVariant: 'select', headerLabel: '类型' },
       },
       {
         id: 'rarity',
-        accessorFn: (p) => p.rarity,
-        header: 'Rarity',
+        accessorFn: (p) => rarityLabel(p.rarity),
+        header: '稀有度',
         size: 110,
         filterFn: inSelectedSet<PetRow>(),
-        meta: { filterVariant: 'select', headerLabel: 'Rarity' },
+        meta: { filterVariant: 'select', headerLabel: '稀有度' },
       },
       {
         id: 'bonus',
         accessorFn: (p) => p.bonus,
-        header: 'Bonus',
+        header: '加成值',
         cell: ({ row }) => prettyBonus(row.original.bonus),
         size: 180,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Bonus' },
+        meta: { filterVariant: 'text', headerLabel: '加成值' },
       },
       {
         // Sort/filter on the rolled value; the cell also shows the legal max ("X / Y") so the
         // ceiling is obvious without opening each pet (mirrors the catalog's Bonus range).
         id: 'value',
         accessorFn: (p) => p.bonusValue,
-        header: 'Value',
+        header: '数值',
         cell: ({ row }) => (
           <span className="tabular-nums">
             {row.original.bonusValue}
@@ -85,15 +85,15 @@ export function petInstanceSchema(): TableSchema<PetRow> {
         ),
         size: 90,
         filterFn: 'inNumberRange',
-        meta: { filterVariant: 'range', headerLabel: 'Value' },
+        meta: { filterVariant: 'range', headerLabel: '数值' },
       },
       {
         id: 'assignedTo',
         accessorFn: (p) => p.assignedTo,
-        header: 'Assigned to',
+        header: '派驻给',
         size: 170,
         filterFn: 'includesString',
-        meta: { filterVariant: 'text', headerLabel: 'Assigned to' },
+        meta: { filterVariant: 'text', headerLabel: '派驻给' },
       },
     ],
   };

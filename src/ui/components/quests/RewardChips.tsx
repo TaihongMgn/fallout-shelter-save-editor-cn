@@ -15,7 +15,7 @@ const TONE_PILL: Record<RewardChip['tone'], string> = {
 
 function Chip({ chip, size }: { chip: RewardChip; size: number }) {
   const qty = chip.qty > 1 ? `×${chip.qty}` : '';
-  const title = `${chip.label}${qty ? ` ${qty}` : ''}${chip.rolled ? ' (rolled)' : ''}`;
+  const title = `${chip.label}${qty ? ` ${qty}` : ''}${chip.rolled ? '（随机）' : ''}`;
   return (
     <span
       title={title}
@@ -34,7 +34,7 @@ function Chip({ chip, size }: { chip: RewardChip; size: number }) {
       ) : null}
       <span className="max-w-[10rem] truncate">{chip.label}</span>
       {qty && <span className="font-semibold tabular-nums">{qty}</span>}
-      {chip.rolled && <span className="text-[9px] uppercase text-amber-300/80">rolled</span>}
+      {chip.rolled && <span className="text-[9px] uppercase text-amber-300/80">随机</span>}
     </span>
   );
 }
@@ -49,7 +49,7 @@ export function RewardChips({
   className?: string;
 }) {
   if (chips.length === 0) {
-    return <span className="text-xs text-neutral-500">No rewards</span>;
+    return <span className="text-xs text-neutral-500">无奖励</span>;
   }
   return (
     <div className={`flex flex-wrap gap-1.5${className ? ` ${className}` : ''}`}>

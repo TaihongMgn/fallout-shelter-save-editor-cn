@@ -16,7 +16,7 @@ describe('buildJsonTree', () => {
     const root = buildJsonTree(text);
     expect(root).not.toBeNull();
     expect(root?.type).toBe('object');
-    expect(root?.preview).toBe('{3 keys}');
+    expect(root?.preview).toBe('{3 个键}');
 
     const byKey = new Map(root!.children.map((c) => [c.key, c]));
     expect(byKey.get('name')?.type).toBe('string');
@@ -25,7 +25,7 @@ describe('buildJsonTree', () => {
 
     const dwellers = byKey.get('dwellers')!;
     expect(dwellers.type).toBe('array');
-    expect(dwellers.preview).toBe('[1 item]');
+    expect(dwellers.preview).toBe('[1 个项]');
     // Array element carries an index (not a key) and its own child.
     expect(dwellers.children[0].index).toBe(0);
     expect(dwellers.children[0].children[0].key).toBe('id');

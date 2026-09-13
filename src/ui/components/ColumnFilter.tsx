@@ -42,9 +42,9 @@ export function ColumnFilter<T>({ column }: { column: Column<T, unknown> }): Rea
         <button
           type="button"
           onClick={toggle}
-          aria-label={`Filter ${label}`}
+          aria-label={`筛选 ${label}`}
           aria-pressed={active}
-          title={active ? `Filtering ${label}` : `Filter ${label}`}
+          title={active ? `正在筛选 ${label}` : `筛选 ${label}`}
           className={`rounded p-0.5 ${
             active ? 'text-amber-400' : 'text-neutral-400 hover:text-neutral-200'
           }`}
@@ -55,15 +55,15 @@ export function ColumnFilter<T>({ column }: { column: Column<T, unknown> }): Rea
     >
       <div className="flex flex-col gap-2">
         <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">
-          Filter: <span className="text-neutral-200">{label}</span>
+          筛选：<span className="text-neutral-200">{label}</span>
         </p>
 
         {canSort && (
           <div className="flex gap-1">
             {(
               [
-                ['asc', 'Sort ↑', false],
-                ['desc', 'Sort ↓', true],
+                ['asc', '排序 ↑', false],
+                ['desc', '排序 ↓', true],
               ] as const
             ).map(([key, text, desc]) => (
               <button
@@ -93,7 +93,7 @@ export function ColumnFilter<T>({ column }: { column: Column<T, unknown> }): Rea
           onClick={() => column.setFilterValue(undefined)}
           className="rounded border border-neutral-700 px-2 py-1 text-xs text-neutral-300 hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          Clear filter
+          清除筛选
         </button>
       </div>
     </Popover>
@@ -108,8 +108,8 @@ function TextFilter<T>({ column }: { column: Column<T, unknown> }): ReactElement
       autoFocus
       value={value}
       onChange={(e) => column.setFilterValue(e.target.value || undefined)}
-      placeholder="Contains…"
-      aria-label={`${column.id} contains`}
+      placeholder="包含…"
+      aria-label={`${column.id} 包含`}
       className="w-40 rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-sm text-neutral-100"
     />
   );
@@ -130,8 +130,8 @@ function RangeFilter<T>({ column }: { column: Column<T, unknown> }): ReactElemen
         type="number"
         value={value[0] ?? ''}
         onChange={(e) => update([parse(e.target.value), value[1]])}
-        placeholder={facetMin === undefined ? 'min' : `≥ ${facetMin}`}
-        aria-label={`${column.id} minimum`}
+        placeholder={facetMin === undefined ? '最小' : `≥ ${facetMin}`}
+        aria-label={`${column.id} 最小值`}
         className="w-16 rounded border border-neutral-700 bg-neutral-950 px-1 py-1 text-sm text-neutral-100"
       />
       <span className="text-neutral-400">–</span>
@@ -139,8 +139,8 @@ function RangeFilter<T>({ column }: { column: Column<T, unknown> }): ReactElemen
         type="number"
         value={value[1] ?? ''}
         onChange={(e) => update([value[0], parse(e.target.value)])}
-        placeholder={facetMax === undefined ? 'max' : `≤ ${facetMax}`}
-        aria-label={`${column.id} maximum`}
+        placeholder={facetMax === undefined ? '最大' : `≤ ${facetMax}`}
+        aria-label={`${column.id} 最大值`}
         className="w-16 rounded border border-neutral-700 bg-neutral-950 px-1 py-1 text-sm text-neutral-100"
       />
     </div>
@@ -167,7 +167,7 @@ function SelectFilter<T>({ column }: { column: Column<T, unknown> }): ReactEleme
   };
 
   if (options.length === 0) {
-    return <p className="px-1 text-xs text-neutral-400">No values</p>;
+    return <p className="px-1 text-xs text-neutral-400">无可选值</p>;
   }
 
   return (

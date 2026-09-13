@@ -57,10 +57,10 @@ export function SupportDialog({ onClose }: { onClose: () => void }) {
           <div className="flex items-start justify-between gap-3">
             <span aria-hidden="true" className="w-6" />
             <Dialog.Title className="flex-1 text-center text-lg font-semibold">
-              Support this project
+              支持本项目
             </Dialog.Title>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
             >
               ✕
@@ -68,30 +68,28 @@ export function SupportDialog({ onClose }: { onClose: () => void }) {
           </div>
 
           <Dialog.Description className="mt-3 text-center text-sm text-neutral-300">
-            Thanks for using this tool! If you feel like supporting this project and future
-            projects, please feel free to send anything through any link below. A little goes a long
-            way.
+            感谢使用本工具！如果你愿意支持本项目和未来的项目，欢迎通过下方任意链接进行捐助，点滴支持都是莫大的帮助。
           </Dialog.Description>
 
           <div className="mt-5 flex flex-col gap-3">
             {STRIPE_URL && (
-              <ServiceLink href={STRIPE_URL} label="Donate via Stripe" className="bg-[#635BFF]">
+              <ServiceLink href={STRIPE_URL} label="通过 Stripe 捐助" className="bg-[#635BFF]">
                 <span className="text-white">Stripe</span>
               </ServiceLink>
             )}
 
-            <ServiceLink href={PAYPAL_URL} label="Donate via PayPal" className="bg-[#FFC439]">
+            <ServiceLink href={PAYPAL_URL} label="通过 PayPal 捐助" className="bg-[#FFC439]">
               <span className="italic" style={{ fontFamily: 'Verdana, sans-serif' }}>
                 <span className="font-bold text-[#003087]">Pay</span>
                 <span className="font-bold text-[#009CDE]">Pal</span>
               </span>
             </ServiceLink>
 
-            <ServiceLink href={VENMO_URL} label="Donate via Venmo" className="bg-[#008CFF]">
+            <ServiceLink href={VENMO_URL} label="通过 Venmo 捐助" className="bg-[#008CFF]">
               <span className="font-bold lowercase tracking-tight text-white">venmo</span>
             </ServiceLink>
 
-            <ServiceLink href={CASHAPP_URL} label="Donate via Cash App" className="bg-[#00D632]">
+            <ServiceLink href={CASHAPP_URL} label="通过 Cash App 捐助" className="bg-[#00D632]">
               <span className="font-bold text-white">
                 <span aria-hidden="true">$ </span>Cash App
               </span>
@@ -99,7 +97,7 @@ export function SupportDialog({ onClose }: { onClose: () => void }) {
 
             <ServiceLink
               href={BUYMEACOFFEE_URL}
-              label="Donate via Buy Me a Coffee"
+              label="通过 Buy Me a Coffee 捐助"
               className="bg-[#FFDD00] text-neutral-900"
             >
               <span aria-hidden="true">☕</span>
@@ -108,11 +106,11 @@ export function SupportDialog({ onClose }: { onClose: () => void }) {
 
             <ServiceLink
               href={SPONSORS_URL}
-              label="Sponsor on GitHub"
+              label="在 GitHub 赞助"
               className="border border-[#30363d] bg-[#21262d] text-[#c9d1d9]"
             >
               <SponsorHeart />
-              <span className="font-semibold">Sponsor on GitHub</span>
+              <span className="font-semibold">在 GitHub 赞助</span>
             </ServiceLink>
           </div>
         </Dialog.Content>

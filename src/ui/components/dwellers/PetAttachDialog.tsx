@@ -55,6 +55,17 @@ type View = 'edit' | 'owned' | 'catalog';
 /** Lightly humanize an EBonusEffect id for display (e.g. "DamageBoost" → "Damage Boost"). */
 const prettyBonus = (bonus: string): string => bonus.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
 
+/** Known bonus-effect display names; unknown ids fall back to the humanized id. */
+const BONUS_LABELS: Record<string, string> = {
+  AttractChildren: '吸引居民',
+  CapsBoost: '瓶盖加成',
+  DamageBoost: '伤害强化',
+  HealingBoost: '治疗强化',
+  Production: '产量加成',
+  Rollerbrain: '滚滚智多星',
+};
+const bonusLabel = (bonus: string): string => BONUS_LABELS[bonus] ?? prettyBonus(bonus);
+
 /** A fresh pet instance for a catalog breed at its best legal value (matches the Catalog tab). */
 const newPetFor = (pet: Pet): NewPet => ({
   petId: pet.id,
@@ -91,7 +102,7 @@ export function PetAttachDialog({
   const catalogTable = useMemo(() => petCatalogSchema(), []);
   const catalogPets = useMemo(() => gameData?.pets ?? [], [gameData]);
 
-  const header = current ? 'Pet' : 'Attach a pet';
+  const header = current ? '宠物' : '装备宠物';
 
   return (
     <Dialog.Root open onOpenChange={(o) => !o && onClose()}>
@@ -101,14 +112,14 @@ export function PetAttachDialog({
           <div className="flex items-start justify-between gap-3">
             <Dialog.Title className="text-base font-semibold">{header}</Dialog.Title>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className="rounded px-2 py-1 text-neutral-400 hover:text-neutral-100"
             >
               ✕
             </Dialog.Close>
           </div>
           <Dialog.Description className="sr-only">
-            Assign an owned pet, equip one from the catalog, or edit this dweller&apos;s pet.
+            装备已拥有的宠物、从图鉴中选一只装备，或编辑该居民的宠物。
           </Dialog.Description>
 
           <div className="mt-3 flex gap-1 border-b border-neutral-800 pb-2">
@@ -118,7 +129,7 @@ export function PetAttachDialog({
                 className={tabClass(view === 'edit')}
                 onClick={() => setView('edit')}
               >
-                Edit pet
+                编辑宠物
               </button>
             )}
             <button
@@ -126,14 +137,14 @@ export function PetAttachDialog({
               className={tabClass(view === 'owned')}
               onClick={() => setView('owned')}
             >
-              Owned
+              已拥有
             </button>
             <button
               type="button"
               className={tabClass(view === 'catalog')}
               onClick={() => setView('catalog')}
             >
-              Catalog
+              图鉴
             </button>
           </div>
 
@@ -141,18 +152,18 @@ export function PetAttachDialog({
           {view === 'edit' && current && (
             <div className="mt-4 flex flex-col gap-3">
               <div className="text-sm text-neutral-300">
-                <span className="text-neutral-400">Bonus (locked): </span>
-                {prettyBonus(current.bonus)}
+                <span className="text-neutral-400">加成（锁定）：</span>
+                {bonusLabel(current.bonus)}
                 {editRange && (
                   <span className="text-neutral-400">
                     {' '}
-                    - legal range {editRange.min}–{editRange.max}
+                    - 合法范围 {editRange.min}–{editRange.max}
                   </span>
                 )}
               </div>
               <div className="flex flex-wrap items-end gap-4">
                 <NumberField
-                  label="Bonus value"
+                  label="加成数值"
                   value={current.bonusValue}
                   onCommit={(v) => onEdit({ bonusValue: v })}
                   min={editRange?.min ?? 0}
@@ -161,11 +172,11 @@ export function PetAttachDialog({
                 />
                 <label className="flex flex-col gap-0.5">
                   <span className="text-[11px] uppercase tracking-wide text-neutral-400">
-                    Unique name
+                    专属名称
                   </span>
                   <input
                     type="text"
-                    aria-label="Unique name"
+                    aria-label="专属名称"
                     defaultValue={current.uniqueName}
                     key={`petname-${current.id}-${current.uniqueName}`}
                     onBlur={(e) => onEdit({ uniqueName: e.target.value })}
@@ -182,7 +193,7 @@ export function PetAttachDialog({
                   }}
                   className="rounded border border-red-800 px-3 py-1.5 text-sm text-red-300 hover:bg-red-900/30"
                 >
-                  Detach pet → storage
+                  卸下宠物（存入仓库）
                 </button>
                 <button
                   type="button"
@@ -192,7 +203,7 @@ export function PetAttachDialog({
                   }}
                   className="rounded border border-red-700 bg-red-900/40 px-3 py-1.5 text-sm text-red-200 hover:bg-red-900/60"
                 >
-                  Delete pet
+                  删除宠物
                 </button>
               </div>
             </div>
@@ -212,7 +223,7 @@ export function PetAttachDialog({
                 onAssign(r);
                 setView('edit'); // jump to Edit so the just-attached pet can be tuned without reopening
               }}
-              emptyState="No pets owned yet. Use the Catalog to equip one."
+              emptyState="暂未拥有宠物。可在图鉴中装备一只。"
             />
           )}
 
@@ -230,7 +241,7 @@ export function PetAttachDialog({
                 onCreate(newPetFor(p));
                 setView('edit'); // jump to Edit so the freshly-minted pet can be tuned without reopening
               }}
-              emptyState="No pets in game data."
+              emptyState="游戏数据中没有宠物。"
             />
           )}
         </Dialog.Content>

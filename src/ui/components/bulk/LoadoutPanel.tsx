@@ -86,34 +86,34 @@ function LoadoutRowItem({
       <td className="py-2 pr-3">
         <button
           type="button"
-          aria-label={`${row.name} outfit`}
+          aria-label={`${row.name} 服装`}
           className={PICKER_BTN}
-          title={outfitId ? outfitName(outfitId) : 'Choose outfit'}
+          title={outfitId ? outfitName(outfitId) : '选择服装'}
           onClick={() => setOpenPicker('outfit')}
         >
-          {outfitId ? outfitName(outfitId) : '(no outfit)'}
+          {outfitId ? outfitName(outfitId) : '（无服装）'}
         </button>
       </td>
       <td className="py-2 pr-3">
         <button
           type="button"
-          aria-label={`${row.name} weapon`}
+          aria-label={`${row.name} 武器`}
           className={PICKER_BTN}
-          title={weaponId ? weaponName(weaponId) : 'Choose weapon'}
+          title={weaponId ? weaponName(weaponId) : '选择武器'}
           onClick={() => setOpenPicker('weapon')}
         >
-          {weaponId ? weaponName(weaponId) : '(no weapon)'}
+          {weaponId ? weaponName(weaponId) : '（无武器）'}
         </button>
       </td>
       <td className="py-2 pr-3">
         <button
           type="button"
-          aria-label={`${row.name} pet`}
+          aria-label={`${row.name} 宠物`}
           className={PICKER_BTN}
-          title={petId ? petName(petId) : 'Choose pet'}
+          title={petId ? petName(petId) : '选择宠物'}
           onClick={() => setOpenPicker('pet')}
         >
-          {petId ? petName(petId) : '(no pet)'}
+          {petId ? petName(petId) : '（无宠物）'}
         </button>
       </td>
       <td className="py-2 text-right">
@@ -129,7 +129,7 @@ function LoadoutRowItem({
           }
           className="rounded border border-neutral-700 px-2 py-1 text-xs text-neutral-200 hover:bg-neutral-800 disabled:opacity-40 disabled:hover:bg-transparent"
         >
-          Apply · {count}
+          应用 · {count}
         </button>
       </td>
 
@@ -137,8 +137,8 @@ function LoadoutRowItem({
         <EquipPickerDialog<Outfit>
           open
           onClose={() => setOpenPicker(null)}
-          title={`${row.name} - choose outfit`}
-          currentSummary={outfitId ? outfitName(outfitId) : '(no outfit)'}
+          title={`${row.name}：选择服装`}
+          currentSummary={outfitId ? outfitName(outfitId) : '（无服装）'}
           data={outfits}
           schema={outfitTable}
           persistKey="loadout.outfit"
@@ -146,7 +146,7 @@ function LoadoutRowItem({
           equippedId={outfitId || null}
           onEquip={(id) => setOutfitId(id)}
           onReset={() => setOutfitId('')}
-          resetLabel="Clear outfit"
+          resetLabel="清空服装"
           virtualized={virtualized}
         />
       )}
@@ -154,8 +154,8 @@ function LoadoutRowItem({
         <EquipPickerDialog<Weapon>
           open
           onClose={() => setOpenPicker(null)}
-          title={`${row.name} - choose weapon`}
-          currentSummary={weaponId ? weaponName(weaponId) : '(no weapon)'}
+          title={`${row.name}：选择武器`}
+          currentSummary={weaponId ? weaponName(weaponId) : '（无武器）'}
           data={weapons}
           schema={weaponTable}
           persistKey="loadout.weapon"
@@ -163,7 +163,7 @@ function LoadoutRowItem({
           equippedId={weaponId || null}
           onEquip={(id) => setWeaponId(id)}
           onReset={() => setWeaponId('')}
-          resetLabel="Clear weapon"
+          resetLabel="清空武器"
           virtualized={virtualized}
         />
       )}
@@ -171,8 +171,8 @@ function LoadoutRowItem({
         <EquipPickerDialog<Pet>
           open
           onClose={() => setOpenPicker(null)}
-          title={`${row.name} - choose pet`}
-          currentSummary={petId ? petName(petId) : '(no pet)'}
+          title={`${row.name}：选择宠物`}
+          currentSummary={petId ? petName(petId) : '（无宠物）'}
           data={pets}
           schema={petTable}
           persistKey="loadout.pet"
@@ -180,7 +180,7 @@ function LoadoutRowItem({
           equippedId={petId || null}
           onEquip={(id) => setPetId(id)}
           onReset={() => setPetId('')}
-          resetLabel="No pet"
+          resetLabel="无宠物"
           virtualized={virtualized}
         />
       )}
@@ -216,18 +216,18 @@ export function LoadoutPanel({
 
   if (rows.length === 0) {
     return (
-      <p className="mt-3 text-sm text-neutral-400">No staffed rooms with a primary SPECIAL.</p>
+      <p className="mt-3 text-sm text-neutral-400">没有已派驻居民且具备主 SPECIAL 属性的房间。</p>
     );
   }
   return (
     <table className="mt-3 w-full max-w-3xl border-collapse text-left">
       <thead>
         <tr className="text-[11px] uppercase tracking-wide text-neutral-400">
-          <th className="pb-1 font-medium">Room</th>
-          <th className="pb-1 font-medium">Outfit</th>
-          <th className="pb-1 font-medium">Weapon</th>
-          <th className="pb-1 font-medium">Pet</th>
-          <th className="pb-1 text-right font-medium">Dwellers</th>
+          <th className="pb-1 font-medium">房间</th>
+          <th className="pb-1 font-medium">服装</th>
+          <th className="pb-1 font-medium">武器</th>
+          <th className="pb-1 font-medium">宠物</th>
+          <th className="pb-1 text-right font-medium">居民</th>
         </tr>
       </thead>
       <tbody>

@@ -44,33 +44,29 @@ export function AddDwellerDialog({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/70" />
         <Dialog.Content className={`${MODAL_SMALL} p-6`}>
-          <Dialog.Title className="text-base font-semibold">Add dweller</Dialog.Title>
+          <Dialog.Title className="text-base font-semibold">添加居民</Dialog.Title>
           <Dialog.Description className="mt-0.5 text-xs text-neutral-400">
             {willWait
-              ? 'Vault at capacity - the new dweller will wait at the door (accept them at the door in-game).'
-              : 'Joins the vault unassigned, level 1. Edit the rest in the character sheet.'}
+              ? '避难所已满——新居民将在大门等待（需在游戏中到大门接收）。'
+              : '以未派驻状态加入避难所，等级为 1。其余可在居民详情页中编辑。'}
           </Dialog.Description>
 
           <div className="mt-4 flex gap-2">
             <label className="flex flex-1 flex-col gap-0.5">
-              <span className="text-[11px] uppercase tracking-wide text-neutral-400">
-                First name
-              </span>
+              <span className="text-[11px] uppercase tracking-wide text-neutral-400">名</span>
               <input
                 type="text"
-                aria-label="First name"
+                aria-label="名"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-sm text-neutral-100"
               />
             </label>
             <label className="flex flex-1 flex-col gap-0.5">
-              <span className="text-[11px] uppercase tracking-wide text-neutral-400">
-                Last name
-              </span>
+              <span className="text-[11px] uppercase tracking-wide text-neutral-400">姓</span>
               <input
                 type="text"
-                aria-label="Last name"
+                aria-label="姓"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 className="rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-sm text-neutral-100"
@@ -80,7 +76,7 @@ export function AddDwellerDialog({
 
           <div className="mt-3 flex items-end justify-between gap-3">
             <div className="flex flex-col gap-0.5">
-              <span className="text-[11px] uppercase tracking-wide text-neutral-400">Gender</span>
+              <span className="text-[11px] uppercase tracking-wide text-neutral-400">性别</span>
               <div className="flex overflow-hidden rounded border border-neutral-700">
                 {([1, 2] as Gender[]).map((g) => (
                   <button
@@ -94,7 +90,7 @@ export function AddDwellerDialog({
                         : 'text-neutral-300 hover:bg-neutral-800'
                     }`}
                   >
-                    {g === 1 ? 'Female' : 'Male'}
+                    {g === 1 ? '女' : '男'}
                   </button>
                 ))}
               </div>
@@ -104,7 +100,7 @@ export function AddDwellerDialog({
               onClick={randomize}
               className="rounded border border-neutral-700 px-3 py-1.5 text-sm text-neutral-300 hover:bg-neutral-800"
             >
-              Randomize
+              随机生成
             </button>
           </div>
 
@@ -114,14 +110,14 @@ export function AddDwellerDialog({
               onClick={onClose}
               className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-neutral-100"
             >
-              Cancel
+              取消
             </button>
             <button
               type="button"
               onClick={create}
               className="rounded bg-amber-500 px-4 py-1.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-amber-400"
             >
-              Add dweller
+              添加居民
             </button>
           </div>
         </Dialog.Content>
