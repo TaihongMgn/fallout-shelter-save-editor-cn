@@ -6,7 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
 //    runtime game-data fetch resolves under it. This guards a past regression (asset paths
 //    were hardcoded absolute `/gamedata`, which 404s on a project page); the dev server and
 //    `vite preview` both serve from `/`, so only a non-root mount can catch it.
-const PAGES_SUBPATH = '/fallout-shelter-save-editor/';
+const PAGES_SUBPATH = '/fallout-shelter-save-editor-cn/';
 const PREVIEW_PORT = 4173;
 
 export default defineConfig({

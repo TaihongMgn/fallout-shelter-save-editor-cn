@@ -1,9 +1,32 @@
-# Fallout Shelter Save Editor
+# 辐射：避难所存档编辑器（Fallout Shelter Save Editor · 简体中文汉化版）
 
-[![CI](https://github.com/dneverson/fallout-shelter-save-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/dneverson/fallout-shelter-save-editor/actions/workflows/ci.yml)
+[![CI](https://github.com/TaihongMgn/fallout-shelter-save-editor-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/TaihongMgn/fallout-shelter-save-editor-cn/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Live app: <https://taihongmgn.github.io/fallout-shelter-save-editor/>**
+**在线使用：https://taihongmgn.github.io/fallout-shelter-save-editor-cn/**
+
+## 汉化版说明
+
+本仓库是 [dneverson/fallout-shelter-save-editor](https://github.com/dneverson/fallout-shelter-save-editor) 的**简体中文汉化 fork**——一款完全在浏览器中运行的《辐射：避难所》（Fallout Shelter）存档查看与编辑工具。存档解密、编辑、加密的全部功能与上游一致，这里只把整个前端界面和数据文案翻译成了中文：
+
+- **界面全中文**：侧边栏导航、按钮、表单、提示（toast/弹窗）、表格列头、空状态、报错消息，以及 aria 标签、tooltip、占位符等辅助文案。
+- **游戏数据显示名翻译**：武器 254、服装 215、垃圾 22、宠物 130、发型 224、房间 43、独特角色 109、巧手机器人，以及 **5,457 条任务文本**（任务名/描述/目标）与 68 条目标文本，全部按《辐射：避难所》及《辐射》系列中文惯例翻译——居民、瓶盖、治疗针、消辐宁、量子核子可乐、巧手先生、废土、掠夺者、死亡爪、超镭、赛季通行证等。
+- **不影响存档数据**：写回存档的只有 ID 和数值，中文仅用于界面显示；导出的存档跨 PC / 安卓 / iOS / Switch 完全兼容，与上游及原版游戏一致。
+- **跟随上游更新**：合并上游后，`public/gamedata/` 数据文件直接采用上游版本，再通过翻译脚本回填中文显示名；上游新增的物品/任务需先补进词典再重新翻译（详见仓库外维护的翻译工作区，含术语表与英→中映射）。
+- **隐私**：所有处理都在你的浏览器本地完成，存档绝不上传；没有后端、无广告、无遥测。
+
+### 中文快速上手
+
+1. 打开**在线版**（链接见顶部）。
+2. 阅读并接受一次性的免责声明。
+3. 把游戏存档 `Vault<N>.sav` 拖入页面（或用文件选择器载入），编辑后点导出，把文件放回游戏存档目录即可。
+4. 各平台存档位置见下文 "Where to find your save" 表格。**编辑前请务必备份原存档**——工具导出前也会自动生成一份带时间戳的备份。
+
+> ⚠️ 本项目为非官方粉丝作品，与 Bethesda 无关；修改存档可能损坏存档，也可能违反游戏服务条款，使用风险自负。完整条款见文末 Disclaimer。
+
+---
+
+## English (original documentation)
 
 A client-only web app to view and edit **Fallout Shelter** save files. Load a `Vault<N>.sav`,
 inspect and edit your vault, dwellers, rooms, and inventory, then export a working save back to
@@ -99,7 +122,7 @@ The Family Tree, with vault-wide genetics stats derived from each dweller's line
 
 ## Using the editor
 
-1. Open the **[live app](https://taihongmgn.github.io/fallout-shelter-save-editor/)**.
+1. Open the **[live app](https://taihongmgn.github.io/fallout-shelter-save-editor-cn/)**.
 2. Accept the one-time disclaimer.
 3. Load your `Vault<N>.sav` (drag-and-drop or file picker), edit, and export.
 
